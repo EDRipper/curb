@@ -391,3 +391,20 @@ the last several ticks is still working together, not just in isolation.
   every other rm attempt logged in this file) - this needs euan (or a
   future session with a live approver) to actually remove
   `app/favicon.ico`.
+
+## review throughput
+
+- split the review queue into "needs review" and "already reviewed"
+  sections instead of one flat chronological list. fine at low volume,
+  but exactly the kind of thing that slows reviewers down as it grows -
+  scanning past decided items to find the couple that actually need
+  attention. no schema change, just groups the already-fetched list by
+  status and shows counts per section. caught a real typescript bug
+  before it shipped: pulling the per-item render logic into a helper
+  function broke null-narrowing on `reviewer` (a function declaration
+  closure doesn't retain control-flow narrowing from the outer scope the
+  way an inline arrow function does) - `next build` actually failed on
+  this, fixed by extracting `reviewer.id` into its own const right after
+  the redirect check. verified live: `/review` now shows "needs review
+  (1)" and "already reviewed (4)" as separate sections with the pending
+  bot test row correctly sorted to the top.
