@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getRewardStatus } from "@/lib/rewards";
 import { runAudit } from "./actions";
+import AuditButton from "./AuditButton";
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
@@ -136,12 +137,7 @@ export default async function Dashboard() {
                     </p>
                   ) : (
                     <form action={runAudit.bind(null, s.id)}>
-                      <button
-                        type="submit"
-                        className="rounded-md border border-zinc-300 px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-100"
-                      >
-                        {s.auditError ? "retry audit" : "run accessibility audit"}
-                      </button>
+                      <AuditButton isRetry={Boolean(s.auditError)} />
                     </form>
                   )}
                 </div>
