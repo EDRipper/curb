@@ -1625,3 +1625,30 @@ verified at the byte level: `/favicon.ico` now returns 200 with
 image back out of the actually-served response to confirm it's a
 valid png (correct signature) rendering as the same dark-square
 yellow-c icon. self-audit still 100/100.
+
+## swept every text-zinc-400 usage, then the last plain-text error state
+
+grepped the whole codebase for `text-zinc-400`, the exact class that
+caused two real contrast bugs earlier this session (tick 18's step
+numbers, tick 33's "(optional)" label) - two usages left. the
+`NotFoundIcon` one is a decorative svg stroke, different (looser)
+contrast rules than text, and the 404 page already audits clean. the
+submit form's hours "h" suffix looked like a third instance of the
+same bug at first glance, but a real re-audit of the actual form
+confirmed it's genuinely fine - it sits on the input's white
+background rather than the page's cream, which is just enough
+brighter to clear 4.5:1. good thing this got verified instead of
+"fixed" on a hunch.
+
+that same sweep turned up the real last item: the submit form's
+validation errors ("before url and after url can't be the same" etc)
+were still plain red text, the one remaining spot using the old bare
+pattern after error.tsx/login-error/the review queue's credit-dispute
+banner/the dashboard's audit-failed message all got the warning-icon +
+bg-red-50 treatment over recent ticks. fixed it to match.
+
+verified against a real, live validation error rather than a preview
+route: signed in with a real session cookie, submitted the actual form
+with identical before/after urls (rejected before any db call, so this
+works even with the temp db down), and screenshotted the real error
+banner rendering correctly. self-audit still 100/100.
