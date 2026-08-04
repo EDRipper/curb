@@ -5,6 +5,7 @@ import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
 import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
 import { ScoreBar } from "../ScoreBar";
+import { WarningIcon } from "../WarningIcon";
 import ReviewActions from "./ReviewActions";
 
 export const dynamic = "force-dynamic";
@@ -133,18 +134,24 @@ export default async function Review() {
         </div>
 
         {otherUserCount > 0 && (
-          <p className="mt-2 rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-800">
-            possible credit dispute: {otherUserCount} other account
-            {otherUserCount > 1 ? "s have" : " has"} submitted this same
-            diff or before/after urls &mdash; verify who actually did the
-            work before approving.
+          <p className="mt-2 flex items-start gap-1.5 rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-800">
+            <WarningIcon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <span>
+              possible credit dispute: {otherUserCount} other account
+              {otherUserCount > 1 ? "s have" : " has"} submitted this same
+              diff or before/after urls &mdash; verify who actually did the
+              work before approving.
+            </span>
           </p>
         )}
         {sameUserCount > 1 && (
-          <p className="mt-2 rounded bg-red-50 px-2 py-1 text-xs font-semibold text-red-700">
-            duplicate: this user has {sameUserCount} submissions with the
-            same diff or before/after urls &mdash; check the others before
-            approving.
+          <p className="mt-2 flex items-start gap-1.5 rounded bg-red-50 px-2 py-1 text-xs font-semibold text-red-700">
+            <WarningIcon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <span>
+              duplicate: this user has {sameUserCount} submissions with the
+              same diff or before/after urls &mdash; check the others before
+              approving.
+            </span>
           </p>
         )}
 
