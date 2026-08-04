@@ -25,7 +25,7 @@ export default async function Review() {
   });
 
   return (
-    <div className="mx-auto min-h-screen max-w-3xl px-6 py-16 text-zinc-900">
+    <main className="mx-auto min-h-screen max-w-3xl px-6 py-16 text-zinc-900">
       <h1 className="text-2xl font-bold">review queue</h1>
       <p className="mt-2 text-sm text-zinc-600">
         signed in as {reviewer.name}, a reviewer.
@@ -163,6 +163,6 @@ export default async function Review() {
           })}
         </ul>
       )}
-    </div>
+    </main>
   );
 }

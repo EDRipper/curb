@@ -8,7 +8,7 @@ export default async function Submit() {
   const session = await getSession();
 
   return (
-    <div className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
+    <main className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
       <Link href="/" className="mb-8 block text-sm text-zinc-500 hover:text-zinc-900">
         &larr; back
       </Link>
@@ -38,6 +38,6 @@ export default async function Submit() {
           <SubmitForm />
         </>
       )}
-    </div>
+    </main>
   );
 }

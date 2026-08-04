@@ -31,7 +31,7 @@ export default async function Dashboard() {
   const reward = getRewardStatus(approvedHours);
 
   return (
-    <div className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
+    <main className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
       <p className="text-sm text-zinc-500">signed in with hack club</p>
       <h1 className="mt-1 text-2xl font-bold">hey, {session.name}</h1>
       <p className="mt-3 text-sm text-zinc-600">{session.email}</p>
@@ -150,6 +150,6 @@ export default async function Dashboard() {
           })}
         </ul>
       )}
-    </div>
+    </main>
   );
 }
