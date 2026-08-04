@@ -512,3 +512,14 @@ still hiding action buttons. no regressions.
   template literal with no transformation logic to get wrong, over a
   `slackId` value whose correctness was already established when the
   oauth callback code was reviewed.
+- one more piece of missing reviewer context, this time computed rather
+  than stored: nothing showed a submitter's track record. is this
+  someone's first-ever submission, or their tenth with an established
+  history of legit approved work? the only way to find out was manually
+  scrolling "already reviewed" hunting for the same name. free to add -
+  the full submissions list across all users is already loaded in
+  memory for the duplicate-detection check - sums approved
+  `hoursClaimed` per `userId` and shows "Xh approved so far" under the
+  description. verified live: correctly shows "0h approved so far" for
+  the bot's own rows, which is accurate (every bot submission is test
+  data that's been rejected or never audited, never approved).
