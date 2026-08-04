@@ -5,7 +5,11 @@ link, not just merged.
 
 - [x] repo + scaffold (Next.js/TS/Tailwind)
 - [x] landing page with real program pitch (not lorem ipsum)
-- [x] deployed to Vercel with a working public link
+- [x] deployed: https://edripper.github.io/curb/ (GitHub Pages, static shell)
+- [ ] move hosting to Vercel once server routes are needed (OAuth callback,
+      DB-backed API) — vercel.com signup via browser is currently getting
+      blocked by bot detection with no account created and no email
+      received, needs a human to complete it once
 - [ ] Hack Club Auth (`auth.hackclub.com`) sign-in
 - [ ] Postgres + Prisma submission model
 - [ ] submission form (site url, PR/diff link, before/after screenshots)
