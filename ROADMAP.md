@@ -1779,3 +1779,27 @@ limited again this tick - same "retry in 24 hours" as tick 27, now a
 second time this session. holding off pushing every single tick from
 here and batching a few together instead, to cut down how often this
 loop's own push cadence re-triggers the limit.)
+
+## the same font fix, applied to the favicon/app-icon too
+
+while zoomed in checking the og badge still looked right with the real
+font, remembered `renderAppIcon` (shared by `app/icon.tsx` and
+`app/apple-icon.tsx`) has the exact same shape of bug as the og image
+did - no real font handed to satori for the single "c" glyph, just an
+unspecified fallback. less dramatic than a headline's word-spacing gap
+since it's one character, but still a real typography mismatch against
+the rest of the site, and the fix was already proven from last tick.
+
+pulled the font-fetching logic out of `ogImage.tsx` into a shared
+`lib/geistFont.ts` instead of duplicating it, since both files needed
+the identical technique. wired the weight-800 font into
+`renderAppIcon`. also regenerated `app/favicon.ico` - it was hand-built
+from a snapshot of `/icon`'s png bytes at tick 41, so it would've gone
+stale (still showing the old fallback-font "c") if left alone after
+this change.
+
+verified all of it: `/icon` and `/apple-icon` now render the real
+geist sans extrabold "c", `favicon.ico` still returns 200 with a valid
+embedded png matching the updated icon, the og image (now using the
+shared helper) still renders correctly with no regression, and the
+self-audit is still 100/100.
