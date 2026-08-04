@@ -1204,3 +1204,29 @@ reviewers are frequently submitters too and want a quick way back.
 verified against both real signed-in pages: wordmark and dashboard
 link render cleanly at the top with proper spacing before the
 existing heading, no overlap.
+
+## ran curb's own accessibility audit against curb itself
+
+fitting given the whole product scores other people's a11y fixes:
+reused `lib/accessibilityAudit.ts`'s exact pipeline (same axe-core cdn
+script, same weighted scoring) against curb's own pages instead of
+just eyeballing screenshots for this tick.
+
+landing page scored 78/100 with two real, specific violations:
+1. `[serious] color-contrast` - the "how it works" step numbers
+   (01/02/03) were `text-zinc-400` on white, 2.62:1 against a 4.5:1
+   minimum. traced it to a regression from the step-icon tick a few
+   sessions ago (de-emphasized the number color without checking
+   contrast). fixed to `text-zinc-500`.
+2. `[moderate] landmark-unique` - two `<nav>` landmarks (header + the
+   footer nav added a few ticks back) with no accessible name,
+   indistinguishable to screen reader landmark navigation. added
+   `aria-label="primary"` and `aria-label="footer"`.
+
+re-ran after fixing: landing page 100/100, zero violations. then ran
+the same audit against `/submit`, the 404 page, `/login-error`, and
+the real authenticated `/dashboard` and `/review` - all 6 pages score
+100/100 clean. this is a real, repeatable verification tool for future
+ticks, not just a one-off - worth running again periodically as more
+changes land, since it directly measures the thing this product exists
+to measure.
