@@ -99,7 +99,7 @@ export default function Home() {
         </section>
 
         <section id="how" className="border-t border-zinc-200 bg-white">
-          <div className="mx-auto max-w-4xl px-6 py-16">
+          <div className="scroll-fade-up mx-auto max-w-4xl px-6 py-16">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
               how it works
             </h2>
@@ -123,7 +123,7 @@ export default function Home() {
         </section>
 
         <section className="border-t border-zinc-200">
-          <div className="mx-auto max-w-4xl px-6 py-16">
+          <div className="scroll-fade-up mx-auto max-w-4xl px-6 py-16">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
               what you get
             </h2>
@@ -151,7 +151,7 @@ export default function Home() {
         </section>
 
         <section className="border-t border-zinc-200 bg-white">
-          <div className="mx-auto flex max-w-4xl items-start gap-8 px-6 py-16">
+          <div className="scroll-fade-up mx-auto flex max-w-4xl items-start gap-8 px-6 py-16">
             <div className="min-w-0">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
                 why this exists
