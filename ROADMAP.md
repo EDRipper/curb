@@ -196,3 +196,24 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   worth knowing for next time a push seems to have "done nothing": check
   the deployments api before assuming the fix shipped, and a plain
   re-push (even an empty commit) is a reasonable first fix.
+- closed the bigger remaining gap: everything above only ever checked
+  the url a submitter typed into the form. that's a one-time
+  hostname-string check - it says nothing about what that url actually
+  does once puppeteer starts following it. any server the submitter
+  controls could 302-redirect the crawler anywhere, including straight
+  to the metadata endpoint, with no dns tricks needed at all.
+  `lib/accessibilityAudit.ts` now intercepts every navigation request
+  (the initial load and every redirect hop) and resolves + checks the
+  real target host before letting it continue, via a new async
+  `isUrlTargetPrivate` in `lib/urlSafety.ts`. this also catches a
+  hostname that doesn't look like an ip but resolves to one, which the
+  old check couldn't. tested against real puppeteer + chromium, not just
+  the check logic in isolation: a plain public page still loads, a real
+  redirect chain (google.com -> www.google.com) still follows through
+  fine, and a direct private target gets cleanly blocked. re-verified
+  live on the deployed app after confirming the deploy actually
+  succeeded this time (checked the deployments api first, learned from
+  the incident above): a submission with a real remaining bypass url got
+  correctly rejected by the existing submission-time check before it
+  even reached the crawler, and a normal safe submission audited
+  successfully end to end (92 -> 92, +0).
