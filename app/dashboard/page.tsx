@@ -105,7 +105,7 @@ export default async function Dashboard() {
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-zinc-600">{s.description}</p>
-                <p className="mt-1 text-xs text-zinc-400">
+                <p className="mt-1 text-xs text-zinc-600">
                   {s.hoursClaimed}h claimed &middot; submitted{" "}
                   {s.createdAt.toISOString().slice(0, 10)}
                 </p>

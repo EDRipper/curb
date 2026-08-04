@@ -73,7 +73,7 @@ export default function SubmitForm() {
         <div>
           <label className="text-sm font-medium text-zinc-700">
             before screenshot url{" "}
-            <span className="text-zinc-400">(optional)</span>
+            <span className="text-zinc-600">(optional)</span>
           </label>
           <input
             name="beforeScreenshotUrl"
@@ -85,7 +85,7 @@ export default function SubmitForm() {
         <div>
           <label className="text-sm font-medium text-zinc-700">
             after screenshot url{" "}
-            <span className="text-zinc-400">(optional)</span>
+            <span className="text-zinc-600">(optional)</span>
           </label>
           <input
             name="afterScreenshotUrl"

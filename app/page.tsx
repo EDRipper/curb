@@ -86,7 +86,7 @@ export default function Home() {
             <div className="mt-8 grid gap-10 sm:grid-cols-3">
               {steps.map((s) => (
                 <div key={s.n}>
-                  <div className="text-sm font-bold text-zinc-400">{s.n}</div>
+                  <div className="text-sm font-bold text-zinc-600">{s.n}</div>
                   <h3 className="mt-2 text-lg font-semibold text-zinc-900">
                     {s.title}
                   </h3>
@@ -142,7 +142,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-zinc-200 px-6 py-8 text-center text-xs text-zinc-400">
+      <footer className="border-t border-zinc-200 px-6 py-8 text-center text-xs text-zinc-600">
         built by hack club. this project is a work in progress, being built
         in the open.
       </footer>
