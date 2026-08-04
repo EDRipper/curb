@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { REWARD_CATALOG } from "@/lib/rewards";
+import { CurbCutIcon } from "./CurbCutIcon";
 
 const steps = [
   {
@@ -49,7 +50,8 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="mx-auto max-w-4xl px-6 pt-16 pb-20">
+        <section className="mx-auto flex max-w-4xl items-center gap-8 px-6 pt-16 pb-20">
+          <div className="min-w-0">
           <p className="mb-4 inline-block rounded-full bg-[#ffcf3f] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-900">
             a hack club YSWS
           </p>
@@ -65,17 +67,19 @@ export default function Home() {
           <div className="mt-8 flex gap-3">
             <Link
               href="/login"
-              className="rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white hover:bg-zinc-700"
+              className="rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg"
             >
               sign in with hack club
             </Link>
             <a
               href="#how"
-              className="rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-100"
+              className="rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-700 transition-all hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-md"
             >
               how it works
             </a>
           </div>
+          </div>
+          <CurbCutIcon className="hidden w-full max-w-xs shrink-0 sm:block" />
         </section>
 
         <section id="how" className="border-t border-zinc-200 bg-white">
