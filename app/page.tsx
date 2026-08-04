@@ -66,7 +66,7 @@ export default function Home() {
       </header>
 
       <main id="main-content">
-        <section className="mx-auto flex max-w-4xl items-center gap-8 px-6 pt-16 pb-20">
+        <section className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 pt-16 pb-20 sm:flex-row">
           <div className="min-w-0">
           <p className="fade-up mb-4 inline-block rounded-full bg-[#ffcf3f] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-900">
             a hack club YSWS
@@ -95,7 +95,7 @@ export default function Home() {
             </a>
           </div>
           </div>
-          <CurbCutIcon className="fade-up hidden w-full max-w-xs shrink-0 sm:block [animation-delay:120ms]" />
+          <CurbCutIcon className="fade-up w-full max-w-[220px] shrink-0 sm:max-w-xs [animation-delay:120ms]" />
         </section>
 
         <section id="how" className="border-t border-zinc-200 bg-white">
