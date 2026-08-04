@@ -1882,3 +1882,25 @@ vercel's build rate limit hit again (third time this session, same
 "retry in 24 hours" message) - noting it again since it's now a clear
 pattern, but not changing course beyond the batching already in
 place. no new commits this tick, so nothing to push.
+
+## more checks, still clean: heading sizes, high-dpi, dead css
+
+measured actual computed font-size for every h1/h2/h3 on the landing
+page: h2 section labels ("how it works", "what you get", "why this
+exists") render at 14px, smaller than the h3 step headings nested
+inside "how it works" at 18px. flagged this as a possible bug at
+first glance, but it's a deliberate, common pattern - small uppercase
+"eyebrow" section labels above bigger content headings - not a wcag
+issue (heading *nesting order* is what matters for accessibility, not
+relative visual size, and the nesting is correct: h1->h2->h3, no
+skipped levels, already confirmed at tick 39). left it alone.
+
+checked the reward cards at 3x device pixel ratio (high-dpi/retina) -
+everything renders crisp, no pixelation, as expected since it's all
+svg. checked globals.css for dead custom classes - all 4
+(dot-grid-bg, fade-up, curb-cut-wheel, curb-cut-trail) are actively
+used, nothing to clean up.
+
+no code changes this tick either - genuinely thorough checking that
+kept coming back clean, recorded honestly rather than manufacturing a
+change.
