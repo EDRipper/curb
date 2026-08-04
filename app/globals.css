@@ -47,3 +47,36 @@ body {
     scroll-behavior: auto;
   }
 }
+
+@keyframes wheel-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes trail-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.curb-cut-wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wheel-spin 2.4s linear infinite;
+}
+
+.curb-cut-trail {
+  animation: trail-pulse 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curb-cut-wheel,
+  .curb-cut-trail {
+    animation: none;
+  }
+}
