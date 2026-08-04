@@ -1904,3 +1904,25 @@ used, nothing to clean up.
 no code changes this tick either - genuinely thorough checking that
 kept coming back clean, recorded honestly rather than manufacturing a
 change.
+
+## copy proofread, console checked, animation properties confirmed clean
+
+temp db still dead. extracted the full visible text of every public
+page (landing, submit signed-out, 404, login-error, the thrown-error
+boundary) and scanned for double spaces and repeated words - none
+found anywhere, copy reads clean throughout. also fact-checked the
+core "curb cut effect" claim in the hero copy against what's actually
+a well-established, real accessibility concept - accurate, not just
+a nice-sounding phrase.
+
+checked the browser console for warnings/errors (not just visible
+bugs) across landing and submit - completely empty, no react warnings,
+no uncaught errors. confirmed the three css keyframe animations added
+this session (fade-up, wheel-spin, trail-pulse) only ever animate
+`transform`/`opacity`, the two gpu-compositor-friendly properties that
+don't trigger layout recalculation - already built the right way, not
+something that needed fixing, but worth confirming rather than
+assuming.
+
+another clean tick, no code changes - six different checks this time,
+all held up.
