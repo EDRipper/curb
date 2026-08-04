@@ -1000,3 +1000,22 @@ distinct colored "ss"/"as" circles on every card, aligned, no layout
 shift. worth remembering for every future tick from here - if a real
 code change doesn't show up in a screenshot, restart the dev server
 before concluding the change itself is broken.
+
+## a real before/after bar for the a11y score
+
+"a11y score: 76 -> 100 (+24)" was numbers-only on both the dashboard
+and review queue - a real gap given the score delta is curb's whole
+pitch (the landing page literally says "the number is the proof, not
+a vibe check"). added `ScoreBar.tsx`: two stacked mini bars, gray sized
+to the before score and green sized to the after score (both out of
+100), giving the delta an actual visual read next to the text. wired
+into both pages so the same submission looks consistent everywhere it
+appears.
+
+applied last tick's lesson properly this time - killed every stray
+next dev/next-server process and started completely clean before
+verifying, instead of trusting the first screenshot off a server that
+might be stale. confirmed against the one real audited submission in
+the temp db, checked from both the reviewer's `/review` view and the
+submitter's own `/dashboard` view: bars render at the correct
+proportional widths on both, no layout shift.
