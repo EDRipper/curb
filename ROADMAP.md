@@ -1600,3 +1600,28 @@ needing their own site), not scaffold leftovers.
 verified: full repo grep confirmed nothing referenced the removed
 files, then a clean dev restart + full render + the accessibility
 self-audit all still pass at 100/100.
+
+## a real 404: /favicon.ico
+
+temp db still dead (checked once at the top of this tick, holding to
+spot-checks). while auditing icon/color consistency across the
+codebase (found nothing wrong there - `#ffcf3f`, `#18181b`, and
+`#fdfaf3` are byte-identical everywhere they're used, no drift), it
+came up that `app/icon.tsx` generates a nice branded png at `/icon`
+but next.js explicitly cannot generate an actual `favicon.ico` (per
+its own docs). checked `/favicon.ico` directly: genuine 404, not
+theoretical - plenty of real clients (older browsers, rss readers,
+link-preview bots) hit that exact path as a hardcoded fallback
+regardless of the `<link rel="icon">` tag.
+
+generated `app/favicon.ico` by wrapping the exact same png bytes
+`/icon` already serves inside a minimal ico container (ico has
+supported embedded png data since windows vista, universally
+supported) - guarantees the favicon can never visually drift from the
+existing icon rather than hand-drawing a second one.
+
+verified at the byte level: `/favicon.ico` now returns 200 with
+`content-type: image/x-icon` (was 404), and extracted the embedded
+image back out of the actually-served response to confirm it's a
+valid png (correct signature) rendering as the same dark-square
+yellow-c icon. self-audit still 100/100.
