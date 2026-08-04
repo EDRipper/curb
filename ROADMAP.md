@@ -357,3 +357,22 @@ the last several ticks is still working together, not just in isolation.
   page still renders with no errors post-deploy, but the actual
   click-and-watch-it-disable check needs either a non-bot submission or
   euan's reviewer account to do for real.
+
+## discoverability
+
+- added open graph / twitter card support - the site had zero social
+  preview metadata, so any link posted anywhere (slack, twitter/x,
+  discord) rendered as a bare title with no image, the same dead
+  unfurl people scroll past without clicking. curb's whole submission
+  pipeline depends on community visibility to get fixes in the door, so
+  this isn't cosmetic. generated an on-brand card via next/og's
+  `ImageResponse` (`app/opengraph-image.tsx` + `twitter-image.tsx`
+  sharing `lib/ogImage.tsx`) instead of a generic placeholder - cream
+  background, yellow badge, same headline as the homepage. added
+  `metadataBase` plus `openGraph`/`twitter` fields to the root metadata
+  so the tags resolve to real absolute urls instead of warning/breaking.
+  verified for real: built and ran the app locally, viewed the
+  generated image directly and fetched the homepage html to confirm
+  `og:image`/`twitter:image` actually emit with correct urls, then
+  re-checked the rendered image on the live deploy after confirming it
+  shipped.
