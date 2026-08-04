@@ -719,3 +719,18 @@ reviewer's name attached. combined with last tick's approve-by-click and
 tick 45's needs-changes-by-keyboard, all three review outcomes have now
 been exercised through genuine interaction at least once, not just
 inferred from reading `reviewSubmission`'s source.
+
+## checkpoint: third full production regression pass (tick 49)
+
+14 ticks since the last one (see the tick-34 checkpoint above), and the
+review queue in particular changed a lot in between - grouping, dedup,
+slack links, track record, violation summaries, the contrast and mobile
+fixes. walked the live site fresh one more time before this loop's
+budget runs out: signed in through the real oauth round trip, checked
+`/dashboard` (violation summaries, reward tier math all correct),
+checked `/review` (grouping, duplicate banner, slack link, "approved so
+far", violation summaries all rendering together correctly on the same
+cards), signed out cleanly, confirmed `/dashboard` re-gates afterward
+(same well-documented hack club sso auto-relogin behavior from tick 10 -
+not a bug). everything from this session's full run holds together on
+the actual live site, not just in the local test harness.
