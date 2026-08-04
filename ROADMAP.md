@@ -1652,3 +1652,25 @@ route: signed in with a real session cookie, submitted the actual form
 with identical before/after urls (rejected before any db call, so this
 works even with the temp db down), and screenshotted the real error
 banner rendering correctly. self-audit still 100/100.
+
+## traced a full keyboard tab order, then fixed a real external-link gap
+
+traced the landing page's entire keyboard tab order end to end (15
+presses): skip link -> header nav -> hero ctas -> footer links, in
+that order, matching the visual layout exactly, no traps or dead
+stops. clean, no bug.
+
+then noticed the landing page's github/hack club links, and login-
+error's "report an issue" link, all navigated the current tab away to
+a different domain entirely - grepped the codebase and found the
+review queue's before/after/diff/screenshot links already use
+`target="_blank" rel="noreferrer"` for exactly this reason. these 3
+were the only external links not following that existing convention -
+a real inconsistency already established elsewhere in this same
+codebase, not a new rule invented for this fix. matched the existing
+`rel="noreferrer"` value exactly rather than introducing a different
+one.
+
+verified with a real click, not just attribute inspection: clicked the
+github link and confirmed the current tab's url genuinely didn't
+change. self-audit still 100/100 across every page checked.
