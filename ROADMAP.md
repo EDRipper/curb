@@ -882,3 +882,23 @@ again after a 1.5s wait - the settled state matches the known-good
 pre-animation layout exactly, confirming the animation doesn't leave
 anything stuck invisible or offset, even though a screenshot can't
 reliably catch the ~0.6s transition itself mid-flight.
+
+## icons on the "how it works" steps
+
+matched the treatment the reward cards got two ticks ago: the 3 steps
+were just a bare "01"/"02"/"03" number, nothing tying them to their
+actual content. added `StepIcon.tsx` - a browser window with a
+target/crosshair for "pick a real site", a wrench for "fix real
+accessibility issues", a bar chart with an up-arrow for "submit
+before/after proof".
+
+the wrench went through two real iterations, not one-shot: first try
+used a stroke-dasharray trick to punch a gap in a ring for an
+open-wrench-head look. a real browser screenshot caught it rendering
+as a lopsided pac-man wedge instead of a clean opening, plus a color
+mismatch (the gap used the hero's cream color against this section's
+actual `bg-white`). redrew it as a solid rotated-square nut head with
+a plain white circle punched in the center - correct specifically
+because this icon only ever renders inside the "how it works"
+section's known white background. re-verified in the browser: clean
+wrench shape, no artifacts, sits properly above the "02" label.
