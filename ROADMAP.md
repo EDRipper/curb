@@ -5,13 +5,10 @@ link, not just merged.
 
 - [x] repo + scaffold (Next.js/TS/Tailwind)
 - [x] landing page with real program pitch (not lorem ipsum)
-- [x] deployed: https://edripper.github.io/curb/ (GitHub Pages, static shell)
-- [ ] move hosting to Vercel once server routes are needed (OAuth callback,
-      DB-backed API) — vercel.com signup via browser is currently getting
-      blocked by bot detection with no account created and no email
-      received, needs a human to complete it once (asked Euan for a
-      personal access token as the workaround, since that skips browser
-      login entirely)
+- [x] deployed: https://curb-theta.vercel.app (Vercel, connected to this
+      repo's `main` branch for auto-deploy). GitHub Pages retired — Euan
+      provided a Vercel token, sidestepping the signup wall entirely.
+      DATABASE_URL is set as a production env var on Vercel.
 - [ ] Hack Club Auth (`auth.hackclub.com`) sign-in — app registration at
       auth.hackclub.com/developer/apps returned "You're not authorized to
       do that" for this account (2an Ripper / rippereuan@gmail.com), account
@@ -23,11 +20,10 @@ link, not just merged.
       (User, Submission with before/after audit score fields), real DB
       provisioned via `npx create-db` (Prisma-hosted Postgres, no browser
       signup needed unlike vercel/neon/supabase), migrated, and
-      smoke-tested with a real write+read+delete. NOT yet connected to the
-      live site since there's no server hosting to run it on. this DB is
-      temporary (auto-deletes if unclaimed) and claiming it hits the same
-      GitHub/Google-only login wall as vercel — needs Euan's login or a
-      permanent DB once hosting is sorted.
+      smoke-tested with a real write+read+delete. DATABASE_URL is now set
+      on Vercel production. this DB is still temporary (auto-deletes if
+      unclaimed) and claiming it hits the same GitHub/Google-only login
+      wall as vercel did — needs Euan's login eventually or a permanent DB.
 - [ ] submission form (site url, PR/diff link, before/after screenshots)
 - [ ] automated accessibility audit pipeline (axe-core, before/after score
       delta stored per submission)
