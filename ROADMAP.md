@@ -1577,3 +1577,26 @@ paragraph's width.
 verified by re-measuring the actual rendered width (848px -> 672px,
 not just assuming the class did something) and screenshotting the
 result - reads cleanly, no awkward wraps. self-audit still 100/100.
+
+## tablet-width sweep (clean), then real cruft cleanup
+
+checked the landing page at 640/768/834/1024px (never tested this
+session, only mobile at 320-375 and desktop at 1280) - no overflow,
+no cramping in either the hero row or the 4-column reward grid at any
+of them. the hero's illustration-vs-text vertical balance is a bit
+loose at exactly 640px but that's a pre-existing, already-reviewed
+design tradeoff, not a new regression.
+
+then found real leftover cruft: `public/` still had `file.svg`,
+`globe.svg`, `next.svg`, `vercel.svg`, `window.svg` - the original
+create-next-app starter template's demo icons, dead weight from
+before this repo became curb. grepped the entire repo (not just
+app/lib) for any reference to them: zero. removed all 5. kept
+`public/demo/{before,after}.html` though - those are real, intentional
+content (a deliberately broken-vs-fixed html pair meant as a ready
+before/after url someone can point curb's own audit at without
+needing their own site), not scaffold leftovers.
+
+verified: full repo grep confirmed nothing referenced the removed
+files, then a clean dev restart + full render + the accessibility
+self-audit all still pass at 100/100.
