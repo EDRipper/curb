@@ -25,11 +25,12 @@ export default async function Review() {
     include: { user: true },
   });
 
-  // flag possible double-dipping: the same user submitting the same pr, or
-  // the same before/after url pair, more than once. nothing upstream of
-  // this page prevents that (there's no uniqueness constraint, and there
-  // shouldn't be - a resubmission after "needs changes" is legitimate) so
-  // this is purely a heads-up for the reviewer, not an enforced block.
+  // flag possible duplicates two ways: the same user resubmitting the same
+  // pr/urls (often legitimate - a resubmission after "needs changes"), and
+  // *different* users submitting the same pr/urls (much more concerning -
+  // someone claiming credit for someone else's work, or two people racing
+  // the same open-source fix). nothing upstream prevents either, so this is
+  // purely a heads-up for the reviewer, not an enforced block.
   function groupBy(keyFn: (s: (typeof submissions)[number]) => string) {
     const map = new Map<string, (typeof submissions)[number][]>();
     for (const s of submissions) {
@@ -40,12 +41,24 @@ export default async function Review() {
     }
     return map;
   }
-  const byDiffUrl = groupBy((s) => `${s.userId}::${s.diffUrl}`);
-  const byUrlPair = groupBy((s) => `${s.userId}::${s.beforeUrl}::${s.afterUrl}`);
-  function duplicateCount(s: (typeof submissions)[number]): number {
-    const diffGroup = byDiffUrl.get(`${s.userId}::${s.diffUrl}`) ?? [];
-    const urlGroup = byUrlPair.get(`${s.userId}::${s.beforeUrl}::${s.afterUrl}`) ?? [];
-    return Math.max(diffGroup.length, urlGroup.length);
+  const byDiffUrlSameUser = groupBy((s) => `${s.userId}::${s.diffUrl}`);
+  const byUrlPairSameUser = groupBy((s) => `${s.userId}::${s.beforeUrl}::${s.afterUrl}`);
+  const byDiffUrlAnyUser = groupBy((s) => s.diffUrl);
+  const byUrlPairAnyUser = groupBy((s) => `${s.beforeUrl}::${s.afterUrl}`);
+
+  function duplicateInfo(s: (typeof submissions)[number]) {
+    const sameUserCount = Math.max(
+      (byDiffUrlSameUser.get(`${s.userId}::${s.diffUrl}`) ?? []).length,
+      (byUrlPairSameUser.get(`${s.userId}::${s.beforeUrl}::${s.afterUrl}`) ?? []).length,
+    );
+    const crossUserGroup = [
+      ...(byDiffUrlAnyUser.get(s.diffUrl) ?? []),
+      ...(byUrlPairAnyUser.get(`${s.beforeUrl}::${s.afterUrl}`) ?? []),
+    ];
+    const distinctOtherUsers = new Set(
+      crossUserGroup.filter((o) => o.userId !== s.userId).map((o) => o.userId),
+    );
+    return { sameUserCount, otherUserCount: distinctOtherUsers.size };
   }
 
   // as the queue grows, already-decided submissions drown out the ones that
@@ -59,7 +72,7 @@ export default async function Review() {
       s.afterAuditScore != null && s.beforeAuditScore != null
         ? s.afterAuditScore - s.beforeAuditScore
         : null;
-    const dupeCount = duplicateCount(s);
+    const { sameUserCount, otherUserCount } = duplicateInfo(s);
 
     return (
       <li key={s.id} className="rounded-lg border border-zinc-200 p-5">
@@ -80,10 +93,18 @@ export default async function Review() {
           </span>
         </div>
 
-        {dupeCount > 1 && (
+        {otherUserCount > 0 && (
+          <p className="mt-2 rounded bg-red-100 px-2 py-1 text-xs font-semibold text-red-800">
+            possible credit dispute: {otherUserCount} other account
+            {otherUserCount > 1 ? "s have" : " has"} submitted this same
+            diff or before/after urls &mdash; verify who actually did the
+            work before approving.
+          </p>
+        )}
+        {sameUserCount > 1 && (
           <p className="mt-2 rounded bg-red-50 px-2 py-1 text-xs font-semibold text-red-700">
-            duplicate: this user has {dupeCount} submissions with the same
-            diff or before/after urls &mdash; check the others before
+            duplicate: this user has {sameUserCount} submissions with the
+            same diff or before/after urls &mdash; check the others before
             approving.
           </p>
         )}
