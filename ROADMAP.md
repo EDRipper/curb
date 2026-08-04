@@ -1826,3 +1826,19 @@ disabled debug api route, and the error-state `/login-error` page) and
 verified both serve correctly: `/robots.txt` returns the exact
 intended allow/disallow rules as plain text, `/sitemap.xml` returns
 valid sitemap xml with both real urls. self-audit still 100/100.
+
+## de-duped the hardcoded domain
+
+temp db still dead (checked, deploy status back to "success" though -
+the second rate limit already cleared). noticed `curb-theta.vercel.app`
+was now a hardcoded literal in 4 places (layout.tsx's metadata twice,
+the og image's displayed domain text, and the robots/sitemap files
+added last tick) - a real risk, not just tidiness: if this ever moves
+off the default vercel subdomain, missing even one spot leaves a stale
+url live somewhere. extracted `lib/site.ts` (`SITE_URL`) and pointed
+all 4 at it.
+
+verified nothing changed behaviorally, not just that it typechecks:
+re-checked `/robots.txt`, `/sitemap.xml`, and the rendered og image
+after the refactor - identical output to before in every case.
+self-audit still 100/100.
