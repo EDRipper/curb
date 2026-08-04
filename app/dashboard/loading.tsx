@@ -3,8 +3,15 @@ import { Skeleton } from "../Skeleton";
 export default function DashboardLoading() {
   return (
     <main className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
-      <Skeleton className="h-4 w-40" />
-      <Skeleton className="mt-3 h-8 w-56" />
+      <Skeleton className="h-6 w-16" />
+
+      <div className="mt-8 flex items-center gap-3">
+        <Skeleton className="h-11 w-11 shrink-0 rounded-full" />
+        <div>
+          <Skeleton className="h-4 w-40" />
+          <Skeleton className="mt-2 h-6 w-48" />
+        </div>
+      </div>
       <Skeleton className="mt-3 h-4 w-48" />
 
       <div className="mt-8 flex gap-3">
@@ -12,7 +19,11 @@ export default function DashboardLoading() {
         <Skeleton className="h-10 w-28" />
       </div>
 
-      <Skeleton className="mt-8 h-20 w-full" />
+      <div className="mt-8 space-y-3 rounded-lg border border-zinc-200 p-4">
+        <Skeleton className="h-4 w-56" />
+        <Skeleton className="h-3 w-40" />
+        <Skeleton className="h-1.5 w-full" />
+      </div>
 
       <Skeleton className="mt-10 h-4 w-32" />
       <div className="mt-4 space-y-3">
