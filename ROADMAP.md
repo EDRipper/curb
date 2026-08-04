@@ -755,3 +755,20 @@ Geist typeface the setup was built for - explains a good chunk of the
 `font-family: var(--font-sans), Arial, Helvetica, sans-serif`, confirmed
 in a real browser screenshot against the local dev server that headings
 and body copy now render in Geist Sans.
+
+## added a real custom illustration to the hero, not just copy tweaks
+
+the landing page had no custom art at all - just the yellow badge pill
+and text, which reads generic next to hack club sites that lean on
+hand-drawn/illustrated hero art. added `CurbCutIcon.tsx`: a small
+line-art svg of the literal curb cut (the program's namesake) - a
+sidewalk ramp cut down to street level, with a wheelchair figure
+rolling down it and motion dashes trailing the wheel. built from plain
+svg primitives (circle/line/polygon) with real coordinates chosen by
+hand for the shape, not an opaque generated bezier blob. sits in the
+hero's right column on `sm:` and up, hidden on mobile where there's no
+room for it. also added hover lift + shadow transitions to the two
+hero cta buttons, replacing the flat color-swap-only hover state.
+verified in a real browser screenshot against local dev: renders
+clean, no overlap with the heading/body copy, matches the site's
+minimal line-art style.
