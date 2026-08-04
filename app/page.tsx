@@ -143,17 +143,34 @@ export default function Home() {
         </section>
 
         <section className="border-t border-zinc-200 bg-white">
-          <div className="mx-auto max-w-4xl px-6 py-16">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
-              why this exists
-            </h2>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-700">
-              Most YSWS programs reward hours on a themed side project that
-              gets shipped once and never touched again. Curb rewards fixing
-              something that was already broken for someone — and the
-              review isn&apos;t a vibe check, it&apos;s an automated
-              accessibility score, before and after, on the record.
-            </p>
+          <div className="mx-auto flex max-w-4xl items-start gap-8 px-6 py-16">
+            <div className="min-w-0">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+                why this exists
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-700">
+                Most YSWS programs reward hours on a themed side project that
+                gets shipped once and never touched again. Curb rewards fixing
+                something that was already broken for someone — and the
+                review isn&apos;t a vibe check, it&apos;s an automated
+                accessibility score, before and after, on the record.
+              </p>
+            </div>
+            <svg
+              viewBox="0 0 64 48"
+              fill="none"
+              className="hidden h-20 w-24 shrink-0 text-zinc-100 sm:block"
+              aria-hidden="true"
+            >
+              <path
+                d="M0 28C0 14 9 3 22 0V8C14 11 10 17 10 24H22V44H0V28Z"
+                fill="currentColor"
+              />
+              <path
+                d="M34 28C34 14 43 3 56 0V8C48 11 44 17 44 24H56V44H34V28Z"
+                fill="currentColor"
+              />
+            </svg>
           </div>
         </section>
       </main>
