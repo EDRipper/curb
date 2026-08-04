@@ -152,3 +152,16 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   the blocked before-url): before the fix it rendered ~10 lines of
   `/var/task/.next/server/chunks/...` internal paths, after it's just
   `audit failed: before url can't point at a local/internal address`.
+- fixed real a11y bugs on curb's own submit/review forms, the most
+  ironic possible place for them. none of the 7 submit-form inputs had
+  their `<label>` programmatically associated with the field (no
+  `htmlFor`/`id` pair) — a screen reader has no way to know "before url
+  (live, unfixed)" belongs to that particular text box, it just
+  announces an unlabeled input. added matching ids to every field. the
+  review queue's note input had no label at all, just a placeholder
+  (which isn't a substitute — it disappears once you start typing, and
+  isn't reliably exposed as a name by every screen reader); added an
+  aria-label. also the submit form removed the default focus outline
+  (`focus:outline-none`) and replaced it with only a subtle border-color
+  shift, a weak focus indicator; added a visible focus ring. verified
+  the ring live on the deployed form.
