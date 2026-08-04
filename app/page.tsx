@@ -35,7 +35,7 @@ const rewards = REWARD_CATALOG.map((tier, i) => ({
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#fdfaf3] text-zinc-900">
+    <div className="dot-grid-bg min-h-screen bg-[#fdfaf3] text-zinc-900">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-zinc-900 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"

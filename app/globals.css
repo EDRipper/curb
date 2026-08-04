@@ -28,6 +28,11 @@ body {
   color: #18181b;
 }
 
+.dot-grid-bg {
+  background-image: radial-gradient(rgba(24, 24, 27, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
