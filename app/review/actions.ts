@@ -20,6 +20,12 @@ export async function reviewSubmission(
 
   if (!VALID_STATUSES.includes(status)) throw new Error("invalid status");
 
+  const submission = await db.submission.findUnique({ where: { id: submissionId } });
+  if (!submission) throw new Error("not found");
+  if (submission.userId === reviewer.id) {
+    throw new Error("can't review your own submission");
+  }
+
   const note = String(formData.get("note") ?? "").trim();
 
   await db.submission.update({
