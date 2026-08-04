@@ -72,36 +72,36 @@ export default async function Dashboard() {
                 </p>
 
                 <div className="mt-3 border-t border-zinc-100 pt-3">
-                  {s.auditedAt ? (
-                    s.auditError ? (
-                      <p className="text-sm text-red-600">
-                        audit failed: {s.auditError}
-                      </p>
-                    ) : (
-                      <p className="text-sm">
-                        a11y score: <strong>{s.beforeAuditScore}</strong>{" "}
-                        &rarr; <strong>{s.afterAuditScore}</strong>
-                        {delta != null && (
-                          <span
-                            className={
-                              delta >= 0
-                                ? "ml-2 font-semibold text-green-700"
-                                : "ml-2 font-semibold text-red-700"
-                            }
-                          >
-                            ({delta >= 0 ? "+" : ""}
-                            {delta})
-                          </span>
-                        )}
-                      </p>
-                    )
+                  {s.auditedAt && s.auditError && (
+                    <p className="mb-2 text-sm text-red-600">
+                      audit failed: {s.auditError}
+                    </p>
+                  )}
+
+                  {s.auditedAt && !s.auditError ? (
+                    <p className="text-sm">
+                      a11y score: <strong>{s.beforeAuditScore}</strong>{" "}
+                      &rarr; <strong>{s.afterAuditScore}</strong>
+                      {delta != null && (
+                        <span
+                          className={
+                            delta >= 0
+                              ? "ml-2 font-semibold text-green-700"
+                              : "ml-2 font-semibold text-red-700"
+                          }
+                        >
+                          ({delta >= 0 ? "+" : ""}
+                          {delta})
+                        </span>
+                      )}
+                    </p>
                   ) : (
                     <form action={runAudit.bind(null, s.id)}>
                       <button
                         type="submit"
                         className="rounded-md border border-zinc-300 px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-100"
                       >
-                        run accessibility audit
+                        {s.auditError ? "retry audit" : "run accessibility audit"}
                       </button>
                     </form>
                   )}
