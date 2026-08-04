@@ -24,6 +24,7 @@ export function renderOgImage() {
         <div
           style={{
             display: "flex",
+            alignSelf: "flex-start",
             backgroundColor: "#ffcf3f",
             color: "#18181b",
             fontSize: 22,
