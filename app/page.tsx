@@ -36,6 +36,12 @@ const rewards = REWARD_CATALOG.map((tier, i) => ({
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#fdfaf3] text-zinc-900">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-zinc-900 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+      >
+        skip to content
+      </a>
       <header className="mx-auto flex max-w-4xl items-center justify-between px-6 py-6">
         <span className="text-lg font-bold tracking-tight">curb</span>
         <nav aria-label="primary" className="flex items-center gap-6 text-sm font-medium text-zinc-600">
@@ -57,7 +63,7 @@ export default function Home() {
         </nav>
       </header>
 
-      <main>
+      <main id="main-content">
         <section className="mx-auto flex max-w-4xl items-center gap-8 px-6 pt-16 pb-20">
           <div className="min-w-0">
           <p className="fade-up mb-4 inline-block rounded-full bg-[#ffcf3f] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-900">
