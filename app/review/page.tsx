@@ -62,6 +62,21 @@ export default async function Review() {
     return { sameUserCount, otherUserCount: distinctOtherUsers.size };
   }
 
+  // track record: how many hours has this submitter already had approved,
+  // across everything else in the queue. useful context a reviewer would
+  // otherwise have to reconstruct by scrolling through "already reviewed"
+  // looking for the same name - free to compute, the full list is already
+  // loaded for the duplicate check above.
+  const approvedHoursByUser = new Map<string, number>();
+  for (const s of submissions) {
+    if (s.status === "approved") {
+      approvedHoursByUser.set(
+        s.userId,
+        (approvedHoursByUser.get(s.userId) ?? 0) + s.hoursClaimed,
+      );
+    }
+  }
+
   // as the queue grows, already-decided submissions drown out the ones that
   // actually need a reviewer's attention - separate them instead of one
   // flat chronological list.
@@ -98,6 +113,9 @@ export default async function Review() {
               )}
             </p>
             <p className="mt-1 text-sm text-zinc-600">{s.description}</p>
+            <p className="mt-1 text-xs text-zinc-500">
+              {approvedHoursByUser.get(s.userId) ?? 0}h approved so far
+            </p>
           </div>
           <span
             className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
