@@ -74,6 +74,31 @@ export default async function Review() {
                   </a>
                 </div>
 
+                {(s.beforeScreenshotUrl || s.afterScreenshotUrl) && (
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {s.beforeScreenshotUrl && (
+                      <a href={s.beforeScreenshotUrl} target="_blank" rel="noreferrer">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- arbitrary submitter-provided host, can't allowlist for next/image */}
+                        <img
+                          src={s.beforeScreenshotUrl}
+                          alt={`before screenshot submitted by ${s.user.name}`}
+                          className="w-full rounded-md border border-zinc-200"
+                        />
+                      </a>
+                    )}
+                    {s.afterScreenshotUrl && (
+                      <a href={s.afterScreenshotUrl} target="_blank" rel="noreferrer">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- arbitrary submitter-provided host, can't allowlist for next/image */}
+                        <img
+                          src={s.afterScreenshotUrl}
+                          alt={`after screenshot submitted by ${s.user.name}`}
+                          className="w-full rounded-md border border-zinc-200"
+                        />
+                      </a>
+                    )}
+                  </div>
+                )}
+
                 <p className="mt-2 text-sm text-zinc-600">
                   {s.hoursClaimed}h claimed
                   {s.auditedAt && !s.auditError && (
