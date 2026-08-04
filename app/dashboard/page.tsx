@@ -123,7 +123,20 @@ export default async function Dashboard({
             </div>
           </>
         ) : (
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-amber-700">
+            <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5 shrink-0" aria-hidden="true">
+              <path
+                d="M6 3H14V8C14 10.2 12.2 12 10 12C7.8 12 6 10.2 6 8V3Z"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+              <path d="M6 4.5H3.5V6C3.5 7.4 4.6 8.5 6 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              <path d="M14 4.5H16.5V6C16.5 7.4 15.4 8.5 14 8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              <line x1="10" y1="12" x2="10" y2="15" stroke="currentColor" strokeWidth="1.4" />
+              <line x1="7" y1="17" x2="13" y2="17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              <line x1="10" y1="15" x2="10" y2="17" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
             top reward tier unlocked
           </p>
         )}
