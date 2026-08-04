@@ -1674,3 +1674,27 @@ one.
 verified with a real click, not just attribute inspection: clicked the
 github link and confirmed the current tab's url genuinely didn't
 change. self-audit still 100/100 across every page checked.
+
+## chased a prefetch-side-effect theory, disproved it, fixed the real nit
+
+noticed `/submit`'s "sign in with hack club" button used a plain `<a>`
+while the header nav and hero use `<Link>` for the exact same `/login`
+destination, in a file that already imports `Link` and uses it one
+line above. before touching it, took the inconsistency seriously as a
+possible deliberate choice: next.js `<Link>` prefetches visible links
+automatically, and `/login/route.ts` sets a real cookie as a side
+effect on every GET - if prefetch triggered that just from the link
+being on screen, using plain `<a>` to avoid it would be correct,
+not a bug.
+
+tested it directly instead of assuming either way: loaded the landing
+page (where the header's `Link` to `/login` is already in the initial
+viewport) and watched both network requests and cookies for several
+seconds - no request to `/login`, no state cookie appears. next's
+automatic prefetch skips fully-dynamic routes like this one, so the
+concern doesn't apply here. safe to make consistent after all.
+
+converted the submit page's button to `Link` and verified with a real
+click through the entire flow: it navigates through `/login` and lands
+on the actual hackclub oauth authorize page, exactly like the already-
+working header/hero instances. self-audit still 100/100.
