@@ -235,3 +235,12 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   `https://example.com` (no frame protection) renders normally inside
   the iframe. confirms the header is both present and actually doing its
   job, not just configured.
+- ran a full (unscoped) axe-core sweep against every public page instead
+  of just checking color-contrast again: `/login-error`, `/submit`
+  (signed out), and a 404 all flagged `landmark-one-main` +
+  `region` - no `<main>` element anywhere on any of them, everything
+  sat in a plain `<div>`. only the homepage had one. added `<main>` on
+  login-error, not-found, submit, dashboard, and review (purely
+  semantic, no layout change). re-ran the sweep against the live deploy
+  after confirming it actually shipped: all three public pages come back
+  completely clean now.
