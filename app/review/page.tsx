@@ -24,6 +24,29 @@ export default async function Review() {
     include: { user: true },
   });
 
+  // flag possible double-dipping: the same user submitting the same pr, or
+  // the same before/after url pair, more than once. nothing upstream of
+  // this page prevents that (there's no uniqueness constraint, and there
+  // shouldn't be - a resubmission after "needs changes" is legitimate) so
+  // this is purely a heads-up for the reviewer, not an enforced block.
+  function groupBy(keyFn: (s: (typeof submissions)[number]) => string) {
+    const map = new Map<string, (typeof submissions)[number][]>();
+    for (const s of submissions) {
+      const key = keyFn(s);
+      const group = map.get(key);
+      if (group) group.push(s);
+      else map.set(key, [s]);
+    }
+    return map;
+  }
+  const byDiffUrl = groupBy((s) => `${s.userId}::${s.diffUrl}`);
+  const byUrlPair = groupBy((s) => `${s.userId}::${s.beforeUrl}::${s.afterUrl}`);
+  function duplicateCount(s: (typeof submissions)[number]): number {
+    const diffGroup = byDiffUrl.get(`${s.userId}::${s.diffUrl}`) ?? [];
+    const urlGroup = byUrlPair.get(`${s.userId}::${s.beforeUrl}::${s.afterUrl}`) ?? [];
+    return Math.max(diffGroup.length, urlGroup.length);
+  }
+
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-16 text-zinc-900">
       <h1 className="text-2xl font-bold">review queue</h1>
@@ -40,6 +63,7 @@ export default async function Review() {
               s.afterAuditScore != null && s.beforeAuditScore != null
                 ? s.afterAuditScore - s.beforeAuditScore
                 : null;
+            const dupeCount = duplicateCount(s);
 
             return (
               <li key={s.id} className="rounded-lg border border-zinc-200 p-5">
@@ -61,6 +85,14 @@ export default async function Review() {
                     {s.status}
                   </span>
                 </div>
+
+                {dupeCount > 1 && (
+                  <p className="mt-2 rounded bg-red-50 px-2 py-1 text-xs font-semibold text-red-700">
+                    duplicate: this user has {dupeCount} submissions with the
+                    same diff or before/after urls &mdash; check the others
+                    before approving.
+                  </p>
+                )}
 
                 <div className="mt-3 grid gap-1 text-sm">
                   <a href={s.beforeUrl} target="_blank" rel="noreferrer" className="underline">
