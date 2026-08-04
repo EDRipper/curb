@@ -1747,3 +1747,35 @@ forcing a change:
 no code changes this tick - a genuinely clean result across several
 real checks is itself worth recording, rather than inventing a change
 to have something to ship.
+
+## the og image font bug, actually fixed this time
+
+checked the deployed production og image for the first time (had only
+ever checked it locally before) - the text-spacing gap flagged at
+tick 17 and deprioritized twice reproduces there too, which is what
+made a third attempt worth it rather than assuming it was a local-
+sandbox-only artifact.
+
+root cause was exactly what tick 17 suspected but didn't chase: the
+image never gave satori (next/og's renderer) a real font, just
+`fontFamily: "sans-serif"`, so it rendered with whatever generic font
+happened to be installed in whichever environment generated it -
+that's what produced the wrong inter-word spacing, not a broken font
+file. found a real fix path this time: fetched the actual geist sans
+font (weights 700 and 800, matching the badge and headline) as raw ttf
+bytes from fontsource's cdn mirror of the same vercel/geist-sans-font
+package next/font/google already uses elsewhere on this site, verified
+the downloaded files have a genuine opentype magic-byte header before
+trusting them, passed them to `ImageResponse`'s `fonts` option.
+
+verified by re-rendering the actual image: the spacing gap is
+completely gone. confirmed both `/opengraph-image` and `/twitter-image`
+still return 200 with the right content-type at a reasonable render
+time (~940ms including the two font fetches). self-audit on the main
+site still 100/100, unaffected as expected.
+
+(note: also noticed the vercel deploy status flipped back to rate-
+limited again this tick - same "retry in 24 hours" as tick 27, now a
+second time this session. holding off pushing every single tick from
+here and batching a few together instead, to cut down how often this
+loop's own push cadence re-triggers the limit.)
