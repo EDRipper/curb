@@ -9,13 +9,18 @@ link, not just merged.
       repo's `main` branch for auto-deploy). GitHub Pages retired — Euan
       provided a Vercel token, sidestepping the signup wall entirely.
       DATABASE_URL is set as a production env var on Vercel.
-- [ ] Hack Club Auth (`auth.hackclub.com`) sign-in — app registration at
-      auth.hackclub.com/developer/apps returned "You're not authorized to
-      do that" for this account (2an Ripper / rippereuan@gmail.com), account
-      profile shows 0/3 complete (no ID verification). Not attempting ID
-      verification as a bot. Building the OAuth client code now so it's
-      ready to wire up once either the account is authorized or Euan
-      registers the app himself and hands over client id/secret.
+- [x] Hack Club Auth (`auth.hackclub.com`) sign-in — Euan registered the
+      OAuth app himself and handed over client id/secret. real OAuth2 flow
+      implemented (`app/login/route.ts` starts it with a signed state
+      cookie, `app/OAuth/callback/route.ts` exchanges the code, fetches
+      `/api/v1/me`, upserts the User row, sets a signed session cookie via
+      `jose`). tested live end to end on the deployed link: signed in with
+      a real hack club account, landed on `/dashboard` showing the real
+      name/email, signed out cleanly. two real users in the DB now (the
+      bot's own account, and Euan's — he apparently tried it himself).
+      app trust level is `community_untrusted` so users see an "unofficial
+      / unverified" warning on the consent screen — worth asking Nora to
+      promote it once this is further along.
 - [x] Postgres + Prisma submission model — schema in `prisma/schema.prisma`
       (User, Submission with before/after audit score fields), real DB
       provisioned via `npx create-db` (Prisma-hosted Postgres, no browser
