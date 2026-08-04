@@ -332,3 +332,14 @@ the last several ticks is still working together, not just in isolation.
   uses `retry()`, not the `reset()` api older docs/training data would
   suggest - checked `node_modules/next/dist/docs` directly per
   AGENTS.md's warning rather than assuming.
+- gave the audit button real pending feedback. `run accessibility
+  audit` launches two full headless chromium instances sequentially and
+  takes 15-20s, but the button gave zero indication anything was
+  happening - not disabled, no loading text, nothing. this isn't
+  theoretical, it's something i personally ran into over and over this
+  session, blind-polling the dashboard to check if an audit had
+  finished. extracted `app/dashboard/AuditButton.tsx` as a client
+  component using `useFormStatus` so it disables and says "running
+  audit... (takes ~15-20s, crawls both urls)" while pending. verified
+  live: clicked it and caught the exact disabled/pending state in a
+  screenshot before it resolved.
