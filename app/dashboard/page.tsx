@@ -6,6 +6,7 @@ import { getRewardStatus } from "@/lib/rewards";
 import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
 import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
+import { ScoreBar } from "../ScoreBar";
 import { runAudit } from "./actions";
 import AuditButton from "./AuditButton";
 
@@ -152,22 +153,27 @@ export default async function Dashboard() {
                   )}
 
                   {s.auditedAt && !s.auditError ? (
-                    <p className="text-sm">
-                      a11y score: <strong>{s.beforeAuditScore}</strong>{" "}
-                      &rarr; <strong>{s.afterAuditScore}</strong>
-                      {delta != null && (
-                        <span
-                          className={
-                            delta >= 0
-                              ? "ml-2 font-semibold text-green-700"
-                              : "ml-2 font-semibold text-red-700"
-                          }
-                        >
-                          ({delta >= 0 ? "+" : ""}
-                          {delta})
-                        </span>
+                    <>
+                      <p className="text-sm">
+                        a11y score: <strong>{s.beforeAuditScore}</strong>{" "}
+                        &rarr; <strong>{s.afterAuditScore}</strong>
+                        {delta != null && (
+                          <span
+                            className={
+                              delta >= 0
+                                ? "ml-2 font-semibold text-green-700"
+                                : "ml-2 font-semibold text-red-700"
+                            }
+                          >
+                            ({delta >= 0 ? "+" : ""}
+                            {delta})
+                          </span>
+                        )}
+                      </p>
+                      {s.beforeAuditScore != null && s.afterAuditScore != null && (
+                        <ScoreBar before={s.beforeAuditScore} after={s.afterAuditScore} />
                       )}
-                    </p>
+                    </>
                   ) : (
                     <form action={runAudit.bind(null, s.id)}>
                       <AuditButton isRetry={Boolean(s.auditError)} />

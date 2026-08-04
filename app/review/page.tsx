@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
 import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
+import { ScoreBar } from "../ScoreBar";
 import ReviewActions from "./ReviewActions";
 
 export const dynamic = "force-dynamic";
@@ -208,6 +209,9 @@ export default async function Review() {
           {!s.auditedAt && <> &middot; not audited yet</>}
           {s.auditError && <> &middot; audit failed</>}
         </p>
+        {s.auditedAt && !s.auditError && s.beforeAuditScore != null && s.afterAuditScore != null && (
+          <ScoreBar before={s.beforeAuditScore} after={s.afterAuditScore} />
+        )}
 
         {(() => {
           const details = parseAuditDetails(s.auditDetails);
