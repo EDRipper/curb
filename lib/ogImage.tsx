@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { loadGeistFont } from "./geistFont";
+import { SITE_URL } from "./site";
 
 export const ogImageSize = { width: 1200, height: 630 };
 export const ogImageContentType = "image/png";
@@ -60,7 +61,7 @@ export async function renderOgImage() {
             marginTop: 32,
           }}
         >
-          curb-theta.vercel.app
+          {SITE_URL.replace("https://", "")}
         </div>
       </div>
     ),

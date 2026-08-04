@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,14 +18,14 @@ const description =
   "A Hack Club YSWS: fix real web accessibility issues, prove the improvement with an automated audit score delta, get assistive/adaptive tech gear.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://curb-theta.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title,
   description,
   openGraph: {
     title,
     description,
     type: "website",
-    url: "https://curb-theta.vercel.app",
+    url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
