@@ -11,6 +11,13 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+const STATUS_STYLE: Record<string, string> = {
+  submitted: "bg-zinc-100 text-zinc-700",
+  approved: "bg-green-100 text-green-800",
+  needs_changes: "bg-amber-100 text-amber-800",
+  rejected: "bg-red-100 text-red-800",
+};
+
 export default async function Dashboard() {
   const session = await getSession();
 
@@ -101,7 +108,11 @@ export default async function Dashboard() {
                   >
                     {s.afterUrl}
                   </a>
-                  <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-700">
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
+                      STATUS_STYLE[s.status] ?? "bg-zinc-100 text-zinc-700"
+                    }`}
+                  >
                     {s.status}
                   </span>
                 </div>
@@ -110,6 +121,14 @@ export default async function Dashboard() {
                   {s.hoursClaimed}h claimed &middot; submitted{" "}
                   {s.createdAt.toISOString().slice(0, 10)}
                 </p>
+
+                {s.reviewedAt && (
+                  <p className="mt-2 rounded bg-zinc-50 p-2 text-xs text-zinc-600">
+                    reviewed by {s.reviewedBy} &middot;{" "}
+                    {s.reviewedAt.toISOString().slice(0, 10)}
+                    {s.reviewNote && <> &mdash; &quot;{s.reviewNote}&quot;</>}
+                  </p>
+                )}
 
                 <div className="mt-3 border-t border-zinc-100 pt-3">
                   {s.auditedAt && s.auditError && (
