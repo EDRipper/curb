@@ -13,7 +13,7 @@ export default function ReviewActions({ submissionId }: { submissionId: string }
         aria-label="review note (optional)"
         placeholder="note (optional)"
         disabled={pending}
-        className="min-w-0 flex-1 rounded-md border border-zinc-300 px-3 py-1.5 text-sm disabled:opacity-50"
+        className="w-full rounded-md border border-zinc-300 px-3 py-1.5 text-sm disabled:opacity-50 sm:min-w-0 sm:flex-1"
       />
       <button
         formAction={reviewSubmission.bind(null, submissionId, "approved")}
