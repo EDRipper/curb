@@ -609,10 +609,17 @@ the approve/reject buttons next to it (which had already been passing).
 rebuilt, re-ran the identical authenticated audit against the fix: both
 `/dashboard` and `/review` now come back completely clean.
 
-worth being honest about scope: this was one session with one reviewer
-account and one submission, not exhaustive - it's entirely possible
-there's more to find with different data shapes (long descriptions,
-many submissions, every status value, the cross-user duplicate banner,
-etc). the technique itself is the real unlock here; whether to spend
-more of this loop's remaining ticks running deeper authenticated sweeps
-versus other work is a judgment call for whoever's steering next.
+update: went back and closed that scope gap in the same tick rather than
+leaving it open. added a second submitter, a cross-user duplicate (same
+diffUrl as the first submitter's pull/1, to actually trigger the
+"possible credit dispute" banner instead of just trusting the code
+path), a rejected submission with a review note, and a needs_changes
+submission with a review note - then re-ran the authenticated audit
+against all of it at once. still completely clean, and confirmed by
+reading the actual rendered text (not just "0 violations", which could
+mean a broken render nothing was checking) that every one of those
+states genuinely rendered: the credit-dispute banner text, both review
+notes, the status badges, "0h approved so far". this was a real,
+substantially richer sweep, not just the original one-reviewer/
+one-submission case - genuinely good confidence now, not just the
+technique being proven.
