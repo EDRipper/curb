@@ -2,22 +2,26 @@ import Link from "next/link";
 import { REWARD_CATALOG } from "@/lib/rewards";
 import { CurbCutIcon } from "./CurbCutIcon";
 import { RewardIcon } from "./RewardIcon";
+import { StepIcon } from "./StepIcon";
 
 const REWARD_ICON_ORDER = ["switch", "braille", "keyboard", "magnifier"] as const;
 
 const steps = [
   {
     n: "01",
+    icon: "pick" as const,
     title: "Pick a real site",
     body: "Yours, an open source project, or a local business/nonprofit that would actually benefit. No throwaway demo pages.",
   },
   {
     n: "02",
+    icon: "fix" as const,
     title: "Fix real accessibility issues",
     body: "Keyboard navigation, contrast, alt text, ARIA, focus order, screen reader flow — whatever the site is actually missing. Any stack.",
   },
   {
     n: "03",
+    icon: "proof" as const,
     title: "Submit before/after proof",
     body: "We run an automated accessibility audit against both versions and score the delta. The number is the proof, not a screenshot.",
   },
@@ -94,8 +98,11 @@ export default function Home() {
             <div className="mt-8 grid gap-10 sm:grid-cols-3">
               {steps.map((s) => (
                 <div key={s.n}>
-                  <div className="text-sm font-bold text-zinc-600">{s.n}</div>
-                  <h3 className="mt-2 text-lg font-semibold text-zinc-900">
+                  <div className="flex items-center gap-3">
+                    <StepIcon kind={s.icon} />
+                    <div className="text-sm font-bold text-zinc-400">{s.n}</div>
+                  </div>
+                  <h3 className="mt-3 text-lg font-semibold text-zinc-900">
                     {s.title}
                   </h3>
                   <p className="mt-2 text-sm leading-6 text-zinc-600">
