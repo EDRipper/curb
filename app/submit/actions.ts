@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { assertSafeCrawlUrl } from "@/lib/urlSafety";
 
 export type SubmitFormState = { error: string } | undefined;
 
@@ -14,6 +15,14 @@ function requireUrl(value: FormDataEntryValue | null, field: string): string {
   } catch {
     throw new Error(`${field} must be a valid url`);
   }
+  return str;
+}
+
+// before/after urls get crawled server-side by the audit pipeline, so they
+// need the stricter check (no local/internal addresses) on top of requireUrl.
+function requireCrawlUrl(value: FormDataEntryValue | null, field: string): string {
+  const str = requireUrl(value, field);
+  assertSafeCrawlUrl(str, field);
   return str;
 }
 
@@ -43,8 +52,8 @@ export async function createSubmission(
   const hoursClaimed = Number(formData.get("hoursClaimed"));
 
   try {
-    beforeUrl = requireUrl(formData.get("beforeUrl"), "before url");
-    afterUrl = requireUrl(formData.get("afterUrl"), "after url");
+    beforeUrl = requireCrawlUrl(formData.get("beforeUrl"), "before url");
+    afterUrl = requireCrawlUrl(formData.get("afterUrl"), "after url");
     diffUrl = requireUrl(formData.get("diffUrl"), "diff/PR url");
     beforeScreenshotUrl = optionalUrl(formData.get("beforeScreenshotUrl"), "before screenshot url");
     afterScreenshotUrl = optionalUrl(formData.get("afterScreenshotUrl"), "after screenshot url");

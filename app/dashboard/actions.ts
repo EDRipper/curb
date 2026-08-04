@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { auditPair } from "@/lib/accessibilityAudit";
+import { assertSafeCrawlUrl } from "@/lib/urlSafety";
 
 export async function runAudit(submissionId: string) {
   const session = await getSession();
@@ -18,6 +19,11 @@ export async function runAudit(submissionId: string) {
   }
 
   try {
+    // defense in depth: submit/actions.ts already checks this at write time,
+    // but re-check here too in case a row predates that check.
+    assertSafeCrawlUrl(submission.beforeUrl, "before url");
+    assertSafeCrawlUrl(submission.afterUrl, "after url");
+
     const { before, after } = await auditPair(submission.beforeUrl, submission.afterUrl);
 
     await db.submission.update({
