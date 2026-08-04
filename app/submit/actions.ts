@@ -67,6 +67,9 @@ export async function createSubmission(
   if (!Number.isFinite(hoursClaimed) || hoursClaimed <= 0) {
     return { error: "hours claimed must be a positive number" };
   }
+  if (beforeUrl === afterUrl) {
+    return { error: "before url and after url can't be the same" };
+  }
 
   // the review queue has no pagination or per-user filtering - it just
   // lists every submission. nothing stopped one account from flooding it
