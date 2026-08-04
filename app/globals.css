@@ -23,6 +23,11 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
+::selection {
+  background: #ffcf3f;
+  color: #18181b;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
