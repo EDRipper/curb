@@ -28,15 +28,19 @@ subjective quality read.
 
 ## status
 
-early build, in progress. see [ROADMAP.md](./ROADMAP.md) for the current
-build plan and what's landed so far.
+core flow is live and working: sign-in, submission, the automated audit
+pipeline, reviewer approval, and hours-to-reward tracking. see
+[ROADMAP.md](./ROADMAP.md) for what's landed and what's still open (a
+couple of items need Euan directly - a permanent database and promoting
+the Hack Club Auth app past `community_untrusted`).
 
 ## stack
 
 - Next.js (App Router) + TypeScript + Tailwind
 - Hack Club Auth (`auth.hackclub.com`) for sign-in
 - Postgres + Prisma for submissions
-- headless axe-core/Lighthouse for the accessibility scoring pipeline
+- headless Chromium (puppeteer-core + `@sparticuz/chromium`) running
+  axe-core for the accessibility scoring pipeline
 - deployed on Vercel
 
 ## local dev
@@ -45,3 +49,10 @@ build plan and what's landed so far.
 npm install
 npm run dev
 ```
+
+needs a `.env` with:
+
+- `DATABASE_URL` — postgres connection string
+- `HCA_CLIENT_ID`, `HCA_CLIENT_SECRET`, `HCA_REDIRECT_URI` — from a
+  registered [Hack Club Auth](https://auth.hackclub.com) oauth app
+- `SESSION_SECRET` — any random string, used to sign the session cookie
