@@ -1842,3 +1842,20 @@ verified nothing changed behaviorally, not just that it typechecks:
 re-checked `/robots.txt`, `/sitemap.xml`, and the rendered og image
 after the refactor - identical output to before in every case.
 self-audit still 100/100.
+
+## a real 512px icon for pwa quality
+
+the manifest (added at tick 34) only listed a 32x32 and a 180x180
+icon - android's add-to-home-screen/app-drawer treatments generally
+want 192px and 512px icons, and would've had to upscale the tiny 32px
+favicon into a blurry mess with nothing bigger available. added
+`app/icon-512/route.ts` - a plain route handler, deliberately not
+using the special `icon.tsx` naming convention since this shouldn't
+also become a second favicon `<link>` tag, it only needs to exist for
+the manifest to point at. reuses the same `renderAppIcon` helper (and
+its tick-48 font fix) as the existing icons, generated at full 512px
+resolution rather than upscaled from the small one.
+
+verified: `/icon-512` returns 200 image/png, the actual rendered icon
+is crisp with no pixelation, and the served manifest now correctly
+lists all 3 icon sizes. self-audit still 100/100.
