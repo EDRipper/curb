@@ -523,3 +523,21 @@ still hiding action buttons. no regressions.
   description. verified live: correctly shows "0h approved so far" for
   the bot's own rows, which is accurate (every bot submission is test
   data that's been rejected or never audited, never approved).
+
+## verification: no contrast regression from recent additions
+
+the last several ticks added a lot of new `text-zinc-500` usage to
+`/review` and the dashboard (slack link, "Xh approved so far", audit
+violation summaries) - and tick 10's contrast fix specifically
+established that `zinc-400` fails wcag aa on this app's backgrounds and
+`zinc-600` was the safe replacement. that raised a real question: does
+`zinc-500` - a shade in between, never explicitly measured - actually
+pass? couldn't test `/review` or the dashboard directly (both need a
+real session, still no way to run axe against an authenticated page
+this session), but the same `text-zinc-500` pattern already exists on
+`/submit` and the homepage, both of which share the same white/cream
+background family. re-ran the full axe sweep fresh against all three
+public pages right now rather than trusting the old tick-10/21 results:
+all still come back completely clean. no regression - `zinc-500` is
+fine on this background, tick-10's finding was specifically about
+`zinc-400`, not the whole 400-600 range.
