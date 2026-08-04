@@ -376,3 +376,18 @@ the last several ticks is still working together, not just in isolation.
   `og:image`/`twitter:image` actually emit with correct urls, then
   re-checked the rendered image on the live deploy after confirming it
   shipped.
+- **partial, not fully done**: `app/favicon.ico` is still the literal
+  default vercel/next.js starter icon (a black-and-white triangle in a
+  circle) - nothing to do with curb. added `app/icon.tsx` generating a
+  real branded one (dark square, yellow "c"), and confirmed both it and
+  the old favicon.ico now emit as `<link rel="icon">` tags, so most
+  modern consumers (browser tabs, search engines, social platforms, pwa
+  installs) should pick up the new one. but `app/favicon.ico` is still
+  sitting there as an actual file, and plenty of tools fetch
+  `/favicon.ico` directly as a hardcoded fallback regardless of what the
+  `<link>` tags say - so the wrong icon can still surface in some
+  contexts until that file is actually deleted. tried `rm` for this
+  specifically and it's still not landing unattended (same pattern as
+  every other rm attempt logged in this file) - this needs euan (or a
+  future session with a live approver) to actually remove
+  `app/favicon.ico`.
