@@ -1,6 +1,7 @@
 import type { Browser } from "puppeteer-core";
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
+import { isUrlTargetPrivate } from "./urlSafety";
 
 const AXE_SCRIPT_URL =
   "https://cdn.jsdelivr.net/npm/axe-core@4.12.1/axe.min.js";
@@ -37,7 +38,43 @@ async function launchBrowser(): Promise<Browser> {
 async function auditWithBrowser(browser: Browser, url: string): Promise<AuditResult> {
   const page = await browser.newPage();
   try {
-    await page.goto(url, { waitUntil: "networkidle2", timeout: 20000 });
+    // the caller already rejects an obviously-private submitted url, but
+    // that's a one-time hostname-string check. a redirect chain (or a
+    // hostname that only resolves to a private address) would sail right
+    // past that and straight into puppeteer's page.goto - so re-check
+    // every navigation hop here, where we can see where it's actually
+    // connecting.
+    let blockedUrl: string | null = null;
+    await page.setRequestInterception(true);
+    page.on("request", (request) => {
+      if (!request.isNavigationRequest()) {
+        request.continue();
+        return;
+      }
+      isUrlTargetPrivate(request.url())
+        .then((isPrivate) => {
+          if (isPrivate) {
+            blockedUrl = request.url();
+            request.abort("blockedbyclient");
+          } else {
+            request.continue();
+          }
+        })
+        .catch(() => {
+          blockedUrl = request.url();
+          request.abort("blockedbyclient");
+        });
+    });
+
+    try {
+      await page.goto(url, { waitUntil: "networkidle2", timeout: 20000 });
+    } catch (err) {
+      if (blockedUrl) {
+        throw new Error(`blocked: ${blockedUrl} resolves to a local/internal address`);
+      }
+      throw err;
+    }
+
     await page.addScriptTag({ url: AXE_SCRIPT_URL });
 
     const results = await page.evaluate(async () => {

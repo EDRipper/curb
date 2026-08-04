@@ -1,3 +1,5 @@
+import dns from "node:dns/promises";
+
 const PRIVATE_IPV4_RANGES: [number, number][] = [
   [ipToInt("0.0.0.0"), ipToInt("0.255.255.255")],
   [ipToInt("10.0.0.0"), ipToInt("10.255.255.255")],
@@ -56,12 +58,26 @@ function isPrivateIpv6(host: string): boolean {
   );
 }
 
+function isLocalHostname(host: string): boolean {
+  return host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local");
+}
+
+export function isPrivateIpLiteral(raw: string): boolean {
+  const host = raw.replace(/^\[|\]$/g, "").toLowerCase();
+  if (isIpv4Literal(host)) return isPrivateIpv4(host);
+  if (host.includes(":")) return isPrivateIpv6(host);
+  return false;
+}
+
 /**
  * Rejects schemes/hosts that would let a submitted url reach internal
  * infra or the local filesystem when crawled server-side by puppeteer.
- * Not DNS-rebinding-proof (that needs a resolve-then-check at connect
- * time), but closes the obvious direct-IP/localhost/non-http attack
- * surface a submitter can hit by just typing a url into the form.
+ * This is a synchronous, hostname-only check (no DNS lookup) meant as an
+ * immediate, friendly gate at submission time - it doesn't catch a
+ * hostname that only resolves to a private address, or a redirect chain
+ * that lands on one. lib/accessibilityAudit.ts is the layer that actually
+ * enforces safety at crawl time, since that's the only place a check can
+ * see the real resolved address for every hop.
  */
 export function assertSafeCrawlUrl(raw: string, field: string): void {
   let url: URL;
@@ -77,15 +93,38 @@ export function assertSafeCrawlUrl(raw: string, field: string): void {
 
   const host = url.hostname.toLowerCase();
 
-  if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local")) {
+  if (isLocalHostname(host) || isPrivateIpLiteral(host)) {
     throw new Error(`${field} can't point at a local/internal address`);
   }
+}
 
-  if (isIpv4Literal(host) && isPrivateIpv4(host)) {
-    throw new Error(`${field} can't point at a local/internal address`);
+/**
+ * Async, DNS-resolving check for use right before a request actually goes
+ * out (puppeteer request interception). Resolves the hostname and checks
+ * every returned address, so unlike assertSafeCrawlUrl above this catches
+ * a hostname that merely resolves to a private address - including on a
+ * redirect hop, since this gets called per-navigation-request, not just
+ * once on the originally submitted url. Still has a TOCTOU window between
+ * this lookup and chrome's own connect (full DNS-rebinding-proofing needs
+ * pinning the resolved ip for the actual connection), but closes off the
+ * practical case: an attacker-controlled server 302-redirecting somewhere
+ * internal, which doesn't need any DNS trickery at all.
+ */
+export async function isUrlTargetPrivate(raw: string): Promise<boolean> {
+  let host: string;
+  try {
+    host = new URL(raw).hostname.toLowerCase();
+  } catch {
+    return true;
   }
 
-  if (host.includes(":") && isPrivateIpv6(host)) {
-    throw new Error(`${field} can't point at a local/internal address`);
+  if (isLocalHostname(host)) return true;
+  if (isPrivateIpLiteral(host)) return true;
+
+  try {
+    const records = await dns.lookup(host, { all: true, verbatim: true });
+    return records.some((r) => isPrivateIpLiteral(r.address));
+  } catch {
+    return true;
   }
 }
