@@ -43,7 +43,7 @@ export default function Home() {
         skip to content
       </a>
       <header className="mx-auto flex max-w-4xl items-center justify-between px-6 py-6">
-        <span className="text-lg font-bold tracking-tight">curb</span>
+        <span className="font-display text-lg font-bold tracking-tight">curb</span>
         <nav aria-label="primary" className="flex items-center gap-6 text-sm font-medium text-zinc-600">
           <Link href="/submit" className="hover:text-zinc-900">
             submit
@@ -71,7 +71,7 @@ export default function Home() {
           <p className="fade-up mb-4 inline-block rounded-full bg-[#ffcf3f] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-900">
             a hack club YSWS
           </p>
-          <h1 className="fade-up max-w-2xl text-5xl font-bold leading-[1.05] tracking-tight text-zinc-900 [animation-delay:80ms]">
+          <h1 className="fade-up font-display max-w-2xl text-5xl font-bold leading-[1.05] tracking-tight text-zinc-900 [animation-delay:80ms]">
             Ship an accessibility fix. Prove it with numbers.
           </h1>
           <p className="fade-up mt-6 max-w-xl text-lg leading-7 text-zinc-600 [animation-delay:160ms]">
@@ -186,7 +186,7 @@ export default function Home() {
       <footer className="border-t border-zinc-200">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
-            <span className="text-sm font-bold tracking-tight text-zinc-900">curb</span>
+            <span className="font-display text-sm font-bold tracking-tight text-zinc-900">curb</span>
             <p className="mt-1 text-xs text-zinc-500">
               built by hack club. a work in progress, built in the open.
             </p>

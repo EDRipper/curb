@@ -50,7 +50,7 @@ export default async function Dashboard({
 
   return (
     <main className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
-      <Link href="/" className="text-lg font-bold tracking-tight hover:text-zinc-600">
+      <Link href="/" className="font-display text-lg font-bold tracking-tight hover:text-zinc-600">
         curb
       </Link>
 

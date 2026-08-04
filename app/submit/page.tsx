@@ -15,7 +15,7 @@ export default async function Submit() {
   return (
     <div className="dot-grid-bg min-h-screen bg-[#fdfaf3] text-zinc-900">
       <header className="mx-auto max-w-2xl px-6 pt-6">
-        <Link href="/" className="text-lg font-bold tracking-tight">
+        <Link href="/" className="font-display text-lg font-bold tracking-tight">
           curb
         </Link>
       </header>

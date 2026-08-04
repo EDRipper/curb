@@ -249,7 +249,7 @@ export default async function Review() {
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-16 text-zinc-900">
       <div className="flex items-center justify-between">
-        <Link href="/" className="text-lg font-bold tracking-tight hover:text-zinc-600">
+        <Link href="/" className="font-display text-lg font-bold tracking-tight hover:text-zinc-600">
           curb
         </Link>
         <Link href="/dashboard" className="text-sm text-zinc-500 hover:text-zinc-900">

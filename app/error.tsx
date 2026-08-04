@@ -18,7 +18,7 @@ export default function Error({
   return (
     <div className="dot-grid-bg flex min-h-screen flex-col bg-[#fdfaf3] text-zinc-900">
       <header className="mx-auto w-full max-w-2xl px-6 pt-6">
-        <Link href="/" className="text-lg font-bold tracking-tight">
+        <Link href="/" className="font-display text-lg font-bold tracking-tight">
           curb
         </Link>
       </header>
