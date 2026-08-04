@@ -2013,3 +2013,30 @@ verified by screenshotting three widths - 375px, 640px, 1280px - all
 render correctly with no horizontal overflow (checked via
 `scrollWidth > clientWidth`, not just eyeballing). self-audit still
 100/100, typecheck clean.
+
+## a real focus ring instead of the browser default
+
+grepped the whole codebase for `focus-visible`/`focus:ring`/custom
+outline handling - nothing. every link, button, and the skip-to-content
+anchor was relying entirely on chrome's default thin auto outline.
+for a product whose entire pitch is "we fix accessibility issues,"
+shipping the least-designed possible focus indicator is a bad look
+and arguably a real usability miss for keyboard users, not just a
+polish nit.
+
+added a global `:focus-visible` rule in `globals.css`: a black ring
+tight to the element, then a yellow ring outside it (same
+high-contrast double-ring approach gov.uk's design system uses,
+picked because it's a well-established reference for visible focus
+states, and it uses the site's existing accent yellow instead of
+introducing a new color).
+
+verification took two passes - the first attempt looked broken
+(computed `box-shadow` read as fully transparent, no ring in the
+screenshot) until realizing the button's `transition-all` utility
+transitions `box-shadow` too, so reading state immediately after the
+tab keypress caught it mid-transition at frame zero. added a short
+wait after tabbing and re-checked: computed box-shadow correctly
+resolves to the black+yellow values, confirmed by screenshot on both
+a primary button and the skip-to-content link. self-audit still
+100/100 on `/` and `/submit`, typecheck clean.
