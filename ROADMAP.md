@@ -120,3 +120,18 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   math: zinc-600 gives ~7.7:1 against these backgrounds vs zinc-400's
   ~2.6:1). re-ran the live audit after deploy: 100/100. an
   accessibility-focused site should pass its own bar.
+- closed an SSRF hole: before/after urls get crawled server-side by a real
+  headless browser (that's the whole point of the audit), and the only
+  validation was "is this a syntactically valid url" — any signed-in hack
+  club user could point it at `169.254.169.254` (cloud metadata),
+  `127.0.0.1`, an rfc1918 address, or a `file://` path and have curb's own
+  server fetch it for them. added `lib/urlSafety.ts`, enforced at
+  submission time and again right before each audit run. verified live:
+  submitted `http://169.254.169.254/...` as a before url pre-fix and it
+  was accepted (that row is still in the db, status `submitted`, never
+  audited — the url was only ever stored as text, puppeteer never
+  actually visited it); re-tested `http://127.0.0.1:1/...` post-deploy and
+  it was correctly rejected with "before url can't point at a
+  local/internal address". the pre-fix test row is harmless clutter, not
+  a live risk, cleanup needs an `rm`-level approval that isn't landing
+  unattended.
