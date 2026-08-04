@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "app/dashboard/page.tsx": {
+      "includeFiles": "node_modules/@sparticuz/chromium/bin/**"
+    }
+  }
+}
