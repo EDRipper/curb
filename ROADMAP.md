@@ -1048,3 +1048,26 @@ names are present in the rendered dom and (2) the corresponding rule
 compiles into the served css - both verified this tick - plus the
 non-hover static appearance, which should always still be screenshot-
 checked for regressions since that part IS observable.
+
+## fixed the social share image, which had apparently never been looked at
+
+rendered `/opengraph-image` (shared by both opengraph-image.tsx and
+twitter-image.tsx via `lib/ogImage.tsx`'s `renderOgImage()`) and
+screenshotted it for the first time - this is the image that shows up
+when the site link gets shared on slack/twitter/imessage, and nothing
+in the commit history suggested it had ever actually been rendered
+and looked at rather than just trusted from reading the jsx.
+
+found a real bug: the "a hack club ysws" badge rendered as a wide bar
+stretching the full 1200px image width instead of a compact pill,
+because the flex column parent's default `align-items: stretch`
+stretched the badge div to match the container - the real site's
+badge never has this problem because it's `inline-block`, not a flex
+child. fixed with `alignSelf: 'flex-start'`. re-rendered after: proper
+compact rounded pill, matching the real site's badge.
+
+noted but left alone: the headline shows a slightly wide gap before
+"fix." right at the line-wrap point. confirmed no double space in the
+source (`cat -A`), so it reads as a satori/next-og text-shaping quirk
+tied to this local render rather than a structural bug - worth a
+second look if it shows up on the actual deployed image too.
