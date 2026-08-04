@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getRewardStatus } from "@/lib/rewards";
+import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
 import { runAudit } from "./actions";
 import AuditButton from "./AuditButton";
 
@@ -159,6 +160,17 @@ export default async function Dashboard() {
                       <AuditButton isRetry={Boolean(s.auditError)} />
                     </form>
                   )}
+
+                  {(() => {
+                    const details = parseAuditDetails(s.auditDetails);
+                    if (!details) return null;
+                    return (
+                      <div className="mt-1 grid gap-0.5 text-xs text-zinc-500">
+                        <p>before: {summarizeViolations(details.before)}</p>
+                        <p>after: {summarizeViolations(details.after)}</p>
+                      </div>
+                    );
+                  })()}
                 </div>
               </li>
             );

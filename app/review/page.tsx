@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
 import ReviewActions from "./ReviewActions";
 
 export const dynamic = "force-dynamic";
@@ -170,6 +171,17 @@ export default async function Review() {
           {!s.auditedAt && <> &middot; not audited yet</>}
           {s.auditError && <> &middot; audit failed</>}
         </p>
+
+        {(() => {
+          const details = parseAuditDetails(s.auditDetails);
+          if (!details) return null;
+          return (
+            <div className="mt-1 grid gap-0.5 text-xs text-zinc-500">
+              <p>before: {summarizeViolations(details.before)}</p>
+              <p>after: {summarizeViolations(details.after)}</p>
+            </div>
+          );
+        })()}
 
         {s.reviewedAt && (
           <p className="mt-2 rounded bg-zinc-50 p-2 text-xs text-zinc-600">
