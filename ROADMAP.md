@@ -279,3 +279,19 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   break every submission query in production the moment it deployed.
   noting this as a real gap for whenever db migration access is
   available again, not implementing it blind.
+- added a 30s per-user cooldown on submission creation. the review queue
+  has no pagination or per-user filtering (it just lists everything
+  chronologically), so nothing stopped one account from flooding it with
+  junk entries and degrading the queue for every reviewer, not just that
+  user. no schema change needed, reuses `createdAt`. verified live: two
+  submissions in a row, the second was correctly rejected with "you just
+  submitted one, wait a bit before submitting another".
+
+  side effect worth noting, not a bug: since the bot's own account is
+  both a submitter (all the leftover test rows) and a reviewer, last
+  tick's self-review guard now means the bot can't reject its own
+  remaining test rows anymore - `/review` correctly shows "this is your
+  own submission" for all of them instead of action buttons. they're
+  harmless (clearly labeled test data, several already rejected earlier)
+  but will need euan's account (the only other reviewer) to actually
+  clear the couple that are still sitting as `submitted`.
