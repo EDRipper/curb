@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getRewardStatus } from "@/lib/rewards";
 import { runAudit } from "./actions";
 
 export const maxDuration = 60;
@@ -20,6 +21,11 @@ export default async function Dashboard() {
     }),
     db.user.findUnique({ where: { id: session.userId } }),
   ]);
+
+  const approvedHours = submissions
+    .filter((s) => s.status === "approved")
+    .reduce((sum, s) => sum + s.hoursClaimed, 0);
+  const reward = getRewardStatus(approvedHours);
 
   return (
     <div className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
@@ -45,6 +51,25 @@ export default async function Dashboard() {
         <a href="/logout" className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-100">
           sign out
         </a>
+      </div>
+
+      <div className="mt-8 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+        <p className="text-sm font-semibold">
+          {approvedHours}h approved
+          {reward.currentTier && (
+            <> &middot; earned: {reward.currentTier.item}</>
+          )}
+        </p>
+        {reward.nextTier ? (
+          <p className="mt-1 text-xs text-zinc-500">
+            {reward.hoursToNextTier}h more to unlock {reward.nextTier.item} (
+            {reward.nextTier.hours}h)
+          </p>
+        ) : (
+          <p className="mt-1 text-xs text-zinc-500">
+            top reward tier unlocked
+          </p>
+        )}
       </div>
 
       <h2 className="mt-10 text-sm font-semibold uppercase tracking-wide text-zinc-500">

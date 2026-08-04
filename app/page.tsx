@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { REWARD_CATALOG } from "@/lib/rewards";
 
 const steps = [
   {
@@ -18,12 +19,10 @@ const steps = [
   },
 ];
 
-const rewards = [
-  { hours: "5h", item: "adaptive switch + adapter kit" },
-  { hours: "15h", item: "braille label maker" },
-  { hours: "30h", item: "ergonomic split keyboard" },
-  { hours: "50h+", item: "screen magnifier / CCTV reader" },
-];
+const rewards = REWARD_CATALOG.map((tier, i) => ({
+  hours: i === REWARD_CATALOG.length - 1 ? `${tier.hours}h+` : `${tier.hours}h`,
+  item: tier.item,
+}));
 
 export default function Home() {
   return (
@@ -119,9 +118,10 @@ export default function Home() {
               ))}
             </div>
             <p className="mt-4 text-xs text-zinc-500">
-              hours are tracked via hackatime and capped against the
-              measured audit score delta. exact catalog is still being
-              tuned — this program is in early build.
+              hours are self-claimed at submission and confirmed by a human
+              reviewer, who sees your before/after audit score delta
+              alongside the claim. rewards unlock once your total approved
+              hours cross a tier. this program is in early build.
             </p>
           </div>
         </section>
