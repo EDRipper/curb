@@ -1418,3 +1418,30 @@ instead of compressing. verified both ends: 320px now shows clean
 full-width single-line buttons stacked, and 1280px desktop is
 unchanged (still side by side, same as every prior screenshot this
 session).
+
+## a real gap in the tick-23 self-audit, and the bug it was hiding
+
+checked 320px on `/submit`, the 404 page, `login-error`, and the
+error boundary too - all clean, no overflow, no regressions like the
+hero buttons had.
+
+then noticed something: tick 23's site-wide self-audit claimed
+`/submit` scored 100/100, but `/submit` only renders the real
+`SubmitForm` when signed in - that audit ran against the signed-out
+"sign in to submit" prompt, so the actual form fields (the part
+someone spends the most time looking at) were never covered at all.
+rendered `SubmitForm` directly via a throwaway preview route (no auth
+needed, it's just the client component) and audited it for real: 94/100,
+one violation. the "PROOF (optional)" section header's "(optional)"
+suffix (added in the tick-20 restructure) was `text-zinc-400` on cream,
+2.51:1 against a 4.5:1 minimum - the exact same mistake pattern as the
+tick-18 step-number bug, a too-light zinc picked for de-emphasis
+without checking contrast. fixed to `text-zinc-500`, re-audited: 100/100.
+
+re-swept every other page too, but being precise about what that
+actually proved: dashboard/review currently render `error.tsx` instead
+of their real content, since the temp db outage means their data
+queries throw - so that "100/100" re-confirms error.tsx's already-known
+cleanliness, not a fresh check of the real authenticated pages. noting
+this explicitly rather than letting a passing score imply more
+coverage than there actually was.
