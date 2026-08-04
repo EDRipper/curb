@@ -423,3 +423,18 @@ the last several ticks is still working together, not just in isolation.
   own test data, so there's no second real user to trigger it against.
   confirmed live that the existing same-user case still renders
   correctly and nothing broke.
+
+## checkpoint: second full regression pass (tick 34)
+
+9 ticks since the last one (see the tick-25 checkpoint above), and a lot
+landed in between - review queue restructuring, cross-user dedup,
+favicon, og image, error boundary, both pending-state fixes. did a
+fresh walkthrough instead of trusting it all still fits together: signed
+out, back in through the real oauth flow, hit real client-side
+validation by submitting with a required field empty (confirmed it
+actually blocks instead of silently failing), submitted a real test
+entry, watched the new audit pending state render correctly, ran it to
+completion (92 -> 92), then checked `/review` - "needs review (2)" /
+"already reviewed (4)" grouping correct, the same-user duplicate banner
+still correct with the new submission counted in, self-review guard
+still hiding action buttons. no regressions.
