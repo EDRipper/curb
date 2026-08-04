@@ -72,16 +72,16 @@ export default function Home() {
             curb cut effect: fixes built for accessibility end up helping
             everyone.
           </p>
-          <div className="fade-up mt-8 flex gap-3 [animation-delay:240ms]">
+          <div className="fade-up mt-8 flex flex-wrap gap-3 [animation-delay:240ms]">
             <Link
               href="/login"
-              className="rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg"
+              className="whitespace-nowrap rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg"
             >
               sign in with hack club
             </Link>
             <a
               href="#how"
-              className="rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-700 transition-all hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-md"
+              className="whitespace-nowrap rounded-md border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-700 transition-all hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-md"
             >
               how it works
             </a>
