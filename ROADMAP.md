@@ -1191,3 +1191,16 @@ edge case. also a free re-confirmation of the StatusBadge icon work -
 the new submission correctly showed the "submitted" clock glyph while
 pending, then swapped to the "approved" check glyph after the real
 approve click, all through actual data, not a preview route.
+
+## a real navigation gap: no way back to the homepage once signed in
+
+neither `/dashboard` nor `/review` had any link back to `/` - the only
+way out once signed in was clicking sign-out or manually editing the
+url. a genuine ux bug, not just missing polish. added a "curb"
+wordmark link (matching the landing page header's style) to the top
+of both pages, plus a "dashboard ->" link on the review queue since
+reviewers are frequently submitters too and want a quick way back.
+
+verified against both real signed-in pages: wordmark and dashboard
+link render cleanly at the top with proper spacing before the
+existing heading, no overlap.
