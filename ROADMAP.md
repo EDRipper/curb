@@ -1355,3 +1355,31 @@ also shipped a small real fix while investigating: the hours-claimed
 input had no unit suffix. added a visual "h" inside the field,
 verified with a real typed value that it doesn't collide with the
 native number-input spinner arrows.
+
+## the temp database's credentials are dead
+
+gave the dashboard's "audit failed: {error}" message the same
+warning-icon treatment every other error state on the site already
+has (error.tsx, login-error, the review queue's credit-dispute
+banner) - was plain red text, no icon, no background.
+
+tried to verify it against a REAL audit failure (submit a fix with an
+unresolvable domain, run the audit, watch it fail for real) instead of
+just a preview route. hit something much bigger in the process: the
+temp postgres db (`db.prisma.io`, the one set up in `.env.local` back
+at tick 12) is genuinely unreachable now - "Failed to identify your
+database: Your Postgres credentials are incorrect", reproduced twice
+via direct `psql` (not just the app's prisma client), from two
+different resolved ips, so it's not a transient network blip.
+
+this matters beyond my own local testing: `.env.dev-temp` (present in
+the repo before this session started) has this exact same connection
+string, strongly suggesting it's the same value set as `DATABASE_URL`
+on vercel for the actual production deployment. if so, the live
+site's sign-in/dashboard/submit/review are likely broken for real
+users right now too, not just blocked for me locally. flagging this
+clearly rather than working around it - per instructions this loop
+doesn't touch the temp db setup itself, that's euan's call. verified
+this tick's actual code change (the warning-icon styling) via a
+throwaway preview route instead, since real data access isn't
+possible until the db issue is resolved.
