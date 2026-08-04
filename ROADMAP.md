@@ -1803,3 +1803,26 @@ geist sans extrabold "c", `favicon.ico` still returns 200 with a valid
 embedded png matching the updated icon, the og image (now using the
 shared helper) still renders correctly with no regression, and the
 self-audit is still 100/100.
+
+## alignment checks (clean), then robots.txt/sitemap.xml
+
+temp db still dead. measured icon-to-number and icon-to-heading
+vertical alignment across all 4 reward cards and all 3 how-it-works
+steps precisely rather than eyeballing - perfectly identical positions
+across every card/column in both cases, no drift. checked zoom-out
+behavior too (50%, the opposite direction from tick 37's 200% check) -
+clean, no overflow, scales proportionally.
+
+no fresh visual bug turned up after all that, so looked at what else
+was missing entirely, same category as the manifest gap fixed at
+tick 34: neither `robots.txt` nor `sitemap.xml` existed - search
+engines had no guidance on what to crawl. added `app/robots.ts`
+(allows the public marketing content, disallows `/dashboard` and
+`/review` since they're auth-only with nothing to show a crawler but a
+login redirect, plus the pure-redirect `/login`/`/logout` routes, the
+disabled debug api route, and the error-state `/login-error` page) and
+`app/sitemap.ts` listing just the two real public pages.
+
+verified both serve correctly: `/robots.txt` returns the exact
+intended allow/disallow rules as plain text, `/sitemap.xml` returns
+valid sitemap xml with both real urls. self-audit still 100/100.
