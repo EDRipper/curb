@@ -772,3 +772,22 @@ hero cta buttons, replacing the flat color-swap-only hover state.
 verified in a real browser screenshot against local dev: renders
 clean, no overlap with the heading/body copy, matches the site's
 minimal line-art style.
+
+## made the cream brand background site-wide, not landing-only
+
+every page except the landing page (`dashboard`, `submit`, `review`,
+`error`, `not-found`, `login-error`) rendered on plain white with none
+of the landing page's cream+yellow identity - the whole logged-in app
+felt like a generic admin panel bolted onto a nicer marketing page.
+
+first pass added `bg-[#fdfaf3]` directly to each page's
+max-w-constrained `<main>`. a real browser screenshot caught that this
+only colors a narrow centered column on short pages (404,
+login-error), leaving the rest of the viewport white - looked like a
+cream card floating in a white sea instead of a consistent page.
+fixed properly by moving the cream color into `globals.css`'s
+`--background` css var, so `body` carries it everywhere by default and
+no page needs its own background class. re-verified all three
+previously-broken cases (landing, `/submit`, the 404 page) in the
+browser: cream now fills the full viewport edge-to-edge on every one,
+text contrast holds up fine against it.
