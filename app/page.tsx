@@ -158,9 +158,32 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-zinc-200 px-6 py-8 text-center text-xs text-zinc-600">
-        built by hack club. this project is a work in progress, being built
-        in the open.
+      <footer className="border-t border-zinc-200">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div>
+            <span className="text-sm font-bold tracking-tight text-zinc-900">curb</span>
+            <p className="mt-1 text-xs text-zinc-500">
+              built by hack club. a work in progress, built in the open.
+            </p>
+          </div>
+          <nav className="flex items-center gap-5 text-xs font-medium text-zinc-600">
+            <Link href="/submit" className="hover:text-zinc-900">
+              submit
+            </Link>
+            <a
+              href="https://github.com/EDRipper/curb"
+              className="hover:text-zinc-900"
+            >
+              github
+            </a>
+            <a
+              href="https://hackclub.com"
+              className="hover:text-zinc-900"
+            >
+              hack club
+            </a>
+          </nav>
+        </div>
       </footer>
     </div>
   );
