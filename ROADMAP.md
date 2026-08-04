@@ -665,3 +665,22 @@ clean result, no bug found this time - but a real, mission-relevant
 check to actually run rather than assume, given curb's own pitch
 literally lists "keyboard navigation... focus order" as the kind of
 thing submitters are expected to get right.
+
+## kept the reviewer-hours-override branch current with main
+
+`feature/reviewer-hours-override` was branched before the amber-600
+contrast fix and the note-field mobile fix, and its own changes touch
+the exact same file (`app/review/ReviewActions.tsx`) as both of those.
+left alone, whoever eventually merges that branch could have silently
+reintroduced one or both bugs depending on how any conflict got
+resolved. merged `main` into the feature branch now, while the context
+for all three changes is still fresh: git's 3-way merge resolved it with
+no conflict markers, and verified (not just trusted the "clean merge"
+message) that all three survived together - grepped for both the
+`amber-700` class and the mobile `w-full`/`sm:flex-1` classes
+post-merge, then rebuilt and re-ran the full authenticated axe sweep and
+the mobile viewport screenshot against the merged code on the temp db.
+both still completely clean, and the new hours-override input renders
+correctly on mobile too (wraps to its own line, pre-filled with each
+submission's actual claimed hours). pushed the updated branch, still not
+touching `main`.
