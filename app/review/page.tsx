@@ -82,6 +82,20 @@ export default async function Review() {
             <p className="font-semibold">
               {s.user.name}{" "}
               <span className="font-normal text-zinc-500">({s.user.email})</span>
+              {s.user.slackId && (
+                <>
+                  {" "}
+                  &middot;{" "}
+                  <a
+                    href={`https://hackclub.slack.com/team/${s.user.slackId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-normal text-zinc-500 underline"
+                  >
+                    slack
+                  </a>
+                </>
+              )}
             </p>
             <p className="mt-1 text-sm text-zinc-600">{s.description}</p>
           </div>
