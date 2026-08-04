@@ -902,3 +902,23 @@ a plain white circle punched in the center - correct specifically
 because this icon only ever renders inside the "how it works"
 section's known white background. re-verified in the browser: clean
 wrench shape, no artifacts, sits properly above the "02" label.
+
+## mobile check (no bug found) + a real footer
+
+spent part of this tick actually verifying mobile instead of assuming:
+used a real 375px puppeteer viewport against local dev (not a guess)
+to check the header nav and full landing page for overflow/squeeze.
+result: no bug - both grid sections already use tailwind's
+`sm:grid-cols-N` breakpoint, so they correctly stack to one column
+below 640px, and the header nav fits with room to spare at 375px.
+worth recording as a real "checked, not just assumed" result rather
+than silently moving on.
+
+did find one real gap while down there: the footer was a single
+centered line of gray text with zero links, an afterthought next to
+the header's proper nav. rebuilt it as a two-column row - curb
+wordmark + tagline on the left, submit/github/hack club links on the
+right, stacking centered on mobile via `flex-col`/`sm:flex-row`, reusing
+the header's link hover style. verified both the desktop two-column
+layout and the mobile stacked layout in the browser (real 375px
+viewport again) - clean in both.
