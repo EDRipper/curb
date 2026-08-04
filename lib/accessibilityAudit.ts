@@ -1,18 +1,9 @@
 import type { Browser } from "puppeteer-core";
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
-import { createRequire } from "module";
-import { readFileSync } from "fs";
 
-const require = createRequire(import.meta.url);
-
-let axeSourceCache: string | undefined;
-function getAxeSource(): string {
-  if (!axeSourceCache) {
-    axeSourceCache = readFileSync(require.resolve("axe-core/axe.min.js"), "utf8");
-  }
-  return axeSourceCache;
-}
+const AXE_SCRIPT_URL =
+  "https://cdn.jsdelivr.net/npm/axe-core@4.12.1/axe.min.js";
 
 export type AuditResult = {
   score: number;
@@ -47,7 +38,7 @@ async function auditWithBrowser(browser: Browser, url: string): Promise<AuditRes
   const page = await browser.newPage();
   try {
     await page.goto(url, { waitUntil: "networkidle2", timeout: 20000 });
-    await page.evaluate(getAxeSource());
+    await page.addScriptTag({ url: AXE_SCRIPT_URL });
 
     const results = await page.evaluate(async () => {
       // @ts-expect-error axe is injected into the page global scope above
