@@ -75,10 +75,28 @@ export default async function Dashboard() {
           )}
         </p>
         {reward.nextTier ? (
-          <p className="mt-1 text-xs text-zinc-500">
-            {reward.hoursToNextTier}h more to unlock {reward.nextTier.item} (
-            {reward.nextTier.hours}h)
-          </p>
+          <>
+            <p className="mt-1 text-xs text-zinc-500">
+              {reward.hoursToNextTier}h more to unlock {reward.nextTier.item} (
+              {reward.nextTier.hours}h)
+            </p>
+            <div className="mt-2 h-1.5 rounded-full bg-zinc-200">
+              <div
+                className="h-1.5 rounded-full bg-[#ffcf3f]"
+                style={{
+                  width: `${Math.min(
+                    100,
+                    Math.max(
+                      0,
+                      ((approvedHours - (reward.currentTier?.hours ?? 0)) /
+                        (reward.nextTier.hours - (reward.currentTier?.hours ?? 0))) *
+                        100,
+                    ),
+                  )}%`,
+                }}
+              />
+            </div>
+          </>
         ) : (
           <p className="mt-1 text-xs text-zinc-500">
             top reward tier unlocked
