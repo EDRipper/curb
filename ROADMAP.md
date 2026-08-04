@@ -1252,3 +1252,19 @@ end-to-end pass - typing into the actual submit form, clicking submit
 for real, letting the redirect fire on its own - lands on
 `/dashboard?submitted=1` with the banner rendering correctly above the
 new "submitted" card.
+
+## a spinner for the two genuinely slow pending states
+
+the "run accessibility audit" button's own label admits the wait is
+~15-20s (a real crawl of both urls), and the submit form's button has
+a similar db-write wait - both had only a text swap on pending, no
+motion. added `Spinner.tsx` (a simple `animate-spin` ring svg) next to
+the pending label on both.
+
+verified against a real pending state, not assumed: clicked "run
+accessibility audit" on an actual submission through a real
+authenticated session and screenshotted ~800ms later, mid-flight -
+spinner rendered correctly next to "running audit...". let it run to
+completion and reloaded: audit finished normally (a11y score 92->92 on
+a placeholder url, scorebar rendering correctly), confirming the
+change didn't disrupt the real pending-to-complete transition.
