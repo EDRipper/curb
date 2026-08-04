@@ -1954,3 +1954,34 @@ all now show the header + texture correctly, nothing clipped or
 misaligned. re-ran the accessibility self-audit against `/`, `/submit`,
 the 404 page, and `/login-error` - all 4 still 100/100, no violations
 introduced by the new header markup. typecheck clean.
+
+## a distinct display font for the wordmark and hero headline
+
+the whole site has run on Geist Sans since the start of this session
+- which is exactly what `create-next-app` ships by default. that's
+plausibly a real chunk of why it still reads as a "generic next.js
+starter" even after 55 ticks of polish: nothing in the typography
+itself says "designed," it says "defaults."
+
+added `Space_Grotesk` via `next/font/google` (bold weight only) as a
+second font, wired through a `--font-display` theme variable in
+`globals.css` (tailwind v4's `@theme inline` auto-generates a
+`font-display` utility class from that). applied it narrowly, not
+site-wide: the `curb` wordmark (header + footer, all 7 places it
+appears across landing/submit/dashboard/review/404/login-error/error)
+and the landing page's hero h1. body copy, buttons, and section
+headings stay on Geist - one characterful face on the two biggest
+brand moments reads as a deliberate choice; swapping every heading
+would fight legibility for no real gain.
+
+hit the "stale dev server" trap again (known issue from tick 13) -
+the font/layout change didn't show up under HMR, had to actually find
+and `kill -9` the turbopack worker processes via `/proc` (no `ps`/
+`pgrep` in this sandbox) and start a fresh `next dev` before it took.
+once restarted, confirmed via computed-style check (not just
+eyeballing) that `getComputedStyle(h1).fontFamily` and the wordmark's
+both correctly resolve to `"Space Grotesk", "Space Grotesk Fallback"`
+while body stays on Geist. self-audit still 100/100 on `/` and
+`/submit`, typecheck clean. dashboard/review got the same wordmark
+class for consistency but couldn't be screenshotted - db's still dead
+- same caveat as every dashboard/review touch since tick 30.
