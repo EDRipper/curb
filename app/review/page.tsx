@@ -72,7 +72,7 @@ export default async function Review() {
     if (s.status === "approved") {
       approvedHoursByUser.set(
         s.userId,
-        (approvedHoursByUser.get(s.userId) ?? 0) + s.hoursClaimed,
+        (approvedHoursByUser.get(s.userId) ?? 0) + (s.approvedHours ?? s.hoursClaimed),
       );
     }
   }
@@ -181,6 +181,11 @@ export default async function Review() {
 
         <p className="mt-2 text-sm text-zinc-600">
           {s.hoursClaimed}h claimed
+          {s.status === "approved" &&
+            s.approvedHours != null &&
+            s.approvedHours !== s.hoursClaimed && (
+              <> &middot; {s.approvedHours}h approved</>
+            )}
           {s.auditedAt && !s.auditError && (
             <>
               {" "}
@@ -229,7 +234,7 @@ export default async function Review() {
           </p>
         ) : (
           <form className="mt-3 flex flex-wrap items-center gap-2">
-            <ReviewActions submissionId={s.id} />
+            <ReviewActions submissionId={s.id} hoursClaimed={s.hoursClaimed} />
           </form>
         )}
       </li>

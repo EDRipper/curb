@@ -36,7 +36,7 @@ export default async function Dashboard() {
 
   const approvedHours = submissions
     .filter((s) => s.status === "approved")
-    .reduce((sum, s) => sum + s.hoursClaimed, 0);
+    .reduce((sum, s) => sum + (s.approvedHours ?? s.hoursClaimed), 0);
   const reward = getRewardStatus(approvedHours);
 
   return (
@@ -119,8 +119,13 @@ export default async function Dashboard() {
                 </div>
                 <p className="mt-1 text-sm text-zinc-600">{s.description}</p>
                 <p className="mt-1 text-xs text-zinc-600">
-                  {s.hoursClaimed}h claimed &middot; submitted{" "}
-                  {s.createdAt.toISOString().slice(0, 10)}
+                  {s.hoursClaimed}h claimed
+                  {s.status === "approved" &&
+                    s.approvedHours != null &&
+                    s.approvedHours !== s.hoursClaimed && (
+                      <> &middot; {s.approvedHours}h approved</>
+                    )}{" "}
+                  &middot; submitted {s.createdAt.toISOString().slice(0, 10)}
                 </p>
 
                 {s.reviewedAt && (

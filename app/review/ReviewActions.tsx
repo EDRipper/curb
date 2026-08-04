@@ -3,7 +3,13 @@
 import { useFormStatus } from "react-dom";
 import { reviewSubmission } from "./actions";
 
-export default function ReviewActions({ submissionId }: { submissionId: string }) {
+export default function ReviewActions({
+  submissionId,
+  hoursClaimed,
+}: {
+  submissionId: string;
+  hoursClaimed: number;
+}) {
   const { pending } = useFormStatus();
 
   return (
@@ -14,6 +20,17 @@ export default function ReviewActions({ submissionId }: { submissionId: string }
         placeholder="note (optional)"
         disabled={pending}
         className="min-w-0 flex-1 rounded-md border border-zinc-300 px-3 py-1.5 text-sm disabled:opacity-50"
+      />
+      <input
+        name="approvedHours"
+        aria-label="hours to credit if approved"
+        title="hours to credit if approved (defaults to hours claimed)"
+        type="number"
+        step="0.5"
+        min="0.5"
+        defaultValue={hoursClaimed}
+        disabled={pending}
+        className="w-20 rounded-md border border-zinc-300 px-2 py-1.5 text-sm disabled:opacity-50"
       />
       <button
         formAction={reviewSubmission.bind(null, submissionId, "approved")}

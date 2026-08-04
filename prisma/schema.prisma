@@ -46,8 +46,14 @@ model Submission {
   auditError       String?
   auditedAt        DateTime?
 
-  hoursClaimed Float
-  status       SubmissionStatus @default(submitted)
+  hoursClaimed   Float
+  // hours actually credited on approval, which a reviewer can set
+  // differently than hoursClaimed (deflating inflated claims instead of a
+  // blunt approve-at-face-value-or-reject choice). null until approved;
+  // falls back to hoursClaimed for reward math when unset so existing
+  // approved rows from before this field existed still work correctly.
+  approvedHours  Float?
+  status         SubmissionStatus @default(submitted)
 
   reviewNote  String?
   reviewedBy  String?

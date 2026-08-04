@@ -28,10 +28,21 @@ export async function reviewSubmission(
 
   const note = String(formData.get("note") ?? "").trim();
 
+  // only meaningful on approval - lets a reviewer credit a different
+  // amount than what was claimed (deflating an inflated claim) instead of
+  // a blunt approve-at-face-value-or-reject choice. blank/invalid falls
+  // back to the claimed hours rather than blocking the approval outright.
+  let approvedHours: number | null = null;
+  if (status === "approved") {
+    const raw = Number(formData.get("approvedHours"));
+    approvedHours = Number.isFinite(raw) && raw > 0 ? raw : submission.hoursClaimed;
+  }
+
   await db.submission.update({
     where: { id: submissionId },
     data: {
       status,
+      approvedHours,
       reviewNote: note || null,
       reviewedBy: reviewer.name,
       reviewedAt: new Date(),
@@ -39,4 +50,5 @@ export async function reviewSubmission(
   });
 
   revalidatePath("/review");
+  revalidatePath("/dashboard");
 }
