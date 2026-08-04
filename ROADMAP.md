@@ -29,7 +29,14 @@ link, not just merged.
       on Vercel production. this DB is still temporary (auto-deletes if
       unclaimed) and claiming it hits the same GitHub/Google-only login
       wall as vercel did — needs Euan's login eventually or a permanent DB.
-- [ ] submission form (site url, PR/diff link, before/after screenshots)
+- [x] submission form (site url, PR/diff link, description, before/after
+      screenshot urls, hours claimed) at `/submit`, gated behind sign-in.
+      real Next.js Server Action (`app/submit/actions.ts`) validates input
+      and writes a `Submission` row. dashboard now lists the signed-in
+      user's own submissions with status. tested live end to end: signed
+      in, filled out and submitted the real form, saw it appear on the
+      dashboard immediately, confirmed the row existed in postgres, then
+      deleted that test row so the DB only has real data.
 - [ ] automated accessibility audit pipeline (axe-core, before/after score
       delta stored per submission)
 - [ ] reviewer dashboard (approve / needs-changes / reject + notes)
