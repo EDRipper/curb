@@ -1926,3 +1926,31 @@ assuming.
 
 another clean tick, no code changes - six different checks this time,
 all held up.
+
+## submit, 404, login-error, and the error boundary now match the landing page's visual system
+
+temp db still dead. after several clean-check ticks in a row, went
+looking harder for an actual visible gap instead of another audit
+pass - screenshotted every public page fresh and found one: `/submit`
+(signed out), `/not-found`, `/login-error`, and `error.tsx` were all
+just bare centered text on flat cream background, no dot-grid
+texture, no header, no way back to the rest of the site except a
+single small text link. next to the landing page's illustration,
+custom icons, and fade-up motion, these looked like an entirely
+different, unfinished product.
+
+fixed by giving all four the same visual system as the landing page:
+wrapped each in the `dot-grid-bg` textured background (previously
+landing-only), and added a small wordmark header (`curb`, linking
+home) so every page keeps its brand identity and an escape hatch,
+not just a lone "back" link at the bottom of a void. kept each page's
+existing icon (NotFoundIcon, WarningIcon) and copy untouched - this
+was a layout/consistency fix, not a content rewrite.
+
+verified by screenshotting all four routes after the change (`/submit`
+signed out, `/this-page-does-not-exist-xyz`, `/login-error`, and a
+throwaway `/test-error-boundary` route that intentionally throws) -
+all now show the header + texture correctly, nothing clipped or
+misaligned. re-ran the accessibility self-audit against `/`, `/submit`,
+the 404 page, and `/login-error` - all 4 still 100/100, no violations
+introduced by the new header markup. typecheck clean.
