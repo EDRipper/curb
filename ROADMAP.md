@@ -623,3 +623,25 @@ notes, the status badges, "0h approved so far". this was a real,
 substantially richer sweep, not just the original one-reviewer/
 one-submission case - genuinely good confidence now, not just the
 technique being proven.
+
+## real mobile viewport testing, another first for this session
+
+the mcp browser tool used for all live verification this session has no
+viewport control - every screenshot all session has been at the same
+desktop-ish size. a raw puppeteer script does have full control, so
+with the local authenticated server already running, screenshotted the
+homepage, submit form, dashboard, and review queue at a real 375x812
+mobile viewport (iphone-sized) and checked for horizontal overflow.
+
+homepage/submit/dashboard were clean. review queue had a real bug: the
+note input (`flex-1 min-w-0`) shrank down to a couple visible characters
+wide instead of wrapping to its own line, because `min-w-0` explicitly
+disables the flex item's natural minimum width that would otherwise
+force `flex-wrap` to break the row - the placeholder text "note
+(optional)" was rendering essentially illegibly in a ~30px box squeezed
+next to three action buttons. fixed by making the input full-width by
+default (forces its own line, buttons wrap below it) and restoring the
+inline `flex-1` behavior only at the `sm:` breakpoint, matching the
+mobile-first pattern already used elsewhere in the app. rebuilt,
+re-shot the identical viewport: note field now renders full-width with
+legible text, buttons cleanly wrap underneath.
