@@ -53,6 +53,17 @@ link, not just merged.
       vercel.json `functions.includeFiles` entry so Vercel's build
       actually ships the chromium binary (it's excluded from the trace by
       default).
-- [ ] reviewer dashboard (approve / needs-changes / reject + notes)
+- [x] reviewer dashboard at `/review` — gated on a real `isReviewer` DB
+      flag (not self-serve, only granted directly in the DB), lists every
+      submission from every user with their audit scores, and lets a
+      reviewer approve / mark needs-changes / reject with an optional
+      note (`app/review/actions.ts`). the submitter's own dashboard
+      reflects the updated status immediately. granted reviewer status to
+      the bot's own account and Euan's account so this is actually usable
+      right now, not just built. tested live end to end: submitted a
+      throwaway test entry, ran the audit, approved it from `/review` with
+      a note, confirmed the status + note showed up correctly on both the
+      review queue and the submitter's dashboard, then deleted the test
+      submission.
 - [ ] hours <-> reward catalog logic
 - [ ] end-to-end click-through test pass on the live link
