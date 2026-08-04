@@ -452,3 +452,14 @@ still hiding action buttons. no regressions.
   submission time, no schema change. verified live: submitting
   `example.com` for both fields now correctly shows "before url and
   after url can't be the same" instead of going through.
+- finished the favicon work from a couple ticks ago: added
+  `app/apple-icon.tsx` (180x180, ios's recommended touch-icon size)
+  alongside the existing `app/icon.tsx`, refactored both into a shared
+  `lib/appIcon.tsx` instead of duplicating the jsx. apple-icon skips the
+  pre-rounded corners `icon.tsx` uses, since ios applies its own
+  rounding mask to home-screen icons - a pre-rounded source image shows
+  square corners bleeding through that mask. verified for real: built
+  and ran locally, viewed both generated images (32x32 unchanged after
+  the refactor, 180x180 clean), confirmed `apple-touch-icon` actually
+  emits in the page head, then re-checked the 180x180 image on the live
+  deploy after confirming it shipped.
