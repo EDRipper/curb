@@ -343,3 +343,17 @@ the last several ticks is still working together, not just in isolation.
   audit... (takes ~15-20s, crawls both urls)" while pending. verified
   live: clicked it and caught the exact disabled/pending state in a
   screenshot before it resolved.
+- same fix applied to the review queue's approve/needs-changes/reject
+  buttons: three separate buttons in one form, no pending state, nothing
+  stopping a reviewer from firing two different status changes on the
+  same submission in quick succession (impatient double-click, or
+  approve-then-immediately-reject by mistake). extracted
+  `app/review/ReviewActions.tsx`, same `useFormStatus` pattern, all
+  three buttons disable together. build and lint are clean, but could
+  NOT click-verify this one live the way the audit button got verified:
+  every submission currently in the queue is one of the bot's own
+  leftover test rows, and the self-review guard from a few ticks ago
+  correctly hides the action buttons entirely for those. confirmed the
+  page still renders with no errors post-deploy, but the actual
+  click-and-watch-it-disable check needs either a non-bot submission or
+  euan's reviewer account to do for real.
