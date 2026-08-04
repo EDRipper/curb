@@ -13,10 +13,13 @@ export default async function Dashboard() {
     redirect("/login");
   }
 
-  const submissions = await db.submission.findMany({
-    where: { userId: session.userId },
-    orderBy: { createdAt: "desc" },
-  });
+  const [submissions, me] = await Promise.all([
+    db.submission.findMany({
+      where: { userId: session.userId },
+      orderBy: { createdAt: "desc" },
+    }),
+    db.user.findUnique({ where: { id: session.userId } }),
+  ]);
 
   return (
     <div className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
@@ -31,6 +34,14 @@ export default async function Dashboard() {
         >
           new submission
         </Link>
+        {me?.isReviewer && (
+          <Link
+            href="/review"
+            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-100"
+          >
+            review queue
+          </Link>
+        )}
         <a href="/logout" className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-100">
           sign out
         </a>
