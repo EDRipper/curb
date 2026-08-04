@@ -119,16 +119,21 @@ export default function SubmitForm() {
           <label htmlFor="hoursClaimed" className="text-sm font-medium text-zinc-700">
             hours claimed
           </label>
-          <input
-            id="hoursClaimed"
-            name="hoursClaimed"
-            type="number"
-            step="0.5"
-            min="0.5"
-            required
-            placeholder="5"
-            className={inputClass}
-          />
+          <div className="relative mt-1 max-w-[10rem]">
+            <input
+              id="hoursClaimed"
+              name="hoursClaimed"
+              type="number"
+              step="0.5"
+              min="0.5"
+              required
+              placeholder="5"
+              className={`${inputClass} !mt-0 pr-8`}
+            />
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-zinc-400">
+              h
+            </span>
+          </div>
         </div>
       </div>
 
