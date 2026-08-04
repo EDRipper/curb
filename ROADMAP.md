@@ -813,3 +813,19 @@ variants on a throwaway public preview route, screenshotted it in a
 real browser (icons crisp and centered, cta matches the existing
 button style), then left that preview file uncommitted/untracked
 rather than wiring it into the real dashboard/review pages blind.
+
+## real loading states for dashboard and review, instead of a blank flash
+
+neither route had a `loading.tsx`, so next.js showed nothing at all
+during the server component's db fetch on every navigation to
+`/dashboard` or `/review` - a real, generic-feeling gap, not just a
+cosmetic one. added `Skeleton.tsx` (a pulsing gray placeholder block)
+and a `loading.tsx` per route built out of it, shaped roughly like
+each page's real content (header lines, the two action buttons, card
+blocks) rather than a generic centered spinner.
+
+verified the skeleton markup itself in the browser via a throwaway
+preview route - rendered cleanly, correct proportions, no
+overlapping/zero-height blocks. the automatic swap-in behavior is
+next.js's own suspense-boundary mechanism for `loading.tsx`, not
+custom code, so didn't fake a slow db response just to watch it fire.
