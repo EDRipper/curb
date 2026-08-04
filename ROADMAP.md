@@ -645,3 +645,23 @@ inline `flex-1` behavior only at the `sm:` breakpoint, matching the
 mobile-first pattern already used elsewhere in the app. rebuilt,
 re-shot the identical viewport: note field now renders full-width with
 legible text, buttons cleanly wrap underneath.
+
+## real keyboard navigation testing on the review queue
+
+axe-core's static analysis catches a lot but not everything about
+keyboard operability - logical tab order and whether a custom-styled
+button actually activates on Enter both need real interaction, not just
+dom inspection. with the local authenticated server still up, drove
+`/review` with `page.keyboard.press("Tab")` only (no mouse) and recorded
+every stop: the before/after/diff links, the note input, then
+approve/needs-changes/reject, repeating per submission card in that
+same logical order - matches dom order, no keyboard traps, nothing
+skipped. every single stop had a real visible focus outline (browser
+default, nothing in this app removes it here). then tabbed to a "needs
+changes" button specifically and activated it with `Enter` alone, no
+click - it fired correctly and the page still rendered normally after.
+
+clean result, no bug found this time - but a real, mission-relevant
+check to actually run rather than assume, given curb's own pitch
+literally lists "keyboard navigation... focus order" as the kind of
+thing submitters are expected to get right.
