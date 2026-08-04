@@ -110,6 +110,7 @@ export default async function Review() {
                 <form className="mt-3 flex flex-wrap items-center gap-2">
                   <input
                     name="note"
+                    aria-label="review note (optional)"
                     placeholder="note (optional)"
                     className="min-w-0 flex-1 rounded-md border border-zinc-300 px-3 py-1.5 text-sm"
                   />

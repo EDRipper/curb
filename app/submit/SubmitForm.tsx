@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { createSubmission } from "./actions";
 
 const inputClass =
-  "mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none";
+  "mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-1";
 
 export default function SubmitForm() {
   const [state, formAction, pending] = useActionState(createSubmission, undefined);
@@ -13,10 +13,11 @@ export default function SubmitForm() {
     <form action={formAction} className="mt-8 space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium text-zinc-700">
+          <label htmlFor="beforeUrl" className="text-sm font-medium text-zinc-700">
             before url (live, unfixed)
           </label>
           <input
+            id="beforeUrl"
             name="beforeUrl"
             type="url"
             required
@@ -25,10 +26,11 @@ export default function SubmitForm() {
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-zinc-700">
+          <label htmlFor="afterUrl" className="text-sm font-medium text-zinc-700">
             after url (live, fixed)
           </label>
           <input
+            id="afterUrl"
             name="afterUrl"
             type="url"
             required
@@ -44,10 +46,11 @@ export default function SubmitForm() {
       </p>
 
       <div>
-        <label className="text-sm font-medium text-zinc-700">
+        <label htmlFor="diffUrl" className="text-sm font-medium text-zinc-700">
           diff / PR url
         </label>
         <input
+          id="diffUrl"
           name="diffUrl"
           type="url"
           required
@@ -57,10 +60,11 @@ export default function SubmitForm() {
       </div>
 
       <div>
-        <label className="text-sm font-medium text-zinc-700">
+        <label htmlFor="description" className="text-sm font-medium text-zinc-700">
           what did you fix?
         </label>
         <textarea
+          id="description"
           name="description"
           required
           rows={4}
@@ -71,11 +75,12 @@ export default function SubmitForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-medium text-zinc-700">
+          <label htmlFor="beforeScreenshotUrl" className="text-sm font-medium text-zinc-700">
             before screenshot url{" "}
             <span className="text-zinc-600">(optional)</span>
           </label>
           <input
+            id="beforeScreenshotUrl"
             name="beforeScreenshotUrl"
             type="url"
             placeholder="https://..."
@@ -83,11 +88,12 @@ export default function SubmitForm() {
           />
         </div>
         <div>
-          <label className="text-sm font-medium text-zinc-700">
+          <label htmlFor="afterScreenshotUrl" className="text-sm font-medium text-zinc-700">
             after screenshot url{" "}
             <span className="text-zinc-600">(optional)</span>
           </label>
           <input
+            id="afterScreenshotUrl"
             name="afterScreenshotUrl"
             type="url"
             placeholder="https://..."
@@ -97,10 +103,11 @@ export default function SubmitForm() {
       </div>
 
       <div>
-        <label className="text-sm font-medium text-zinc-700">
+        <label htmlFor="hoursClaimed" className="text-sm font-medium text-zinc-700">
           hours claimed
         </label>
         <input
+          id="hoursClaimed"
           name="hoursClaimed"
           type="number"
           step="0.5"
