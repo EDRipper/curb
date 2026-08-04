@@ -866,3 +866,19 @@ pages after the fix: cream background, fully readable text on both.
 
 notable given curb's own pitch is literally about accessibility - this
 would have failed a contrast audit for a meaningful chunk of visitors.
+
+## staggered fade-up entrance animation on the hero
+
+the site had zero motion anywhere before this session's own hover
+transitions - everything just snapped into place, flat next to sites
+that use motion for polish. added a `.fade-up` css keyframe (opacity +
+small translateY, ~0.6s) to globals.css, applied to the hero's
+badge/headline/subtext/buttons/illustration with staggered
+`animation-delay` (0-240ms) so they settle in sequence instead of all
+at once. disabled outright under `prefers-reduced-motion: reduce`.
+
+verified in the browser: screenshotted immediately on navigation and
+again after a 1.5s wait - the settled state matches the known-good
+pre-animation layout exactly, confirming the animation doesn't leave
+anything stuck invisible or offset, even though a screenshot can't
+reliably catch the ~0.6s transition itself mid-flight.
