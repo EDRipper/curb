@@ -477,3 +477,22 @@ still hiding action buttons. no regressions.
   with a real note attached) now correctly shows "reviewed by 2an Ripper
   ... - 'pre-forced-redeploy ssrf bypass test...'" on the dashboard,
   where before this it showed nothing beyond the status badge.
+- similar theme, bigger data: the audit pipeline has captured the full
+  violation list (rule id, impact, node count) for both urls since it
+  was first built, and written it to the db's `auditDetails` column
+  this whole time - nothing ever read it back. reviewers had to trust a
+  bare "score: 76 -> 100" with zero visibility into what was actually
+  wrong or fixed, which is a real gap for a review process whose whole
+  pitch is "the number is the proof, not a screenshot" - except the
+  number alone doesn't actually show what the number is measuring.
+  added `lib/auditDetails.ts` (defensive parsing, since the field is an
+  untyped `Json` column and a legacy or future shape shouldn't crash the
+  page) and wired a compact summary into both `/review` and the
+  dashboard: "before: 4 violations (1 critical, 2 serious, 1 moderate) —
+  color-contrast, image-alt, ...". tested the summarizer against 5 cases
+  (empty, single, mixed-impact, >4-violation truncation, null impact)
+  before shipping, then verified live against real historical audited
+  data on both pages - genuinely revealed something true along the way:
+  the bot's own `example.com`/`example.com` test rows actually do carry
+  2 real moderate violations (`landmark-one-main`, `region`) on
+  google's/whoever's example.com page, not just placeholder zeros.
