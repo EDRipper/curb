@@ -1138,3 +1138,20 @@ login-error directly, and the thrown-error case via the existing
 earlier session, built specifically to force `error.tsx` to render.
 all three icons sit cleanly above their heading, correct size and
 color, nothing clipped.
+
+## real section structure for the submit form
+
+the submit form is the core conversion point for the whole product -
+7 fields (before/after urls, diff url, description, 2 optional
+screenshot urls, hours claimed) in one flat list, no grouping, reading
+like a generic crud form. split into 3 sections ("the fix", "proof
+(optional)", "hours") using the same uppercase section-header style
+already established elsewhere on the site, separated by a thin top
+border between sections. purely a layout change - grepped every
+`name="..."` after the edit to confirm all 7 field names are byte-
+identical to before, so the server action's binding is untouched.
+
+verified against the real signed-in `/submit` page (temp-db submitter
+account, clean dev restart first): three clearly separated sections,
+"proof (optional)" reads correctly with a muted "(optional)" suffix,
+no broken spacing at the section borders.
