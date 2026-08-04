@@ -791,3 +791,25 @@ no page needs its own background class. re-verified all three
 previously-broken cases (landing, `/submit`, the 404 page) in the
 browser: cream now fills the full viewport edge-to-edge on every one,
 text contrast holds up fine against it.
+
+## real empty states on the dashboard and review queue
+
+both "nothing submitted yet." and "nothing pending." were a single
+line of gray text - generic-crud-app filler, and the dashboard's empty
+state in particular gave a brand new user zero path forward. added
+`EmptyState.tsx`: a dashed-border card with a small line-art icon
+(clipboard for "nothing here yet", a green check for "all caught up"),
+a real heading and body copy, and on the dashboard's case a cta button
+straight to `/submit`.
+
+verification note: this repo's local dev environment doesn't have
+`SESSION_SECRET` set, so a real signed session cookie can't be minted
+locally right now and the authenticated dashboard/review pages can't
+be loaded through a normal browser flow in this sandbox - a real gap,
+worth fixing (either document how to pull it via `vercel env pull`, or
+seed a fixed dev-only secret) rather than something to route around
+silently. verified the component itself instead: rendered both
+variants on a throwaway public preview route, screenshotted it in a
+real browser (icons crisp and centered, cta matches the existing
+button style), then left that preview file uncommitted/untracked
+rather than wiring it into the real dashboard/review pages blind.
