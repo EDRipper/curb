@@ -1268,3 +1268,21 @@ spinner rendered correctly next to "running audit...". let it run to
 completion and reloaded: audit finished normally (a11y score 92->92 on
 a placeholder url, scorebar rendering correctly), confirming the
 change didn't disrupt the real pending-to-complete transition.
+
+## middleware -> proxy migration, and per-page tab titles
+
+finally did the middleware.ts -> proxy.ts rename flagged back at tick
+12 (next.js 16 deprecation, straightforward per the official migration
+doc) - typecheck clean, deprecation warning gone from the dev server
+log, real authenticated screenshot after a clean restart shows no
+regression. the persistent dev-overlay "1 issue" badge is still there
+regardless, so that wasn't the cause - still an open, minor, dev-only
+curiosity not worth more time on.
+
+separately found a real gap: dashboard/review/submit/404/login-error
+all inherited the landing page's exact root-layout title - open
+several in different tabs and they're indistinguishable in the tab bar
+or browser history. added page-specific `metadata` exports to all 5.
+verified with a real browser session hitting all 6 pages and reading
+`page.title()` on each - landing keeps its marketing title, the other
+5 now read their own distinct "X — curb" title.
