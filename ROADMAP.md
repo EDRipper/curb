@@ -978,3 +978,25 @@ is visual: the dev server logs a deprecation warning that this repo's
 version, and the browser dev overlay shows a persistent "1 issue"
 badge that's most likely the same warning surfacing client-side (no
 console errors on the actual pages tested).
+
+## avatars on the dashboard and review queue, and a real dev-server gotcha
+
+first real use of last tick's local-auth unlock for actual dashboard/
+review-queue polish rather than just verifying past work: both pages
+identified people by plain text name only, no visual identity at all.
+added `Avatar.tsx` - initials on a color picked deterministically from
+a hash of the name against a fixed 6-color palette, so a given person
+always gets the same color with nothing stored. wired into the
+dashboard's own greeting and every submitter card in the review queue.
+
+hit a real false-negative worth recording: first verification pass
+showed zero avatars anywhere in the rendered html (checked the raw
+html directly, not just a screenshot, to be sure), despite correct
+code and a clean typecheck. root cause was a stale turbopack dev
+server that hadn't picked up the new component file - a plain hmr
+refresh wasn't enough, needed an actual kill-and-restart of the dev
+process. re-verified after that and the avatars render correctly:
+distinct colored "ss"/"as" circles on every card, aligned, no layout
+shift. worth remembering for every future tick from here - if a real
+code change doesn't show up in a screenshot, restart the dev server
+before concluding the change itself is broken.
