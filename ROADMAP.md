@@ -829,3 +829,16 @@ preview route - rendered cleanly, correct proportions, no
 overlapping/zero-height blocks. the automatic swap-in behavior is
 next.js's own suspense-boundary mechanism for `loading.tsx`, not
 custom code, so didn't fake a slow db response just to watch it fire.
+
+## icons on the reward cards, the program's actual core hook
+
+the "what you get" cards (5h/15h/30h/50h+) were just a bold number and
+a text label - flat for the section that's arguably the whole reason
+someone signs up. added `RewardIcon.tsx`: 4 small hand-drawn line-art
+icons matched to the real item at each tier - a toggle switch for the
+adaptive switch, a braille dot grid for the label maker, a split
+keyboard, a magnifying glass over a screen for the cctv reader. mapped
+by `REWARD_CATALOG` index since the tier order is fixed. cards also
+got the same hover lift used on the hero buttons instead of sitting
+static. verified in a real browser screenshot: all 4 render distinct
+and fully contained, no clipping, aligned consistently in the row.
