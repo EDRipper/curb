@@ -317,3 +317,18 @@ the last several ticks is still working together, not just in isolation.
   actually needs (nothing told a new contributor `npm run dev` would
   just fail without a `.env`), and replaced the stale "early build, in
   progress" status line with what's actually true now.
+
+## reliability
+
+- added `app/error.tsx`, a branded error boundary. the app had a
+  branded 404 and oauth error page but nothing for a plain uncaught
+  exception in a page/server component - that fell through to next's
+  generic unstyled crash screen. verified for real, not just by reading
+  the docs: built and ran the app locally (`next build && next start`)
+  with a route that throws unconditionally, confirmed next's default
+  error ui rendered before this change and the new branded one renders
+  after, and that the "try again" button's `retry()` call correctly
+  attempts a re-render instead of doing nothing. this next.js canary
+  uses `retry()`, not the `reset()` api older docs/training data would
+  suggest - checked `node_modules/next/dist/docs` directly per
+  AGENTS.md's warning rather than assuming.
