@@ -1445,3 +1445,26 @@ queries throw - so that "100/100" re-confirms error.tsx's already-known
 cleanliness, not a fresh check of the real authenticated pages. noting
 this explicitly rather than letting a passing score imply more
 coverage than there actually was.
+
+## audited every standalone component, then a manifest + theme-color
+
+temp db still dead. built a kitchen-sink preview route combining every
+reusable component from this session (Avatar, StatusBadge, ScoreBar,
+WarningIcon, Spinner, EmptyState) and ran the axe pipeline against all
+of them together - first pass showed 4 violations, but all were
+self-inflicted by my own preview page's structure (nesting loading.tsx's
+own `<main>` inside my preview's `<main>`, no h1). removed the nested
+full-page components and added a heading: 100/100, genuinely clean,
+confirming these components carry no hidden accessibility issues in
+their actual real-world usage.
+
+then noticed the site had no web manifest at all - "add to home
+screen" on mobile would use a generic browser-default name/icon
+instead of curb's actual branding. added `app/manifest.ts` (name,
+description, standalone display, cream/near-black colors, both
+existing icon routes at their real sizes) and a `viewport` export with
+`themeColor` so mobile browser chrome matches the site's cream
+background. verified the manifest serves correctly at
+`/manifest.webmanifest` (200, correct json) and that next auto-wires
+the theme-color meta + manifest link into every page's head. re-ran
+the self-audit after: still 100/100.
