@@ -1859,3 +1859,26 @@ resolution rather than upscaled from the small one.
 verified: `/icon-512` returns 200 image/png, the actual rendered icon
 is crisp with no pixelation, and the served manifest now correctly
 lists all 3 icon sizes. self-audit still 100/100.
+
+## a full regression sweep, no new code this tick
+
+temp db still dead. checked the rendered `<link>` tags in the actual
+page head (favicon.ico, /icon, apple-touch-icon, manifest) - all
+correctly declared with the right rel/sizes/type, nothing missing or
+mismatched. checked meta title/description length against the usual
+google snippet limits - both already fit comfortably, no truncation
+risk.
+
+given how much has landed this session (52 ticks), spent the rest of
+this tick on a genuine full regression pass instead of forcing a new
+change: ran the accessibility self-audit across every page again (all
+6 still 100/100), and hit every special route this session touched in
+one sweep - `/`, `/submit`, `/robots.txt`, `/sitemap.xml`,
+`/manifest.webmanifest`, `/icon`, `/apple-icon`, `/icon-512`,
+`/favicon.ico`, `/opengraph-image`, `/twitter-image` - every single one
+still returns 200 with the correct content-type. nothing regressed.
+
+vercel's build rate limit hit again (third time this session, same
+"retry in 24 hours" message) - noting it again since it's now a clear
+pattern, but not changing course beyond the batching already in
+place. no new commits this tick, so nothing to push.
