@@ -1120,3 +1120,21 @@ verified against the real dashboard and review queue with the temp-db
 accounts: all 4 statuses that actually occur in the test data render
 the correct glyph and color on both pages, no layout shift from the
 refactor.
+
+## icons on the last plain pages: error, 404, login-error
+
+`error.tsx`, `not-found.tsx`, and `login-error/page.tsx` were the
+last text-only pages left on the site, no icon anywhere, same generic
+feel the empty states and reward cards had before earlier ticks fixed
+them. reused the existing `WarningIcon` for the two genuine failure
+states (a thrown error, a failed oauth round trip) and added a new
+`NotFoundIcon.tsx` (magnifying glass with a "?" as the handle) for the
+404 page specifically, since "page doesn't exist" isn't really an
+error/warning the way the other two are.
+
+verified all three in a real browser: the 404 via a made-up url,
+login-error directly, and the thrown-error case via the existing
+(untracked) `app/test-error-boundary/page.tsx` scratch route from an
+earlier session, built specifically to force `error.tsx` to render.
+all three icons sit cleanly above their heading, correct size and
+color, nothing clipped.
