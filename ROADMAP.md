@@ -541,3 +541,43 @@ public pages right now rather than trusting the old tick-10/21 results:
 all still come back completely clean. no regression - `zinc-500` is
 fine on this background, tick-10's finding was specifically about
 `zinc-400`, not the whole 400-600 range.
+
+## reviewer hours override - ready on a branch, NOT deployed
+
+the "let a reviewer approve at a different hours value than claimed"
+idea flagged as blocked several ticks ago (needs a schema change, no
+`DATABASE_URL` this session to apply a migration) is now built and
+tested, on branch `feature/reviewer-hours-override`, deliberately not
+merged to `main`.
+
+why not just merge it: this repo has no staging step - every push to
+`main` deploys straight to production. merging a schema change with no
+way to also apply the matching migration to the real database would
+crash every submission query the moment it deployed. so instead: spun
+up a disposable temp postgres via `npx create-db` (same tool used
+earlier in this project's history, no signup, auto-deletes), developed
+and migrated against *that*, and pushed the branch only.
+
+what's on the branch: nullable `Submission.approvedHours`, a single
+additive `ALTER TABLE ADD COLUMN` migration (non-destructive, safe to
+apply whenever real db access exists), an hours input on the approve
+action defaulting to the claimed amount, and both dashboard/review
+reward math switched to `approvedHours ?? hoursClaimed`.
+
+this is the most rigorously tested feature of the whole session, because
+for once there was a real database to test against instead of just
+static analysis: ran a full scenario end to end against the temp db -
+create a submission claiming 10h, approve it at a deflated 3h, confirm
+the dashboard reward sum uses 3h not 10h; approve a second submission
+with no override and confirm it correctly falls back to its claimed 5h;
+combined total correctly 8h, not 15h.
+
+to ship this: someone with production `DATABASE_URL` access needs to
+run `prisma migrate deploy` against it, then merge the branch. everything
+else is done and tested.
+
+(unrelated but worth a note: leaving a scratch `.ts` file untracked in
+the repo root broke `next build`'s typecheck on `main` after switching
+branches back, since tsconfig includes all `.ts` files project-wide
+regardless of git tracking status - moved it to `/tmp` rather than
+leaving it. `.mjs` scratch files don't have this problem; `.ts` ones do.)
