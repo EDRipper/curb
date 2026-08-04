@@ -1171,3 +1171,23 @@ cases that DO exist in the data checked out correctly: a null
 exactly on a tier boundary rendering as a real 0% rather than a
 negative width or divide-by-zero. worth a follow-up screenshot once
 the temp db has someone with partial progress.
+
+## closed the mid-tier progress bar verification gap from last tick
+
+last tick's reward progress bar only had 0h and exact-boundary (5h)
+accounts to check against - no way to see a real partial fill. rather
+than leave that gap open, created the missing data point through the
+actual product flow instead of a db write: signed in as the temp-db
+submitter, filled out and submitted a real 4h fix through `/submit`
+with real clicks/typing, then signed in as the reviewer and clicked
+"approve" for real on that submission through `/review`. pushed the
+submitter from 5h to 9h approved - now sitting between the 5h and 15h
+tiers.
+
+re-checked the dashboard: "9h approved... 6h more to unlock braille
+label maker (15h)" with the progress bar now showing a real ~40% fill
+((9-5)/(15-5)), matching the math exactly instead of sitting at an
+edge case. also a free re-confirmation of the StatusBadge icon work -
+the new submission correctly showed the "submitted" clock glyph while
+pending, then swapped to the "approved" check glyph after the real
+approve click, all through actual data, not a preview route.
