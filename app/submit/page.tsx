@@ -15,27 +15,29 @@ export default async function Submit() {
 
       {!session ? (
         <>
-          <h1 className="text-2xl font-bold">sign in to submit</h1>
-          <p className="mt-3 text-sm leading-6 text-zinc-600">
+          <h1 className="fade-up text-2xl font-bold">sign in to submit</h1>
+          <p className="fade-up mt-3 text-sm leading-6 text-zinc-600 [animation-delay:80ms]">
             we need your hack club account to know who to credit (and where
             to ship your reward).
           </p>
           <a
             href="/login"
-            className="mt-6 inline-block rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white hover:bg-zinc-700"
+            className="fade-up mt-6 inline-block rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg [animation-delay:160ms]"
           >
             sign in with hack club
           </a>
         </>
       ) : (
         <>
-          <h1 className="text-2xl font-bold">submit your fix</h1>
-          <p className="mt-3 text-sm leading-6 text-zinc-600">
+          <h1 className="fade-up text-2xl font-bold">submit your fix</h1>
+          <p className="fade-up mt-3 text-sm leading-6 text-zinc-600 [animation-delay:80ms]">
             after you submit, run the accessibility audit from your
             dashboard — it crawls both urls with a real headless browser
             and scores them with axe-core.
           </p>
-          <SubmitForm />
+          <div className="fade-up [animation-delay:160ms]">
+            <SubmitForm />
+          </div>
         </>
       )}
     </main>
