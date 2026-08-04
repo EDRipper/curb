@@ -1468,3 +1468,24 @@ background. verified the manifest serves correctly at
 `/manifest.webmanifest` (200, correct json) and that next auto-wires
 the theme-color meta + manifest link into every page's head. re-ran
 the self-audit after: still 100/100.
+
+## the hero illustration finally moves
+
+temp db still dead. the curb-cut illustration (this site's signature
+custom svg, added at tick 2) had been completely static this whole
+session while nearly every other component got some motion treatment.
+gave the wheelchair wheel a slow continuous spin and the trailing
+motion-dashes a staggered pulse - both `@keyframes` in globals.css,
+both disabled under `prefers-reduced-motion`. had to add two thin
+spokes to the wheel first, since a plain circle spinning looks
+identical at every frame - the rotation needed something asymmetric to
+actually read visually.
+
+verified functionally rather than trusting a screenshot to show
+motion: sampled `.curb-cut-wheel`'s computed css `transform` matrix
+twice, 600ms apart, and confirmed the values genuinely differ (real
+rotation in progress). confirmed `animation-name` resolves to `none`
+under emulated `prefers-reduced-motion`. also grabbed a screenshot
+mid-rotation, which happened to catch the spokes at a clearly
+non-zero angle - visual confirmation on top of the computed-style
+proof. re-ran the accessibility self-audit: still 100/100.
