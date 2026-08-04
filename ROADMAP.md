@@ -295,3 +295,16 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   harmless (clearly labeled test data, several already rejected earlier)
   but will need euan's account (the only other reviewer) to actually
   clear the couple that are still sitting as `submitted`.
+
+## checkpoint: full regression pass (tick 25, no schema/db access needed)
+
+16 ticks of changes since the last time everything got walked end to end
+together rather than one fix at a time, so did a clean pass instead of
+another isolated fix: signed out, signed back in through the real oauth
+round trip (not just a persisted cookie), landed correctly on the
+dashboard with real data; ran a fresh accessibility audit through the
+full pipeline including the request-interception ssrf layer, completed
+normally (92 -> 92); signed out again and confirmed `/submit` correctly
+gates back to the sign-in prompt instead of showing stale cached state.
+no regressions found. everything from the ssrf/a11y/integrity work across
+the last several ticks is still working together, not just in isolation.
