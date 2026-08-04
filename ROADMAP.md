@@ -2040,3 +2040,41 @@ wait after tabbing and re-checked: computed box-shadow correctly
 resolves to the black+yellow values, confirmed by screenshot on both
 a primary button and the skip-to-content link. self-audit still
 100/100 on `/` and `/submit`, typecheck clean.
+
+## scroll-triggered reveal for below-the-fold sections
+
+only the hero had any entrance motion (`fade-up`, staggered). "how it
+works", "what you get", and "why this exists" all just appeared
+instantly the moment they scrolled into view - the rest of the page
+reads static and flat right after the hero's motion finishes.
+
+added `animation-timeline: view()` - pure css scroll-driven animation,
+no JS, no IntersectionObserver - wrapped in `@supports
+(animation-timeline: view())` so it's a true progressive enhancement:
+unsupported browsers (still most non-chromium browsers as of now)
+just never apply the `opacity: 0` starting state and the content
+stays visible by default, same as if the rule didn't exist. also
+gated behind `prefers-reduced-motion: no-preference`. this keeps the
+same no-js-safe motion architecture as the rest of the site's
+animations (`fade-up`, `wheel-spin`, `trail-pulse`) - never JS-driven,
+never something that can leave content permanently hidden if a
+feature isn't supported.
+
+verified three ways: (1) confirmed the sandbox's headless chromium
+(v149) actually supports `animation-timeline: view()` via
+`CSS.supports()` before writing any of this, so the test isn't
+testing a no-op; (2) checked computed opacity on the "how it works"
+section both before scrolling (0, correctly hidden) and after
+scrolling it into view (1, correctly revealed), with screenshots at
+each point; (3) checked computed opacity with `prefers-reduced-motion:
+reduce` emulated - stays at 1 with zero scrolling, confirming the
+reduced-motion escape hatch actually works without needing scroll
+interaction. self-audit still 100/100, typecheck clean.
+
+that's the last tick before 60 - temp db never came back up this
+session (dead since tick 30, confirmed dead again this tick). every
+change this session landed on `/`, `/submit`, `/not-found`,
+`/login-error`, and `error.tsx` since those never needed the db to
+verify; dashboard/review got a couple of low-risk consistency-only
+edits (wordmark font, wordmark class) that couldn't be screenshotted
+and are flagged as such throughout.
