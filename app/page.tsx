@@ -56,19 +56,19 @@ export default function Home() {
       <main>
         <section className="mx-auto flex max-w-4xl items-center gap-8 px-6 pt-16 pb-20">
           <div className="min-w-0">
-          <p className="mb-4 inline-block rounded-full bg-[#ffcf3f] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-900">
+          <p className="fade-up mb-4 inline-block rounded-full bg-[#ffcf3f] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-zinc-900">
             a hack club YSWS
           </p>
-          <h1 className="max-w-2xl text-5xl font-bold leading-[1.05] tracking-tight text-zinc-900">
+          <h1 className="fade-up max-w-2xl text-5xl font-bold leading-[1.05] tracking-tight text-zinc-900 [animation-delay:80ms]">
             Ship an accessibility fix. Prove it with numbers.
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-7 text-zinc-600">
+          <p className="fade-up mt-6 max-w-xl text-lg leading-7 text-zinc-600 [animation-delay:160ms]">
             Curb is a You Ship We Ship program for teens who make the web
             usable for people who currently can&apos;t use it. Named after the
             curb cut effect: fixes built for accessibility end up helping
             everyone.
           </p>
-          <div className="mt-8 flex gap-3">
+          <div className="fade-up mt-8 flex gap-3 [animation-delay:240ms]">
             <Link
               href="/login"
               className="rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg"
@@ -83,7 +83,7 @@ export default function Home() {
             </a>
           </div>
           </div>
-          <CurbCutIcon className="hidden w-full max-w-xs shrink-0 sm:block" />
+          <CurbCutIcon className="fade-up hidden w-full max-w-xs shrink-0 sm:block [animation-delay:120ms]" />
         </section>
 
         <section id="how" className="border-t border-zinc-200 bg-white">
