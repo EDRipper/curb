@@ -165,3 +165,10 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   (`focus:outline-none`) and replaced it with only a subtle border-color
   shift, a weak focus indicator; added a visible focus ring. verified
   the ring live on the deployed form.
+- the submit form collects optional before/after screenshot urls but
+  nothing ever displayed them anywhere — reviewers had to manually pull
+  the url out of the db to see submitted evidence. now shown as
+  thumbnails in the review queue (linked to the full image). verified
+  live end to end: submitted a test entry with two placeholder image
+  urls, confirmed both render side by side in `/review`, then rejected
+  the test row with a note instead of leaving it dangling.
