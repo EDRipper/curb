@@ -1401,3 +1401,20 @@ and "auto" under emulated `prefers-reduced-motion`, and a real click on
 the anchor moves `window.scrollY` from 0 to 630 and lands the `#how`
 section at the top of the viewport - confirms the link still actually
 works, not just looks different.
+
+## checked an even narrower viewport (320px), found a real regression
+
+temp db still dead (re-checked). this session had only ever tested
+mobile at 375px - dropped to 320px (smallest common width, older/
+smaller phones) and found the hero's two cta buttons squeezing their
+own text onto 2 lines each instead of staying single-line pills. no
+overflow, but a real visual regression at that width - flex items
+shrink below their content width by default when a row runs out of
+space, forcing internal text wrap.
+
+fixed with `flex-wrap` on the button row and `whitespace-nowrap` on
+each button, so a button that doesn't fit drops whole to its own line
+instead of compressing. verified both ends: 320px now shows clean
+full-width single-line buttons stacked, and 1280px desktop is
+unchanged (still side by side, same as every prior screenshot this
+session).
