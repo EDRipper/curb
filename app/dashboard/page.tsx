@@ -16,7 +16,13 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-export default async function Dashboard() {
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const justSubmitted = (await searchParams).submitted === "1";
+
   const session = await getSession();
 
   if (!session) {
@@ -41,6 +47,17 @@ export default async function Dashboard() {
       <Link href="/" className="text-lg font-bold tracking-tight hover:text-zinc-600">
         curb
       </Link>
+
+      {justSubmitted && (
+        <div className="mt-6 flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">
+          <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 shrink-0" aria-hidden="true">
+            <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.6" />
+            <path d="M6.5 10.5L8.75 12.75L13.5 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          your fix was submitted — a reviewer will take a look soon.
+        </div>
+      )}
+
       <div className="mt-8 flex items-center gap-3">
         <Avatar name={session.name} size={44} />
         <div>

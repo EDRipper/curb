@@ -100,5 +100,5 @@ export async function createSubmission(
     },
   });
 
-  redirect("/dashboard");
+  redirect("/dashboard?submitted=1");
 }
