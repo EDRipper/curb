@@ -3,6 +3,8 @@ import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { reviewSubmission } from "./actions";
 
+export const dynamic = "force-dynamic";
+
 const STATUS_STYLE: Record<string, string> = {
   submitted: "bg-zinc-100 text-zinc-700",
   approved: "bg-green-100 text-green-800",

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import SubmitForm from "./SubmitForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function Submit() {
   const session = await getSession();
 
