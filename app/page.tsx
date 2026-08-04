@@ -139,7 +139,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <p className="mt-4 text-xs text-zinc-500">
+            <p className="mt-4 max-w-2xl text-xs text-zinc-500">
               hours are self-claimed at submission and confirmed by a human
               reviewer, who sees your before/after audit score delta
               alongside the claim. rewards unlock once your total approved
