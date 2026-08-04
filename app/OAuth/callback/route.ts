@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
   const cookieStore = await cookies();
   const expectedState = cookieStore.get(STATE_COOKIE)?.value;
-  cookieStore.delete(STATE_COOKIE);
+  cookieStore.delete({ name: STATE_COOKIE, path: "/" });
 
   if (!code || !state || !expectedState || state !== expectedState) {
     return NextResponse.redirect(
