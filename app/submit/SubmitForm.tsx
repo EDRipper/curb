@@ -81,7 +81,7 @@ export default function SubmitForm() {
 
       <div className="space-y-5 border-t border-zinc-200 pt-8">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
-          proof <span className="normal-case text-zinc-400">(optional)</span>
+          proof <span className="normal-case text-zinc-500">(optional)</span>
         </h2>
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
