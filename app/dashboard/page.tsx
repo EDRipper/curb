@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
@@ -10,6 +11,10 @@ import { ScoreBar } from "../ScoreBar";
 import { StatusBadge } from "../StatusBadge";
 import { runAudit } from "./actions";
 import AuditButton from "./AuditButton";
+
+export const metadata: Metadata = {
+  title: "dashboard — curb",
+};
 
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";

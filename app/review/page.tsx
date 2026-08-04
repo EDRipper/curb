@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
@@ -9,6 +10,10 @@ import { ScoreBar } from "../ScoreBar";
 import { StatusBadge } from "../StatusBadge";
 import { WarningIcon } from "../WarningIcon";
 import ReviewActions from "./ReviewActions";
+
+export const metadata: Metadata = {
+  title: "review queue — curb",
+};
 
 export const dynamic = "force-dynamic";
 

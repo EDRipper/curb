@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { NotFoundIcon } from "./NotFoundIcon";
+
+export const metadata: Metadata = {
+  title: "page not found — curb",
+};
 
 export default function NotFound() {
   return (

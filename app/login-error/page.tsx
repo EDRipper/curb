@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { WarningIcon } from "../WarningIcon";
+
+export const metadata: Metadata = {
+  title: "sign-in didn't work — curb",
+};
 
 export default function LoginError() {
   return (

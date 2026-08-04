@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import SubmitForm from "./SubmitForm";
+
+export const metadata: Metadata = {
+  title: "submit a fix — curb",
+};
 
 export const dynamic = "force-dynamic";
 
