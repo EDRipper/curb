@@ -56,19 +56,19 @@ export default async function Dashboard() {
       <div className="mt-8 flex gap-3">
         <Link
           href="/submit"
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-700"
+          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg"
         >
           new submission
         </Link>
         {me?.isReviewer && (
           <Link
             href="/review"
-            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-100"
+            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 transition-all hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-md"
           >
             review queue
           </Link>
         )}
-        <a href="/logout" className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-100">
+        <a href="/logout" className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 transition-all hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-md">
           sign out
         </a>
       </div>

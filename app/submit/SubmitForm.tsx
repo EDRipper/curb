@@ -125,7 +125,7 @@ export default function SubmitForm() {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white hover:bg-zinc-700 disabled:opacity-50"
+        className="rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg disabled:pointer-events-none disabled:opacity-50"
       >
         {pending ? "submitting…" : "submit"}
       </button>
