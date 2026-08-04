@@ -1071,3 +1071,35 @@ noted but left alone: the headline shows a slightly wide gap before
 source (`cat -A`), so it reads as a satori/next-og text-shaping quirk
 tied to this local render rather than a structural bug - worth a
 second look if it shows up on the actual deployed image too.
+
+## dug into the og-image text gap, dead end, moved on
+
+spent part of this tick trying to actually fix the headline spacing
+noted at the end of the last entry: tried `flexWrap: 'wrap'` (no
+change), then rewrote the headline as two explicit hardcoded lines
+instead of relying on auto-wrap at `maxWidth: 980` (also no change,
+same gap showed up before both "fix." and "it"). that ruled out
+wrapping/justification as the cause - it's font substitution. the
+image never specifies real font data to `ImageResponse`'s `fonts`
+option, so `fontFamily: "sans-serif"` resolves to whatever's installed
+in whichever environment renders it, and this sandbox's fallback has
+wide inter-word spacing at certain kerning pairs. `next/og` only
+accepts ttf/otf/woff font data and this repo's cached geist files are
+woff2-only (checked `.next/static/media`), so a real fix means
+converting/bundling a font, real effort for a share-image-only
+nicety with a payoff that isn't even confirmed to reproduce on the
+actual vercel deployment. reverted both experiments back to the
+original single-div/maxWidth version (already-fixed badge stays
+fixed) and moved on rather than sink more of this tick into it.
+
+## warning icons on the review queue's credit-dispute/duplicate banners
+
+the "possible credit dispute" and "duplicate" red banners are the
+single highest-consequence signal on the review page - they're what
+stops a reviewer from blindly clicking approve - and they had the
+least visual weight of anything on the card, plain text in a colored
+box. added `WarningIcon.tsx` (a small triangle-exclamation, shared by
+both banner variants) so the warning is scannable at a glance.
+verified against the real review queue: icon aligns cleanly with the
+first line of text on both banner types, no overlap where a card
+shows both at once.
