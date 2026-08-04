@@ -1489,3 +1489,31 @@ under emulated `prefers-reduced-motion`. also grabbed a screenshot
 mid-rotation, which happened to catch the spokes at a clearly
 non-zero angle - visual confirmation on top of the computed-style
 proof. re-ran the accessibility self-audit: still 100/100.
+
+## good news: vercel's rate limit cleared, production is caught up
+
+checked `gh api repos/EDRipper/curb/commits/main/status` again this
+tick - deployment now shows "success" for the exact latest commit
+(`391e1de`, end of tick 35), not the 24h wait the rate-limit message
+implied. confirmed visually too: the live `curb-theta.vercel.app`
+shows the hero wheel mid-rotation with visible spokes, matching
+tick 35's work. everything pushed this whole session is now actually
+live, not just sitting in github. temp db is still down though (same
+`psql` failure as every prior tick this session).
+
+## a skip-to-content link on the landing page
+
+a real accessibility gap that automated axe-core scans don't catch:
+keyboard/screen-reader users had no way to bypass the header nav (4
+tab stops) and jump straight to the main content, had to tab through
+it on every single visit. fitting to add given curb's whole product
+scores other sites on exactly this category of thing. added a
+visually-hidden skip link (becomes visible on keyboard focus) before
+the header, pointing at a new `id="main-content"` on `<main>`.
+
+verified with real keyboard interaction rather than trusting the dom
+alone: confirmed the link is 1x1px hidden by default, a real `Tab`
+keypress lands on it as the literal first focusable element on the
+page, it becomes visible (133x36px) once focused, and pressing `Enter`
+on it actually navigates to `#main-content` and scrolls the page -
+functionally correct end to end, not just present in markup.
