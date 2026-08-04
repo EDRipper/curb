@@ -31,10 +31,13 @@ export async function runAudit(submissionId: string) {
       },
     });
   } catch (err) {
+    console.error("audit failed for submission", submissionId, err);
+    const detail =
+      err instanceof Error ? `${err.message}\n${err.stack ?? ""}` : String(err);
     await db.submission.update({
       where: { id: submissionId },
       data: {
-        auditError: err instanceof Error ? err.message : "audit failed",
+        auditError: detail.slice(0, 2000),
         auditedAt: new Date(),
       },
     });
