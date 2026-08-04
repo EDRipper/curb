@@ -1302,3 +1302,21 @@ used elsewhere (reward card yellow accents, the score bar's green
 fill). verified via a throwaway preview route since no temp-db account
 has 50h+ approved - screenshotted the exact real markup at max-tier
 values, icon renders correctly sized and baseline-aligned.
+
+## stepped back for a full-page gestalt check, fixed an unbalanced section
+
+took a fresh full-page screenshot of the whole landing page instead of
+looking at individual components in isolation - most sections are
+icon/grid-driven at this point, but "why this exists" was still a lone
+narrow paragraph (`max-w-2xl` inside a `max-w-4xl` container) leaving a
+large empty gap on the right half, looked unfinished next to
+everything else. added a large decorative double-quote mark (plain
+geometric shapes, not a font glyph) to fill that space - fits since the
+section already reads like a manifesto/pull-quote, muted zinc-100 so it
+doesn't compete with the text.
+
+verified both breakpoints in the browser: desktop shows the quote mark
+sitting cleanly right of the paragraph, and a real 375px mobile check
+confirms it's correctly hidden there (`hidden sm:block`) with the
+paragraph taking the full width and no overflow. a full fresh
+screenshot of the whole page confirmed no other section was disturbed.
