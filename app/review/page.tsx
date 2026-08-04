@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { reviewSubmission } from "./actions";
+import ReviewActions from "./ReviewActions";
 
 export const dynamic = "force-dynamic";
 
@@ -170,30 +170,7 @@ export default async function Review() {
                   </p>
                 ) : (
                   <form className="mt-3 flex flex-wrap items-center gap-2">
-                    <input
-                      name="note"
-                      aria-label="review note (optional)"
-                      placeholder="note (optional)"
-                      className="min-w-0 flex-1 rounded-md border border-zinc-300 px-3 py-1.5 text-sm"
-                    />
-                    <button
-                      formAction={reviewSubmission.bind(null, s.id, "approved")}
-                      className="rounded-md bg-green-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-green-800"
-                    >
-                      approve
-                    </button>
-                    <button
-                      formAction={reviewSubmission.bind(null, s.id, "needs_changes")}
-                      className="rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700"
-                    >
-                      needs changes
-                    </button>
-                    <button
-                      formAction={reviewSubmission.bind(null, s.id, "rejected")}
-                      className="rounded-md bg-red-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-800"
-                    >
-                      reject
-                    </button>
+                    <ReviewActions submissionId={s.id} />
                   </form>
                 )}
               </li>
