@@ -134,4 +134,13 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   it was correctly rejected with "before url can't point at a
   local/internal address". the pre-fix test row is harmless clutter, not
   a live risk, cleanup needs an `rm`-level approval that isn't landing
-  unattended.
+  unattended. update: rejected the leftover row from the review queue
+  (no delete action exists in the app, and still couldn't get an `rm`
+  approval, so this is the clean non-destructive fix) — it now shows as
+  `rejected` with a note instead of dangling as `submitted` forever.
+- added a 30s cooldown between audit runs per submission. `run
+  accessibility audit` had no rate limit at all: each click launches a
+  real headless chromium twice (before + after urls), so spam-clicking it
+  could queue up unbounded expensive function invocations. now a second
+  click inside 30s of the last audit just errors instead of launching
+  another browser.
