@@ -1985,3 +1985,31 @@ while body stays on Geist. self-audit still 100/100 on `/` and
 `/submit`, typecheck clean. dashboard/review got the same wordmark
 class for consistency but couldn't be screenshotted - db's still dead
 - same caveat as every dashboard/review touch since tick 30.
+
+## the hero illustration was invisible on mobile the whole time
+
+spot-checked the temp db again - still dead, same "credentials are
+incorrect" error from `psql`.
+
+screenshotted the landing page at 375px for the first time this
+session and found a real gap: the hero's `CurbCutIcon` illustration
+(the one hand-drawn custom graphic on the entire site) was `hidden`
+below the `sm` breakpoint. every mobile visitor - almost certainly
+the majority for a link shared in slack/on a phone - was seeing the
+plainest possible version of the page: headline, body copy, two
+buttons, nothing else. the "why this exists" quote-mark svg has the
+same `hidden sm:block` pattern but is a minor background decoration
+behind body text, not the main brand illustration, so left it alone
+this tick to keep the change small and focused.
+
+fix: hero section changed from a fixed `flex` row to `flex-col
+sm:flex-row`, and the illustration lost its `hidden sm:block` in
+favor of a smaller `max-w-[220px]` that grows to `max-w-xs` at `sm+`.
+on mobile it now stacks below the cta buttons instead of squeezing
+into a row it was never sized for (which is exactly why it'd been
+hidden there originally).
+
+verified by screenshotting three widths - 375px, 640px, 1280px - all
+render correctly with no horizontal overflow (checked via
+`scrollWidth > clientWidth`, not just eyeballing). self-audit still
+100/100, typecheck clean.
