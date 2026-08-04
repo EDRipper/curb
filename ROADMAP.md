@@ -438,3 +438,17 @@ completion (92 -> 92), then checked `/review` - "needs review (2)" /
 "already reviewed (4)" grouping correct, the same-user duplicate banner
 still correct with the new submission counted in, self-review guard
 still hiding action buttons. no regressions.
+
+## data quality
+
+- reject submissions where before url and after url are the same. this
+  was a real gap, not a hypothetical: my own test data has done exactly
+  this a bunch this session for unrelated tests (submitting
+  `example.com`/`example.com` to test other things), which is a decent
+  sign it's realistic to hit by accident, not just adversarially. before
+  this it would run a fully real audit (real chromium, real axe scores)
+  against the same page twice and produce a legitimate-looking 0 delta
+  that proves nothing was actually fixed. simple equality check at
+  submission time, no schema change. verified live: submitting
+  `example.com` for both fields now correctly shows "before url and
+  after url can't be the same" instead of going through.
