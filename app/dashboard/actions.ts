@@ -18,6 +18,14 @@ export async function runAudit(submissionId: string) {
     throw new Error("not found");
   }
 
+  // each run launches a real headless browser twice (before + after), which
+  // is expensive to spin up. block spam-clicking rather than let someone
+  // queue up unlimited chromium launches from one submission.
+  const AUDIT_COOLDOWN_MS = 30_000;
+  if (submission.auditedAt && Date.now() - submission.auditedAt.getTime() < AUDIT_COOLDOWN_MS) {
+    throw new Error("audit already ran recently, wait a bit before retrying");
+  }
+
   try {
     // defense in depth: submit/actions.ts already checks this at write time,
     // but re-check here too in case a row predates that check.
