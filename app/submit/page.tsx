@@ -25,12 +25,12 @@ export default async function Submit() {
             we need your hack club account to know who to credit (and where
             to ship your reward).
           </p>
-          <a
+          <Link
             href="/login"
             className="fade-up mt-6 inline-block rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-zinc-700 hover:shadow-lg [animation-delay:160ms]"
           >
             sign in with hack club
-          </a>
+          </Link>
         </>
       ) : (
         <>
