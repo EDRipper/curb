@@ -705,3 +705,17 @@ as it should for a 5-claimed-hour submission. this is the actual core
 value loop curb exists to deliver (fix something, get it reviewed, get
 credited, unlock a reward) and it had never been verified end to end
 through the real ui with a genuine click before this tick.
+
+## reject, by real click too - all three review actions now genuinely tested
+
+rounded out the previous tick's approve test: created one more fresh
+submission from a second test submitter, found its specific card in a
+queue that now has several items (not just clicking the first "reject"
+button on the page - matched by the submission's own description text
+first, same way a person would identify the right card), clicked
+"reject" for real, confirmed the review page shows that exact card as
+rejected and the submitter's own dashboard picks up the change with the
+reviewer's name attached. combined with last tick's approve-by-click and
+tick 45's needs-changes-by-keyboard, all three review outcomes have now
+been exercised through genuine interaction at least once, not just
+inferred from reading `reviewSubmission`'s source.
