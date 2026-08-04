@@ -172,3 +172,27 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   live end to end: submitted a test entry with two placeholder image
   urls, confirmed both render side by side in `/review`, then rejected
   the test row with a note instead of leaving it dangling.
+- closed a real bypass in the ssrf guard from a few ticks ago: it
+  checked plain ipv4 literals and a few ipv6 prefixes, but missed
+  ipv4-mapped ipv6 addresses (`::ffff:169.254.169.254` etc, rfc 4291
+  2.5.5.2) which the os connects to over plain ipv4 regardless of what
+  the hostname string looks like. `lib/urlSafety.ts` now decodes the
+  embedded ipv4 from that form and checks it the same way. verified
+  against 19 cases (every alt ipv4 notation, public/private ipv6, the
+  new bypass) before shipping.
+
+  while verifying this one live, hit a real infra issue worth recording:
+  the push for this fix (802d829) never triggered a vercel deployment at
+  all — no deployment appeared in `gh api repos/EDRipper/curb/deployments`
+  for 9+ minutes, versus every other commit this session deploying within
+  ~2 minutes. a second, empty commit pushed right after triggered a normal
+  deployment immediately, so the underlying webhook/build pipeline is
+  fine, this specific push just got dropped somewhere (github->vercel
+  webhook or vercel's queue). two test submissions with the live bypass
+  url got accepted into the db during the stuck window; neither was ever
+  audited (confirmed by not clicking "run accessibility audit" on them
+  until the fix was verified live), so puppeteer never actually reached
+  the bypass url — rejected both from the review queue with a note.
+  worth knowing for next time a push seems to have "done nothing": check
+  the deployments api before assuming the fix shipped, and a plain
+  re-push (even an empty commit) is a reasonable first fix.
