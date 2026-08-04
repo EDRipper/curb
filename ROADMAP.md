@@ -65,5 +65,17 @@ link, not just merged.
       a note, confirmed the status + note showed up correctly on both the
       review queue and the submitter's dashboard, then deleted the test
       submission.
-- [ ] hours <-> reward catalog logic
+- [x] hours <-> reward catalog logic — `lib/rewards.ts` is the single
+      source of truth for the tier catalog (5h/15h/30h/50h), used by both
+      the homepage pitch and the dashboard so they can't drift out of
+      sync. dashboard sums `hoursClaimed` across a user's `approved`
+      submissions only (needs_changes/rejected/submitted don't count) and
+      shows the unlocked tier plus hours-to-next-tier. rewrote the
+      homepage's reward disclaimer, which used to falsely claim hours were
+      "tracked via hackatime" (never built) — it now accurately says hours
+      are self-claimed and confirmed by a human reviewer against the audit
+      delta. tested live: approved a real 6h submission, watched the
+      dashboard go from "0h approved, 5h to next tier" to "6h approved,
+      tier 1 unlocked, 9h to tier 2" — correct math, then deleted the test
+      submission.
 - [ ] end-to-end click-through test pass on the live link
