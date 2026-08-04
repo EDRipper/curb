@@ -7,6 +7,7 @@ import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
 import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
 import { ScoreBar } from "../ScoreBar";
+import { StatusBadge } from "../StatusBadge";
 import { runAudit } from "./actions";
 import AuditButton from "./AuditButton";
 
@@ -14,13 +15,6 @@ export const maxDuration = 60;
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
-
-const STATUS_STYLE: Record<string, string> = {
-  submitted: "bg-zinc-100 text-zinc-700",
-  approved: "bg-green-100 text-green-800",
-  needs_changes: "bg-amber-100 text-amber-800",
-  rejected: "bg-red-100 text-red-800",
-};
 
 export default async function Dashboard() {
   const session = await getSession();
@@ -123,13 +117,7 @@ export default async function Dashboard() {
                   >
                     {s.afterUrl}
                   </a>
-                  <span
-                    className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
-                      STATUS_STYLE[s.status] ?? "bg-zinc-100 text-zinc-700"
-                    }`}
-                  >
-                    {s.status}
-                  </span>
+                  <StatusBadge status={s.status} />
                 </div>
                 <p className="mt-1 text-sm text-zinc-600">{s.description}</p>
                 <p className="mt-1 text-xs text-zinc-600">

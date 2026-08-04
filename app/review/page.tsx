@@ -5,17 +5,11 @@ import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
 import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
 import { ScoreBar } from "../ScoreBar";
+import { StatusBadge } from "../StatusBadge";
 import { WarningIcon } from "../WarningIcon";
 import ReviewActions from "./ReviewActions";
 
 export const dynamic = "force-dynamic";
-
-const STATUS_STYLE: Record<string, string> = {
-  submitted: "bg-zinc-100 text-zinc-700",
-  approved: "bg-green-100 text-green-800",
-  needs_changes: "bg-amber-100 text-amber-800",
-  rejected: "bg-red-100 text-red-800",
-};
 
 export default async function Review() {
   const session = await getSession();
@@ -124,13 +118,7 @@ export default async function Review() {
             </p>
             </div>
           </div>
-          <span
-            className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
-              STATUS_STYLE[s.status] ?? "bg-zinc-100 text-zinc-700"
-            }`}
-          >
-            {s.status}
-          </span>
+          <StatusBadge status={s.status} />
         </div>
 
         {otherUserCount > 0 && (
