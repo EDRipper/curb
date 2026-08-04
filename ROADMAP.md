@@ -1230,3 +1230,25 @@ the real authenticated `/dashboard` and `/review` - all 6 pages score
 ticks, not just a one-off - worth running again periodically as more
 changes land, since it directly measures the thing this product exists
 to measure.
+
+## success confirmation after submitting a fix
+
+checked dashboard/review at a real 375px mobile viewport first (no bug
+found - no overflow, and a card that looked like it had an overlapping
+status badge turned out to be tight-but-not-touching when measured by
+actual bounding rects, not a real defect).
+
+then found a genuine gap: `createSubmission` redirected straight to
+`/dashboard` with zero acknowledgment after a successful submit - the
+core conversion action of the whole product, and a first-time user
+gets no feedback that anything happened. redirect now carries
+`?submitted=1`; the dashboard reads it via the (promise-based, this
+next.js version) `searchParams` prop and shows a green checkmark
+confirmation banner.
+
+verified two ways: visiting `/dashboard?submitted=1` directly shows the
+banner while a plain `/dashboard` visit doesn't, and a full real
+end-to-end pass - typing into the actual submit form, clicking submit
+for real, letting the redirect fire on its own - lands on
+`/dashboard?submitted=1` with the banner rendering correctly above the
+new "submitted" card.
