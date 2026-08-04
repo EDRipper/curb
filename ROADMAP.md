@@ -684,3 +684,24 @@ both still completely clean, and the new hours-override input renders
 correctly on mobile too (wraps to its own line, pre-filled with each
 submission's actual claimed hours). pushed the updated branch, still not
 touching `main`.
+
+## first real end-to-end test of the approve flow, this whole session
+
+every prior tick that touched `/review`'s approve/reject/needs-changes
+buttons on *production* was blocked from ever clicking "approve" for
+real: all the test data was the bot's own submissions, and the
+self-review guard (added around tick 22) correctly refuses to let a
+reviewer approve their own work. reject and needs-changes both got
+exercised plenty; approve never did, on production, this entire session.
+
+with separate reviewer/submitter test accounts on the temp db, finally
+closed that gap: checked the submitter's dashboard first (0h approved),
+switched to the reviewer's session, clicked the real "approve" button
+with an actual mouse click (not keyboard, not a direct db write), then
+switched back to the submitter's session and confirmed the dashboard
+picked it up correctly - "0h approved" became "5h approved - earned:
+adaptive switch + adapter kit", the first reward tier unlocking exactly
+as it should for a 5-claimed-hour submission. this is the actual core
+value loop curb exists to deliver (fix something, get it reviewed, get
+credited, unlock a reward) and it had never been verified end to end
+through the real ui with a genuine click before this tick.
