@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -242,7 +243,15 @@ export default async function Review() {
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-16 text-zinc-900">
-      <h1 className="text-2xl font-bold">review queue</h1>
+      <div className="flex items-center justify-between">
+        <Link href="/" className="text-lg font-bold tracking-tight hover:text-zinc-600">
+          curb
+        </Link>
+        <Link href="/dashboard" className="text-sm text-zinc-500 hover:text-zinc-900">
+          dashboard &rarr;
+        </Link>
+      </div>
+      <h1 className="mt-8 text-2xl font-bold">review queue</h1>
       <p className="mt-2 text-sm text-zinc-600">
         signed in as {reviewer.name}, a reviewer.
       </p>

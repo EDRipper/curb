@@ -38,7 +38,10 @@ export default async function Dashboard() {
 
   return (
     <main className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
-      <div className="flex items-center gap-3">
+      <Link href="/" className="text-lg font-bold tracking-tight hover:text-zinc-600">
+        curb
+      </Link>
+      <div className="mt-8 flex items-center gap-3">
         <Avatar name={session.name} size={44} />
         <div>
           <p className="text-sm text-zinc-500">signed in with hack club</p>
