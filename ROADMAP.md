@@ -2078,3 +2078,39 @@ change this session landed on `/`, `/submit`, `/not-found`,
 verify; dashboard/review got a couple of low-risk consistency-only
 edits (wordmark font, wordmark class) that couldn't be screenshotted
 and are flagged as such throughout.
+
+## tick 60: the last hidden-on-mobile element, and a session wrap-up
+
+closed out the pattern from tick 57 - the "why this exists" quote-mark
+svg was still `hidden sm:block`, the one remaining decorative element
+invisible to mobile visitors. same fix as the hero illustration: it
+now stacks above the heading on mobile at a smaller size (`order-first`,
+h-14/w-16) instead of being hidden, and reverts to the original
+side-by-side layout at `sm+`. verified via screenshot at 375px and
+1280px, no horizontal overflow, self-audit still 100/100.
+
+**session summary, ticks 1-60:** started from a stock create-next-app
+look and ended with: a hand-drawn animated hero illustration and
+matching step/reward icon set (custom svg throughout, no stock
+icons), a distinct display typeface (Space Grotesk) on the wordmark
+and hero instead of geist everywhere, a full custom favicon/app-icon/
+og-image pipeline with real font rendering, css-only motion
+(fade-up entrance, wheel-spin, trail-pulse, and this session's
+scroll-triggered reveals) that all degrade safely with JS off and
+`prefers-reduced-motion` on, a branded high-contrast focus ring
+instead of the browser default, visual consistency between the
+landing page and every secondary page (submit/404/login-error/error
+all got the dot-grid texture + header they were missing), and mobile
+parity - both the hero illustration and the quote-mark were invisible
+below `sm` and are now fixed.
+
+recurring theme worth flagging for whoever picks this up next: the
+temp prisma postgres db died at tick 30 and never came back
+(`db.prisma.io` still rejects the stored credentials as of this
+tick), meaning production has likely been broken for the same
+window if it shares this `DATABASE_URL`. every dashboard/review-queue
+change this session had to be skipped or done blind for that reason -
+that's the biggest remaining gap between this site and something like
+macondo/beest/fallout, since those queue/dashboard screens are exactly
+where a lot of "polish" work usually lives. fixing the db credentials
+is the highest-leverage next step, not another landing-page pass.
