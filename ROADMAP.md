@@ -496,3 +496,19 @@ still hiding action buttons. no regressions.
   the bot's own `example.com`/`example.com` test rows actually do carry
   2 real moderate violations (`landmark-one-main`, `region`) on
   google's/whoever's example.com page, not just placeholder zeros.
+- another captured-but-never-shown field: hack club auth returns
+  `slack_id` and curb has stored it on every user since the oauth flow
+  was built, upserted on every login - never surfaced. reviewers only
+  had an email to identify/reach a submitter, a slow way to reach
+  someone in a community that actually runs on slack (asking a
+  clarifying question, flagging a concern before rejecting outright).
+  added a "slack" link next to the name/email on `/review`, using the
+  standard `hackclub.slack.com/team/<id>` deep link, only rendered when
+  present (it's optional in the oauth response). verified the link
+  renders and is clickable live; didn't independently verify the
+  destination resolves correctly by actually landing on the profile
+  (would need to be signed into that slack workspace in this browser
+  context) - confidence instead comes from the href being a plain
+  template literal with no transformation logic to get wrong, over a
+  `slackId` value whose correctness was already established when the
+  oauth callback code was reviewed.
