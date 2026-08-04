@@ -144,3 +144,11 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   could queue up unbounded expensive function invocations. now a second
   click inside 30s of the last audit just errors instead of launching
   another browser.
+- stopped showing raw node stack traces to submitters when an audit
+  fails. `auditError` stores `message + stack` (still does, for
+  server-side debugging via console.error/db), but the dashboard/review
+  ui now only renders the first line. verified live by actually failing
+  an audit (ran it against the rejected ssrf-test row, which still has
+  the blocked before-url): before the fix it rendered ~10 lines of
+  `/var/task/.next/server/chunks/...` internal paths, after it's just
+  `audit failed: before url can't point at a local/internal address`.
