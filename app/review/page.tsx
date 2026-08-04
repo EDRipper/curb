@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
+import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
 import ReviewActions from "./ReviewActions";
 
@@ -94,7 +95,9 @@ export default async function Review() {
     return (
       <li key={s.id} className="rounded-lg border border-zinc-200 p-5">
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="flex items-start gap-3">
+            <Avatar name={s.user.name} />
+            <div>
             <p className="font-semibold">
               {s.user.name}{" "}
               <span className="font-normal text-zinc-500">({s.user.email})</span>
@@ -117,6 +120,7 @@ export default async function Review() {
             <p className="mt-1 text-xs text-zinc-500">
               {approvedHoursByUser.get(s.userId) ?? 0}h approved so far
             </p>
+            </div>
           </div>
           <span
             className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${

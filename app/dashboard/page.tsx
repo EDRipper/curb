@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getRewardStatus } from "@/lib/rewards";
 import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
+import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
 import { runAudit } from "./actions";
 import AuditButton from "./AuditButton";
@@ -42,8 +43,13 @@ export default async function Dashboard() {
 
   return (
     <main className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
-      <p className="text-sm text-zinc-500">signed in with hack club</p>
-      <h1 className="mt-1 text-2xl font-bold">hey, {session.name}</h1>
+      <div className="flex items-center gap-3">
+        <Avatar name={session.name} size={44} />
+        <div>
+          <p className="text-sm text-zinc-500">signed in with hack club</p>
+          <h1 className="text-2xl font-bold">hey, {session.name}</h1>
+        </div>
+      </div>
       <p className="mt-3 text-sm text-zinc-600">{session.email}</p>
 
       <div className="mt-8 flex gap-3">
