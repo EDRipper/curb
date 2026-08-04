@@ -922,3 +922,23 @@ right, stacking centered on mobile via `flex-col`/`sm:flex-row`, reusing
 the header's link hover style. verified both the desktop two-column
 layout and the mobile stacked layout in the browser (real 375px
 viewport again) - clean in both.
+
+## fade-up motion on /submit, and a real next.js 16 view-transitions dead end
+
+looked into using react's `<ViewTransition>` (documented under
+next.js 16's app router, `node_modules/next/dist/docs/01-app/02-guides/
+view-transitions.md`) for real directional page-to-page transitions -
+the docs claim the app router bundles the react canary features needed
+automatically. checked directly against this project's actual
+installed `react` (19.2.8): `ViewTransition` is not exported from it.
+importing it would have broken the build. skipped rather than ship
+something untested against what's actually installed here; worth
+revisiting if/when react gets bumped.
+
+fell back to extending the fade-up entrance treatment (from a few
+ticks ago, landing hero only) to `/submit`'s heading/subtext/cta for
+both its signed-out and signed-in states, reusing the existing css
+class rather than adding anything new. verified in the browser:
+caught it genuinely mid-animation on the first screenshot (visibly
+lower opacity), fully settled and pixel-matching the static layout
+after a 1s wait.
