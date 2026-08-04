@@ -1720,3 +1720,30 @@ render both together): full screenshot plus a close crop confirming
 the avatar placeholder renders as a genuine circle, not an accidentally-
 square block. re-ran the self-audit on the real public pages
 (unaffected by this change): still 100/100.
+
+## a clean tick: several real checks, nothing to fix
+
+temp db still dead. spent this tick on checks that could each have
+turned up something, and each came back genuinely clean rather than
+forcing a change:
+
+- icon stroke-width consistency across CurbCutIcon/StepIcon/RewardIcon/
+  NotFoundIcon/WarningIcon: the raw values vary (1.5 to 5) but the
+  on-screen weight, once accounting for each icon's actual render
+  size, works out proportionate - the hero illustration reading bolder
+  than small inline icons is the correct hierarchy, not drift. left it
+  alone rather than "fixing" a real design choice.
+- landing page and /submit (signed-out) with javascript fully disabled:
+  both render completely readable and functional. this also
+  incidentally confirms the fade-up/wheel-spin/trail-pulse motion added
+  across earlier ticks is genuinely css-only, not js-driven - it was
+  built that way deliberately, and this is the first time it's been
+  checked under a real no-js browser rather than assumed.
+- real keyboard/click focus states on the submit form's url input and
+  the description textarea: both show a clear, correctly-styled focus
+  ring, verified via computed style plus a screenshot of a real typed
+  multi-line value in the textarea, not just checking the css exists.
+
+no code changes this tick - a genuinely clean result across several
+real checks is itself worth recording, rather than inventing a change
+to have something to ship.
