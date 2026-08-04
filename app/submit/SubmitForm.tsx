@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { Spinner } from "../Spinner";
+import { WarningIcon } from "../WarningIcon";
 import { createSubmission } from "./actions";
 
 const inputClass =
@@ -138,7 +139,10 @@ export default function SubmitForm() {
       </div>
 
       {state?.error && (
-        <p className="text-sm font-medium text-red-600">{state.error}</p>
+        <p className="flex items-start gap-1.5 rounded bg-red-50 px-3 py-2 text-sm font-medium text-red-700">
+          <WarningIcon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          <span>{state.error}</span>
+        </p>
       )}
 
       <button
