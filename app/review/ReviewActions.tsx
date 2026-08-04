@@ -19,7 +19,7 @@ export default function ReviewActions({
         aria-label="review note (optional)"
         placeholder="note (optional)"
         disabled={pending}
-        className="min-w-0 flex-1 rounded-md border border-zinc-300 px-3 py-1.5 text-sm disabled:opacity-50"
+        className="w-full rounded-md border border-zinc-300 px-3 py-1.5 text-sm disabled:opacity-50 sm:min-w-0 sm:flex-1"
       />
       <input
         name="approvedHours"
@@ -42,7 +42,7 @@ export default function ReviewActions({
       <button
         formAction={reviewSubmission.bind(null, submissionId, "needs_changes")}
         disabled={pending}
-        className="rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-md bg-amber-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {pending ? "working…" : "needs changes"}
       </button>
