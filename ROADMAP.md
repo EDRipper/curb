@@ -1383,3 +1383,21 @@ doesn't touch the temp db setup itself, that's euan's call. verified
 this tick's actual code change (the warning-icon styling) via a
 throwaway preview route instead, since real data access isn't
 possible until the db issue is resolved.
+
+## smooth scroll for the hero's #how anchor link
+
+temp db still dead (re-checked with the same direct `psql` test before
+starting this tick), so stayed on public/non-db pages again. the
+hero's "how it works" button jumped instantly to the `#how` section -
+zero motion, jarring next to everything else this session added
+motion to. added `scroll-behavior: smooth` to `html`, falls back to
+`auto` under `prefers-reduced-motion` (matching the existing fade-up
+media query pattern).
+
+verified without relying on eyeballing an animation, since the hover
+investigation a few ticks back showed that's not reliable evidence
+here: `getComputedStyle(html).scrollBehavior` reads "smooth" normally
+and "auto" under emulated `prefers-reduced-motion`, and a real click on
+the anchor moves `window.scrollY` from 0 to 630 and lands the `#how`
+section at the top of the viewport - confirms the link still actually
+works, not just looks different.
