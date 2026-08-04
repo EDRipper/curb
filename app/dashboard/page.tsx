@@ -112,8 +112,8 @@ export default async function Dashboard() {
 
                 <div className="mt-3 border-t border-zinc-100 pt-3">
                   {s.auditedAt && s.auditError && (
-                    <p className="mb-2 whitespace-pre-wrap text-sm text-red-600">
-                      audit failed: {s.auditError}
+                    <p className="mb-2 text-sm text-red-600">
+                      audit failed: {s.auditError.split("\n")[0]}
                     </p>
                   )}
 
