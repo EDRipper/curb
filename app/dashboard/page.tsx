@@ -9,6 +9,7 @@ import { Avatar } from "../Avatar";
 import { EmptyState } from "../EmptyState";
 import { ScoreBar } from "../ScoreBar";
 import { StatusBadge } from "../StatusBadge";
+import { WarningIcon } from "../WarningIcon";
 import { runAudit } from "./actions";
 import AuditButton from "./AuditButton";
 
@@ -191,8 +192,9 @@ export default async function Dashboard({
 
                 <div className="mt-3 border-t border-zinc-100 pt-3">
                   {s.auditedAt && s.auditError && (
-                    <p className="mb-2 text-sm text-red-600">
-                      audit failed: {s.auditError.split("\n")[0]}
+                    <p className="mb-2 flex items-start gap-1.5 rounded bg-red-50 px-2 py-1.5 text-sm text-red-700">
+                      <WarningIcon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                      <span>audit failed: {s.auditError.split("\n")[0]}</span>
                     </p>
                   )}
 
