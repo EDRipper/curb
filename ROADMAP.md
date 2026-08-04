@@ -842,3 +842,27 @@ by `REWARD_CATALOG` index since the tier order is fixed. cards also
 got the same hover lift used on the hero buttons instead of sitting
 static. verified in a real browser screenshot: all 4 render distinct
 and fully contained, no clipping, aligned consistently in the row.
+
+## fixed a real accessibility bug: invisible text in os dark mode
+
+`globals.css` still had the leftover create-next-app
+`@media (prefers-color-scheme: dark)` block, flipping body's
+background to near-black for anyone with system dark mode on. nothing
+else in the app is dark-mode aware - every page's text uses hardcoded
+tailwind classes (`text-zinc-900`, `text-zinc-600`) built for a light
+background, no `dark:` variants anywhere. net effect: near-black text
+on a near-black background on every page except the landing page
+(which forces its own light bg directly, so it happened to be spared).
+
+reproduced it for real before touching anything: temporarily forced
+the dark branch's colors into `:root` and screenshotted the 404 page
+in the browser - heading and body copy were confirmed genuinely
+near-invisible, not just theoretically low-contrast. removed the media
+query so the site stays on its one designed light theme regardless of
+os preference, added `color-scheme: light` to `:root` so the browser
+stops trying to dark-theme its own scrollbars/form controls against a
+page with no dark styling for them. re-verified the 404 and landing
+pages after the fix: cream background, fully readable text on both.
+
+notable given curb's own pitch is literally about accessibility - this
+would have failed a contrast audit for a meaningful chunk of visitors.
