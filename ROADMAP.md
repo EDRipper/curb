@@ -257,3 +257,25 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   is your own submission - another reviewer needs to review it" instead
   of approve/reject buttons for that case. verified live: the bot's own
   test rows in `/review` now show the notice with no action buttons.
+- added duplicate/resubmission flagging to the review queue. nothing
+  helped a reviewer notice the same user submitting the same pr (or the
+  same before/after url pair) more than once - every submission renders
+  independently with zero cross-reference to the others, and
+  duplicate-checking is one of the easiest real review steps to skip
+  when reading submissions one at a time. no schema change needed:
+  groups submissions by `userId+diffUrl` and `userId+beforeUrl+afterUrl`
+  at render time, shows a warning banner on anything in a group bigger
+  than 1. purely informational, doesn't block a legitimate resubmission
+  after "needs changes". verified live using the bot's own 4 leftover
+  test rows (all same diffUrl) - each now correctly shows "duplicate:
+  this user has 4 submissions with the same diff or before/after urls".
+
+  considered instead: letting a reviewer approve at a different hours
+  value than what the submitter claimed (mirrors how real review
+  deflates inflated hours instead of a binary approve/reject). that
+  needs a schema change (a new `approvedHours` column), and this
+  session has no `DATABASE_URL` to actually run the migration against
+  the live db - shipping the schema change without applying it would
+  break every submission query in production the moment it deployed.
+  noting this as a real gap for whenever db migration access is
+  available again, not implementing it blind.
