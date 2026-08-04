@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SubmissionStatus {
+  draft
+  submitted
+  needs_changes
+  approved
+  rejected
+}
+
+model User {
+  id          String   @id @default(cuid())
+  hcaSub      String   @unique
+  email       String   @unique
+  name        String
+  slackId     String?
+  isReviewer  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  submissions Submission[]
+}
+
+model Submission {
+  id          String            @id @default(cuid())
+  user        User              @relation(fields: [userId], references: [id])
+  userId      String
+
+  siteUrl     String
+  diffUrl     String
+  description String
+
+  beforeScreenshotUrl String
+  afterScreenshotUrl  String
+
+  beforeAuditScore Float?
+  afterAuditScore  Float?
+  auditDetails     Json?
+
+  hoursClaimed Float
+  status       SubmissionStatus @default(submitted)
+
+  reviewNote  String?
+  reviewedBy  String?
+  reviewedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
