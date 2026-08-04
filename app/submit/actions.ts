@@ -68,6 +68,22 @@ export async function createSubmission(
     return { error: "hours claimed must be a positive number" };
   }
 
+  // the review queue has no pagination or per-user filtering - it just
+  // lists every submission. nothing stopped one account from flooding it
+  // with junk entries, which would degrade the queue for every reviewer,
+  // not just that user. a modest per-user cooldown is enough to stop
+  // rapid-fire spam without getting in the way of someone submitting a
+  // few genuinely different fixes.
+  const SUBMIT_COOLDOWN_MS = 30_000;
+  const lastSubmission = await db.submission.findFirst({
+    where: { userId: session.userId },
+    orderBy: { createdAt: "desc" },
+    select: { createdAt: true },
+  });
+  if (lastSubmission && Date.now() - lastSubmission.createdAt.getTime() < SUBMIT_COOLDOWN_MS) {
+    return { error: "you just submitted one, wait a bit before submitting another" };
+  }
+
   await db.submission.create({
     data: {
       userId: session.userId,
