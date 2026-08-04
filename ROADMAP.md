@@ -1155,3 +1155,19 @@ verified against the real signed-in `/submit` page (temp-db submitter
 account, clean dev restart first): three clearly separated sections,
 "proof (optional)" reads correctly with a muted "(optional)" suffix,
 no broken spacing at the section borders.
+
+## progress bar toward the next reward tier
+
+"5h more to unlock braille label maker (15h)" was numbers-only on the
+dashboard - same category of gap the a11y score had before it got a
+ScoreBar. added a thin brand-yellow progress bar computed from
+`currentTier.hours` to `nextTier.hours`, clamped 0-100.
+
+verified against the two real accounts available (reviewer at 0h,
+submitter at 5h) - the temp db has nobody sitting mid-tier so a
+non-edge fill percentage couldn't be checked visually, but both edge
+cases that DO exist in the data checked out correctly: a null
+`currentTier` treated as a 0h floor (no crash, no NaN), and landing
+exactly on a tier boundary rendering as a real 0% rather than a
+negative width or divide-by-zero. worth a follow-up screenshot once
+the temp db has someone with partial progress.
