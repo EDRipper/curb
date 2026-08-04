@@ -217,3 +217,18 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   correctly rejected by the existing submission-time check before it
   even reached the crawler, and a normal safe submission audited
   successfully end to end (92 -> 92, +0).
+- added site-wide clickjacking protection (`X-Frame-Options: DENY` +
+  `Content-Security-Policy: frame-ancestors 'none'`) plus
+  `X-Content-Type-Options` and `Referrer-Policy` via next.config.ts's
+  `headers()`. the review queue's approve/reject/needs-changes buttons
+  are a single click with no confirmation step - framing the page with
+  an invisible overlay is a real way to trick a signed-in reviewer into
+  approving a fraudulent submission without realizing it. syntax matches
+  next.js's documented `headers()` example exactly and the build picked
+  it up cleanly, but couldn't independently curl-verify the response
+  headers on the live deploy - this sandbox's plain network egress needs
+  a live operator approval that isn't landing unattended, and `WebFetch`
+  only returns rendered content, not raw headers. flagging that gap
+  honestly rather than claiming a check that didn't happen: worth an
+  actual `curl -I` against the live url next time someone's here to
+  approve it.
