@@ -1,24 +1,40 @@
 import Link from "next/link";
+import { getSession } from "@/lib/auth";
+import SubmitForm from "./SubmitForm";
 
-export default function Submit() {
+export default async function Submit() {
+  const session = await getSession();
+
   return (
-    <div className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-6 text-zinc-900">
-      <Link href="/" className="mb-8 text-sm text-zinc-500 hover:text-zinc-900">
+    <div className="mx-auto min-h-screen max-w-2xl px-6 py-16 text-zinc-900">
+      <Link href="/" className="mb-8 block text-sm text-zinc-500 hover:text-zinc-900">
         &larr; back
       </Link>
-      <h1 className="text-2xl font-bold">submission form is being built</h1>
-      <p className="mt-3 text-sm leading-6 text-zinc-600">
-        this will collect the site you fixed, your diff/PR link, before and
-        after screenshots, and trigger an automated accessibility audit to
-        score the improvement. sign-in and the audit pipeline land in the
-        next few build passes — check back soon or watch the repo.
-      </p>
-      <a
-        href="https://github.com/EDRipper/curb"
-        className="mt-6 text-sm font-semibold text-zinc-900 underline"
-      >
-        follow progress on github
-      </a>
+
+      {!session ? (
+        <>
+          <h1 className="text-2xl font-bold">sign in to submit</h1>
+          <p className="mt-3 text-sm leading-6 text-zinc-600">
+            we need your hack club account to know who to credit (and where
+            to ship your reward).
+          </p>
+          <a
+            href="/login"
+            className="mt-6 inline-block rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white hover:bg-zinc-700"
+          >
+            sign in with hack club
+          </a>
+        </>
+      ) : (
+        <>
+          <h1 className="text-2xl font-bold">submit your fix</h1>
+          <p className="mt-3 text-sm leading-6 text-zinc-600">
+            the automated accessibility audit isn&apos;t wired up yet — for
+            now this records your submission for manual review.
+          </p>
+          <SubmitForm />
+        </>
+      )}
     </div>
   );
 }

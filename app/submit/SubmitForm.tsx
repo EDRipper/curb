@@ -1,0 +1,106 @@
+"use client";
+
+import { useActionState } from "react";
+import { createSubmission } from "./actions";
+
+const inputClass =
+  "mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-500 focus:outline-none";
+
+export default function SubmitForm() {
+  const [state, formAction, pending] = useActionState(createSubmission, undefined);
+
+  return (
+    <form action={formAction} className="mt-8 space-y-5">
+      <div>
+        <label className="text-sm font-medium text-zinc-700">site url</label>
+        <input
+          name="siteUrl"
+          type="url"
+          required
+          placeholder="https://example.com"
+          className={inputClass}
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium text-zinc-700">
+          diff / PR url
+        </label>
+        <input
+          name="diffUrl"
+          type="url"
+          required
+          placeholder="https://github.com/you/repo/pull/1"
+          className={inputClass}
+        />
+      </div>
+
+      <div>
+        <label className="text-sm font-medium text-zinc-700">
+          what did you fix?
+        </label>
+        <textarea
+          name="description"
+          required
+          rows={4}
+          placeholder="keyboard nav was broken on the nav menu, added focus trapping and visible focus states"
+          className={inputClass}
+        />
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label className="text-sm font-medium text-zinc-700">
+            before screenshot url
+          </label>
+          <input
+            name="beforeScreenshotUrl"
+            type="url"
+            required
+            placeholder="https://..."
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-zinc-700">
+            after screenshot url
+          </label>
+          <input
+            name="afterScreenshotUrl"
+            type="url"
+            required
+            placeholder="https://..."
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="text-sm font-medium text-zinc-700">
+          hours claimed
+        </label>
+        <input
+          name="hoursClaimed"
+          type="number"
+          step="0.5"
+          min="0.5"
+          required
+          placeholder="5"
+          className={inputClass}
+        />
+      </div>
+
+      {state?.error && (
+        <p className="text-sm font-medium text-red-600">{state.error}</p>
+      )}
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="rounded-md bg-zinc-900 px-5 py-3 text-sm font-semibold text-white hover:bg-zinc-700 disabled:opacity-50"
+      >
+        {pending ? "submitting…" : "submit"}
+      </button>
+    </form>
+  );
+}
