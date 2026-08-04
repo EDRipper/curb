@@ -29,16 +29,30 @@ link, not just merged.
       on Vercel production. this DB is still temporary (auto-deletes if
       unclaimed) and claiming it hits the same GitHub/Google-only login
       wall as vercel did — needs Euan's login eventually or a permanent DB.
-- [x] submission form (site url, PR/diff link, description, before/after
-      screenshot urls, hours claimed) at `/submit`, gated behind sign-in.
-      real Next.js Server Action (`app/submit/actions.ts`) validates input
-      and writes a `Submission` row. dashboard now lists the signed-in
-      user's own submissions with status. tested live end to end: signed
-      in, filled out and submitted the real form, saw it appear on the
-      dashboard immediately, confirmed the row existed in postgres, then
-      deleted that test row so the DB only has real data.
-- [ ] automated accessibility audit pipeline (axe-core, before/after score
-      delta stored per submission)
+- [x] submission form at `/submit`, gated behind sign-in: before/after
+      live urls (the two pages the audit actually crawls), diff/PR url,
+      description, optional screenshot urls, hours claimed. real Next.js
+      Server Action (`app/submit/actions.ts`) validates input and writes a
+      `Submission` row. dashboard lists the signed-in user's own
+      submissions with status. tested live end to end.
+- [x] automated accessibility audit pipeline — real headless Chromium
+      (`puppeteer-core` + `@sparticuz/chromium`) crawls both the before and
+      after urls, injects axe-core (loaded from a CDN inside the audited
+      page, not from local fs — reading it off disk hit an EBADF error on
+      Vercel's runtime that CDN-loading sidesteps entirely), runs a real
+      accessibility scan, and computes an impact-weighted score (0-100)
+      per page. triggered from the dashboard ("run accessibility audit" /
+      "retry audit" on failure), stores `beforeAuditScore`,
+      `afterAuditScore`, full violation details, and shows the delta.
+      tested live against two purpose-built demo fixture pages
+      (`/demo/before.html`, `/demo/after.html`, committed to the repo) with
+      real, known accessibility differences: scored 26 -> 100 (+74),
+      matching what's actually wrong/fixed between the two pages. verified
+      the result is really in postgres, not just rendered client-side.
+      required `outputFileTracingIncludes` in next.config.ts + a
+      vercel.json `functions.includeFiles` entry so Vercel's build
+      actually ships the chromium binary (it's excluded from the trace by
+      default).
 - [ ] reviewer dashboard (approve / needs-changes / reject + notes)
 - [ ] hours <-> reward catalog logic
 - [ ] end-to-end click-through test pass on the live link
