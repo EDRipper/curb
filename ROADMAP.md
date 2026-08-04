@@ -1561,3 +1561,19 @@ verified in the browser: dots render clearly but stay well behind the
 text/cards in visual weight, correctly absent from the white sections.
 re-ran the self-audit: still 100/100, decorative background doesn't
 touch text contrast.
+
+## measured actual line lengths, fixed one that ran too wide
+
+checked heading hierarchy across the public pages first (clean single
+h1 per page, no skipped levels on landing's h1->h2->h3 structure, no
+bug). then measured every paragraph's actual rendered width instead of
+eyeballing - the rewards disclaimer ("hours are self-claimed...") had
+no max-width at all, stretching to the full 848px "what you get"
+section at 12px font size, well past comfortable reading line length.
+every other paragraph on the page has some width constraint; this one
+was missed. added `max-w-2xl`, matching the "why this exists"
+paragraph's width.
+
+verified by re-measuring the actual rendered width (848px -> 672px,
+not just assuming the class did something) and screenshotting the
+result - reads cleanly, no awkward wraps. self-audit still 100/100.
