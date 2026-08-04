@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getRewardStatus } from "@/lib/rewards";
 import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
+import { EmptyState } from "../EmptyState";
 import { runAudit } from "./actions";
 import AuditButton from "./AuditButton";
 
@@ -89,7 +90,13 @@ export default async function Dashboard() {
       </h2>
 
       {submissions.length === 0 ? (
-        <p className="mt-3 text-sm text-zinc-600">nothing submitted yet.</p>
+        <EmptyState
+          icon="clipboard"
+          title="no submissions yet"
+          body="fix a real accessibility issue on a site, then submit the before/after and we'll audit it."
+          actionHref="/submit"
+          actionLabel="submit your first fix"
+        />
       ) : (
         <ul className="mt-4 space-y-3">
           {submissions.map((s) => {

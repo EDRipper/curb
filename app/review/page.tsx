@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { parseAuditDetails, summarizeViolations } from "@/lib/auditDetails";
+import { EmptyState } from "../EmptyState";
 import ReviewActions from "./ReviewActions";
 
 export const dynamic = "force-dynamic";
@@ -244,14 +245,22 @@ export default async function Review() {
       </p>
 
       {submissions.length === 0 ? (
-        <p className="mt-8 text-sm text-zinc-600">nothing submitted yet.</p>
+        <EmptyState
+          icon="clipboard"
+          title="no submissions yet"
+          body="nothing's come into the queue yet. check back once someone submits a fix."
+        />
       ) : (
         <>
           <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-zinc-500">
             needs review ({pendingSubmissions.length})
           </h2>
           {pendingSubmissions.length === 0 ? (
-            <p className="mt-3 text-sm text-zinc-600">nothing pending.</p>
+            <EmptyState
+              icon="check"
+              title="all caught up"
+              body="nothing pending review right now."
+            />
           ) : (
             <ul className="mt-3 space-y-4">{pendingSubmissions.map(renderSubmission)}</ul>
           )}
