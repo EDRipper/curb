@@ -50,6 +50,8 @@ export default function Home() {
           </Link>
           <a
             href="https://github.com/EDRipper/curb"
+            target="_blank"
+            rel="noreferrer"
             className="hover:text-zinc-900"
           >
             github
@@ -195,12 +197,16 @@ export default function Home() {
             </Link>
             <a
               href="https://github.com/EDRipper/curb"
+              target="_blank"
+              rel="noreferrer"
               className="hover:text-zinc-900"
             >
               github
             </a>
             <a
               href="https://hackclub.com"
+              target="_blank"
+              rel="noreferrer"
               className="hover:text-zinc-900"
             >
               hack club

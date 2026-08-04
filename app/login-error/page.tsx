@@ -21,6 +21,8 @@ export default function LoginError() {
         </Link>
         <a
           href="https://github.com/EDRipper/curb/issues"
+          target="_blank"
+          rel="noreferrer"
           className="text-sm font-semibold underline"
         >
           report an issue
