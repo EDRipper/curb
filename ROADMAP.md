@@ -1536,3 +1536,28 @@ color. verified with an actual dom selection (Range/Selection api, not
 just trusting the css rule exists): selected the hero subtext
 paragraph for real and screenshotted it - solid yellow highlight,
 clearly legible dark text.
+
+## re-checked an old dismissed observation, then added texture
+
+temp db still dead (checked, moving to spot-checking every few ticks
+instead of every single one from here - it's been down since tick 30
+with no change). re-checked the faint diagonal hatch pattern near the
+footer's bottom edge that tick 10 dismissed as a screenshot-compression
+artifact - a tight, uncompressed crop this time confirms it really was
+just that: flat cream, nothing there. good to have that conclusively
+closed instead of left as a lingering maybe.
+
+then stepped back and decided the site, while polished piece by piece,
+still reads a bit flat/plain overall compared to the bolder hack club
+sites this loop is chasing - it's been mostly monochrome + one yellow
+accent all session. added a subtle dot-grid texture (barely-there
+near-black dots at 6% opacity, 22px grid) to the landing page's outer
+wrapper. only shows through where a section doesn't set its own
+background (hero, "what you get"), since "how it works" and "why this
+exists" both use bg-white and fully cover it - lines up with the
+existing border-t section rhythm instead of fighting it.
+
+verified in the browser: dots render clearly but stay well behind the
+text/cards in visual weight, correctly absent from the white sections.
+re-ran the self-audit: still 100/100, decorative background doesn't
+touch text contrast.
