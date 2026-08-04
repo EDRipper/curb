@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { REWARD_CATALOG } from "@/lib/rewards";
 import { CurbCutIcon } from "./CurbCutIcon";
+import { RewardIcon } from "./RewardIcon";
+
+const REWARD_ICON_ORDER = ["switch", "braille", "keyboard", "magnifier"] as const;
 
 const steps = [
   {
@@ -23,6 +26,7 @@ const steps = [
 const rewards = REWARD_CATALOG.map((tier, i) => ({
   hours: i === REWARD_CATALOG.length - 1 ? `${tier.hours}h+` : `${tier.hours}h`,
   item: tier.item,
+  icon: REWARD_ICON_ORDER[i] ?? "switch",
 }));
 
 export default function Home() {
@@ -112,9 +116,10 @@ export default function Home() {
               {rewards.map((r) => (
                 <div
                   key={r.hours}
-                  className="rounded-lg border border-zinc-200 p-4"
+                  className="rounded-lg border border-zinc-200 p-4 transition-all hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <div className="text-2xl font-bold text-zinc-900">
+                  <RewardIcon kind={r.icon} />
+                  <div className="mt-3 text-2xl font-bold text-zinc-900">
                     {r.hours}
                   </div>
                   <div className="mt-1 text-sm text-zinc-600">{r.item}</div>
