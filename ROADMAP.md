@@ -103,3 +103,20 @@ db is still a temporary create-db instance (needs Euan's github/google
 login to claim before it auto-deletes), and the Hack Club Auth app is
 still `community_untrusted` (needs Nora to promote it) so users see an
 "unverified" warning on the consent screen.
+
+## post-launch hardening
+
+- removed `/api/debug-cookies`, a leftover unauthenticated debug route
+  from the logout-bug investigation that echoed back the raw cookie
+  header and decoded session (userId/name/email) to anyone who hit it.
+  not exploitable cross-user (it only ever returned the requester's own
+  cookies), but had no business being live.
+- ran curb's own audit pipeline (`lib/accessibilityAudit.ts`) against its
+  own homepage: scored 76/100, 4 failing nodes, all `text-zinc-400` on a
+  light background under the WCAG AA 4.5:1 contrast threshold (measured
+  2.51-2.62:1). fixed on the homepage step numbers + footer, and
+  preemptively on the same `zinc-400` pattern in the dashboard and submit
+  form (couldn't audit those live without a session, fixed by the same
+  math: zinc-600 gives ~7.7:1 against these backgrounds vs zinc-400's
+  ~2.6:1). re-ran the live audit after deploy: 100/100. an
+  accessibility-focused site should pass its own bar.
