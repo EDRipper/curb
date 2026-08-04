@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { runAudit } from "./actions";
+
+export const maxDuration = 60;
 
 export default async function Dashboard() {
   const session = await getSession();
@@ -41,28 +44,71 @@ export default async function Dashboard() {
         <p className="mt-3 text-sm text-zinc-600">nothing submitted yet.</p>
       ) : (
         <ul className="mt-4 space-y-3">
-          {submissions.map((s) => (
-            <li key={s.id} className="rounded-lg border border-zinc-200 p-4">
-              <div className="flex items-center justify-between">
-                <a
-                  href={s.siteUrl}
-                  className="font-medium underline"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {s.siteUrl}
-                </a>
-                <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-700">
-                  {s.status}
-                </span>
-              </div>
-              <p className="mt-1 text-sm text-zinc-600">{s.description}</p>
-              <p className="mt-1 text-xs text-zinc-400">
-                {s.hoursClaimed}h claimed &middot; submitted{" "}
-                {s.createdAt.toISOString().slice(0, 10)}
-              </p>
-            </li>
-          ))}
+          {submissions.map((s) => {
+            const delta =
+              s.afterAuditScore != null && s.beforeAuditScore != null
+                ? s.afterAuditScore - s.beforeAuditScore
+                : null;
+
+            return (
+              <li key={s.id} className="rounded-lg border border-zinc-200 p-4">
+                <div className="flex items-center justify-between">
+                  <a
+                    href={s.afterUrl}
+                    className="font-medium underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {s.afterUrl}
+                  </a>
+                  <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-700">
+                    {s.status}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm text-zinc-600">{s.description}</p>
+                <p className="mt-1 text-xs text-zinc-400">
+                  {s.hoursClaimed}h claimed &middot; submitted{" "}
+                  {s.createdAt.toISOString().slice(0, 10)}
+                </p>
+
+                <div className="mt-3 border-t border-zinc-100 pt-3">
+                  {s.auditedAt ? (
+                    s.auditError ? (
+                      <p className="text-sm text-red-600">
+                        audit failed: {s.auditError}
+                      </p>
+                    ) : (
+                      <p className="text-sm">
+                        a11y score: <strong>{s.beforeAuditScore}</strong>{" "}
+                        &rarr; <strong>{s.afterAuditScore}</strong>
+                        {delta != null && (
+                          <span
+                            className={
+                              delta >= 0
+                                ? "ml-2 font-semibold text-green-700"
+                                : "ml-2 font-semibold text-red-700"
+                            }
+                          >
+                            ({delta >= 0 ? "+" : ""}
+                            {delta})
+                          </span>
+                        )}
+                      </p>
+                    )
+                  ) : (
+                    <form action={runAudit.bind(null, s.id)}>
+                      <button
+                        type="submit"
+                        className="rounded-md border border-zinc-300 px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-100"
+                      >
+                        run accessibility audit
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

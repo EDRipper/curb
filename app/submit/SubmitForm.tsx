@@ -11,16 +11,37 @@ export default function SubmitForm() {
 
   return (
     <form action={formAction} className="mt-8 space-y-5">
-      <div>
-        <label className="text-sm font-medium text-zinc-700">site url</label>
-        <input
-          name="siteUrl"
-          type="url"
-          required
-          placeholder="https://example.com"
-          className={inputClass}
-        />
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label className="text-sm font-medium text-zinc-700">
+            before url (live, unfixed)
+          </label>
+          <input
+            name="beforeUrl"
+            type="url"
+            required
+            placeholder="https://old-version.example.com"
+            className={inputClass}
+          />
+        </div>
+        <div>
+          <label className="text-sm font-medium text-zinc-700">
+            after url (live, fixed)
+          </label>
+          <input
+            name="afterUrl"
+            type="url"
+            required
+            placeholder="https://example.com"
+            className={inputClass}
+          />
+        </div>
       </div>
+      <p className="!mt-1 text-xs text-zinc-500">
+        both need to be real, currently-live pages we can visit — the audit
+        crawls them directly. a PR preview deploy works great for the
+        &quot;before&quot; url if the live site has already moved on.
+      </p>
 
       <div>
         <label className="text-sm font-medium text-zinc-700">
@@ -51,24 +72,24 @@ export default function SubmitForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label className="text-sm font-medium text-zinc-700">
-            before screenshot url
+            before screenshot url{" "}
+            <span className="text-zinc-400">(optional)</span>
           </label>
           <input
             name="beforeScreenshotUrl"
             type="url"
-            required
             placeholder="https://..."
             className={inputClass}
           />
         </div>
         <div>
           <label className="text-sm font-medium text-zinc-700">
-            after screenshot url
+            after screenshot url{" "}
+            <span className="text-zinc-400">(optional)</span>
           </label>
           <input
             name="afterScreenshotUrl"
             type="url"
-            required
             placeholder="https://..."
             className={inputClass}
           />

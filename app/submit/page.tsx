@@ -29,8 +29,9 @@ export default async function Submit() {
         <>
           <h1 className="text-2xl font-bold">submit your fix</h1>
           <p className="mt-3 text-sm leading-6 text-zinc-600">
-            the automated accessibility audit isn&apos;t wired up yet — for
-            now this records your submission for manual review.
+            after you submit, run the accessibility audit from your
+            dashboard — it crawls both urls with a real headless browser
+            and scores them with axe-core.
           </p>
           <SubmitForm />
         </>

@@ -17,6 +17,17 @@ function requireUrl(value: FormDataEntryValue | null, field: string): string {
   return str;
 }
 
+function optionalUrl(value: FormDataEntryValue | null, field: string): string | undefined {
+  const str = String(value ?? "").trim();
+  if (!str) return undefined;
+  try {
+    new URL(str);
+  } catch {
+    throw new Error(`${field} must be a valid url`);
+  }
+  return str;
+}
+
 export async function createSubmission(
   _prevState: SubmitFormState,
   formData: FormData,
@@ -26,15 +37,17 @@ export async function createSubmission(
     redirect("/login");
   }
 
-  let siteUrl: string, diffUrl: string, beforeUrl: string, afterUrl: string;
+  let beforeUrl: string, afterUrl: string, diffUrl: string;
+  let beforeScreenshotUrl: string | undefined, afterScreenshotUrl: string | undefined;
   const description = String(formData.get("description") ?? "").trim();
   const hoursClaimed = Number(formData.get("hoursClaimed"));
 
   try {
-    siteUrl = requireUrl(formData.get("siteUrl"), "site url");
+    beforeUrl = requireUrl(formData.get("beforeUrl"), "before url");
+    afterUrl = requireUrl(formData.get("afterUrl"), "after url");
     diffUrl = requireUrl(formData.get("diffUrl"), "diff/PR url");
-    beforeUrl = requireUrl(formData.get("beforeScreenshotUrl"), "before screenshot url");
-    afterUrl = requireUrl(formData.get("afterScreenshotUrl"), "after screenshot url");
+    beforeScreenshotUrl = optionalUrl(formData.get("beforeScreenshotUrl"), "before screenshot url");
+    afterScreenshotUrl = optionalUrl(formData.get("afterScreenshotUrl"), "after screenshot url");
   } catch (err) {
     return { error: err instanceof Error ? err.message : "invalid input" };
   }
@@ -49,11 +62,12 @@ export async function createSubmission(
   await db.submission.create({
     data: {
       userId: session.userId,
-      siteUrl,
+      beforeUrl,
+      afterUrl,
       diffUrl,
       description,
-      beforeScreenshotUrl: beforeUrl,
-      afterScreenshotUrl: afterUrl,
+      beforeScreenshotUrl,
+      afterScreenshotUrl,
       hoursClaimed,
     },
   });
