@@ -1517,3 +1517,22 @@ keypress lands on it as the literal first focusable element on the
 page, it becomes visible (133x36px) once focused, and pressing `Enter`
 on it actually navigates to `#main-content` and scrolls the page -
 functionally correct end to end, not just present in markup.
+
+## checked 200% zoom (clean), branded the text-selection color
+
+temp db still dead. tested the landing page at 200% zoom (css `zoom`
+property on `html`, closer to real browser zoom than just bumping
+font-size) - no overflow, headline reflows correctly, nothing clipped
+or overlapping. a real, if quick, wcag 1.4.4-style check that hadn't
+been done this session.
+
+then noticed selecting text anywhere on the site used the browser's
+default selection color (usually blue) - a small thing, but every
+other color on the site was a deliberate choice while this was left to
+whatever the browser felt like. added `::selection { background:
+#ffcf3f; color: #18181b }`, reusing the exact yellow/near-black combo
+already established for the hero badge rather than introducing a new
+color. verified with an actual dom selection (Range/Selection api, not
+just trusting the css rule exists): selected the hero subtext
+paragraph for real and screenshotted it - solid yellow highlight,
+clearly legible dark text.
