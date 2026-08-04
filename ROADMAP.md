@@ -308,3 +308,12 @@ normally (92 -> 92); signed out again and confirmed `/submit` correctly
 gates back to the sign-in prompt instead of showing stale cached state.
 no regressions found. everything from the ssrf/a11y/integrity work across
 the last several ticks is still working together, not just in isolation.
+
+## docs
+
+- README claimed the audit pipeline used "axe-core/Lighthouse" -
+  lighthouse was never actually built, only axe-core. corrected to
+  describe what's really running. also added the env vars local dev
+  actually needs (nothing told a new contributor `npm run dev` would
+  just fail without a `.env`), and replaced the stale "early build, in
+  progress" status line with what's actually true now.
