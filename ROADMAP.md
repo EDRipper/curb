@@ -1698,3 +1698,25 @@ converted the submit page's button to `Link` and verified with a real
 click through the entire flow: it navigates through `/login` and lands
 on the actual hackclub oauth authorize page, exactly like the already-
 working header/hero instances. self-audit still 100/100.
+
+## the loading skeletons had gone stale
+
+`dashboard/loading.tsx` and `review/loading.tsx` were built at tick 5,
+before several later ticks added real structure to the pages they're
+supposed to preview - the "curb" wordmark link (tick 22), the avatar
+circle next to the greeting (tick 13), and the reward progress bar
+(tick 21) were all missing. the whole point of a loading skeleton is
+telegraphing the shape of what's coming; a skeleton that doesn't match
+works against that, flashing from one shape to a visibly different one
+once real data loads.
+
+updated both to match current reality: dashboard's now has a wordmark
+bar, a circular avatar placeholder next to the name lines, and a
+3-line reward box (title/subtitle/progress bar) instead of one generic
+block; review's now has the wordmark + "dashboard ->" header row.
+
+verified via the same throwaway preview route from tick 5 (restored to
+render both together): full screenshot plus a close crop confirming
+the avatar placeholder renders as a genuine circle, not an accidentally-
+square block. re-ran the self-audit on the real public pages
+(unaffected by this change): still 100/100.
