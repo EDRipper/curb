@@ -78,4 +78,28 @@ link, not just merged.
       dashboard go from "0h approved, 5h to next tier" to "6h approved,
       tier 1 unlocked, 9h to tier 2" — correct math, then deleted the test
       submission.
-- [ ] end-to-end click-through test pass on the live link
+- [x] end-to-end click-through test pass on the live link — walked the
+      full flow live on https://curb-theta.vercel.app: homepage copy and
+      CTAs render correctly, sign-in reaches the dashboard with real user
+      data, review queue link only shows for reviewer accounts, sign-out
+      clears the app's own session cookie and the session gate on
+      `/dashboard` correctly rejects it (confirmed by hitting `/dashboard`
+      directly, not through a `Link`, so no client router cache could be
+      masking it). one thing worth knowing, not a bug: visiting a gated
+      page again shortly after sign-out can silently land you back on the
+      dashboard, logged in, with no visible sign-in screen. that's Hack
+      Club Auth's own SSO session on `auth.hackclub.com` still being live
+      in the browser — curb's `/login` route always restarts the OAuth
+      dance, and if HCA still trusts the browser it auto-approves with no
+      prompt. same behavior as "sign out of an app" vs "sign out of
+      Google/GitHub" elsewhere. not a curb-side session bug, and not a
+      privacy leak (it always re-derives identity from a fresh HCA token
+      exchange, never replays stale cached data) — just something to know
+      before assuming logout is broken again.
+
+all 8 core roadmap items plus final QA are now live and verified.
+remaining open items are both outside this repo's control: the postgres
+db is still a temporary create-db instance (needs Euan's github/google
+login to claim before it auto-deletes), and the Hack Club Auth app is
+still `community_untrusted` (needs Nora to promote it) so users see an
+"unverified" warning on the consent screen.
