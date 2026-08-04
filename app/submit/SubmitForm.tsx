@@ -10,112 +10,125 @@ export default function SubmitForm() {
   const [state, formAction, pending] = useActionState(createSubmission, undefined);
 
   return (
-    <form action={formAction} className="mt-8 space-y-5">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form action={formAction} className="mt-8 space-y-8">
+      <div className="space-y-5">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+          the fix
+        </h2>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label htmlFor="beforeUrl" className="text-sm font-medium text-zinc-700">
+              before url (live, unfixed)
+            </label>
+            <input
+              id="beforeUrl"
+              name="beforeUrl"
+              type="url"
+              required
+              placeholder="https://old-version.example.com"
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor="afterUrl" className="text-sm font-medium text-zinc-700">
+              after url (live, fixed)
+            </label>
+            <input
+              id="afterUrl"
+              name="afterUrl"
+              type="url"
+              required
+              placeholder="https://example.com"
+              className={inputClass}
+            />
+          </div>
+        </div>
+        <p className="!mt-1 text-xs text-zinc-500">
+          both need to be real, currently-live pages we can visit — the audit
+          crawls them directly. a PR preview deploy works great for the
+          &quot;before&quot; url if the live site has already moved on.
+        </p>
+
         <div>
-          <label htmlFor="beforeUrl" className="text-sm font-medium text-zinc-700">
-            before url (live, unfixed)
+          <label htmlFor="diffUrl" className="text-sm font-medium text-zinc-700">
+            diff / PR url
           </label>
           <input
-            id="beforeUrl"
-            name="beforeUrl"
+            id="diffUrl"
+            name="diffUrl"
             type="url"
             required
-            placeholder="https://old-version.example.com"
+            placeholder="https://github.com/you/repo/pull/1"
             className={inputClass}
           />
         </div>
+
         <div>
-          <label htmlFor="afterUrl" className="text-sm font-medium text-zinc-700">
-            after url (live, fixed)
+          <label htmlFor="description" className="text-sm font-medium text-zinc-700">
+            what did you fix?
           </label>
-          <input
-            id="afterUrl"
-            name="afterUrl"
-            type="url"
+          <textarea
+            id="description"
+            name="description"
             required
-            placeholder="https://example.com"
+            rows={4}
+            placeholder="keyboard nav was broken on the nav menu, added focus trapping and visible focus states"
             className={inputClass}
           />
         </div>
       </div>
-      <p className="!mt-1 text-xs text-zinc-500">
-        both need to be real, currently-live pages we can visit — the audit
-        crawls them directly. a PR preview deploy works great for the
-        &quot;before&quot; url if the live site has already moved on.
-      </p>
 
-      <div>
-        <label htmlFor="diffUrl" className="text-sm font-medium text-zinc-700">
-          diff / PR url
-        </label>
-        <input
-          id="diffUrl"
-          name="diffUrl"
-          type="url"
-          required
-          placeholder="https://github.com/you/repo/pull/1"
-          className={inputClass}
-        />
+      <div className="space-y-5 border-t border-zinc-200 pt-8">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+          proof <span className="normal-case text-zinc-400">(optional)</span>
+        </h2>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label htmlFor="beforeScreenshotUrl" className="text-sm font-medium text-zinc-700">
+              before screenshot url
+            </label>
+            <input
+              id="beforeScreenshotUrl"
+              name="beforeScreenshotUrl"
+              type="url"
+              placeholder="https://..."
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label htmlFor="afterScreenshotUrl" className="text-sm font-medium text-zinc-700">
+              after screenshot url
+            </label>
+            <input
+              id="afterScreenshotUrl"
+              name="afterScreenshotUrl"
+              type="url"
+              placeholder="https://..."
+              className={inputClass}
+            />
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label htmlFor="description" className="text-sm font-medium text-zinc-700">
-          what did you fix?
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          required
-          rows={4}
-          placeholder="keyboard nav was broken on the nav menu, added focus trapping and visible focus states"
-          className={inputClass}
-        />
-      </div>
-
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="space-y-5 border-t border-zinc-200 pt-8">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+          hours
+        </h2>
         <div>
-          <label htmlFor="beforeScreenshotUrl" className="text-sm font-medium text-zinc-700">
-            before screenshot url{" "}
-            <span className="text-zinc-600">(optional)</span>
+          <label htmlFor="hoursClaimed" className="text-sm font-medium text-zinc-700">
+            hours claimed
           </label>
           <input
-            id="beforeScreenshotUrl"
-            name="beforeScreenshotUrl"
-            type="url"
-            placeholder="https://..."
+            id="hoursClaimed"
+            name="hoursClaimed"
+            type="number"
+            step="0.5"
+            min="0.5"
+            required
+            placeholder="5"
             className={inputClass}
           />
         </div>
-        <div>
-          <label htmlFor="afterScreenshotUrl" className="text-sm font-medium text-zinc-700">
-            after screenshot url{" "}
-            <span className="text-zinc-600">(optional)</span>
-          </label>
-          <input
-            id="afterScreenshotUrl"
-            name="afterScreenshotUrl"
-            type="url"
-            placeholder="https://..."
-            className={inputClass}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="hoursClaimed" className="text-sm font-medium text-zinc-700">
-          hours claimed
-        </label>
-        <input
-          id="hoursClaimed"
-          name="hoursClaimed"
-          type="number"
-          step="0.5"
-          min="0.5"
-          required
-          placeholder="5"
-          className={inputClass}
-        />
       </div>
 
       {state?.error && (
