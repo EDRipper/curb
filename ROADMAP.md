@@ -1286,3 +1286,19 @@ or browser history. added page-specific `metadata` exports to all 5.
 verified with a real browser session hitting all 6 pages and reading
 `page.title()` on each - landing keeps its marketing title, the other
 5 now read their own distinct "X — curb" title.
+
+## re-ran the self-audit (still clean), then a trophy for the max tier
+
+re-ran the accessibility self-audit from tick 23 against all 6 pages
+after several ticks of new markup (success banner, spinners, proxy
+migration, tab titles) - still 100/100 everywhere, no regressions.
+
+then gave the max reward tier some real weight: "top reward tier
+unlocked" (50h+) rendered identically to every other muted status
+line, no distinction for what's actually the biggest achievement in
+the whole rewards flow. added a small trophy icon and switched the
+text to amber-700, matching the accent-for-achievement pattern already
+used elsewhere (reward card yellow accents, the score bar's green
+fill). verified via a throwaway preview route since no temp-db account
+has 50h+ approved - screenshotted the exact real markup at max-tier
+values, icon renders correctly sized and baseline-aligned.
