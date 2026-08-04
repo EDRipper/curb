@@ -463,3 +463,17 @@ still hiding action buttons. no regressions.
   the refactor, 180x180 clean), confirmed `apple-touch-icon` actually
   emits in the page head, then re-checked the 180x180 image on the live
   deploy after confirming it shipped.
+- a genuinely significant gap, not polish: the submitter's own dashboard
+  never showed the reviewer's note, or who reviewed it, or when. the
+  review note field exists specifically so a reviewer can explain a
+  decision, but it was only ever rendered on `/review` - a teen whose
+  submission got rejected or sent back saw a flat gray badge and nothing
+  else, no way to know why or how to fix it and resubmit. added the same
+  "reviewed by X on date - note" block already used on the review page,
+  and color-coded the status badge (green/amber/red/gray) to match
+  instead of everything reading as the same flat gray regardless of
+  outcome. verified live using real historical data, not a fresh test
+  row: the bot's own "retest 2" submission (rejected several ticks ago
+  with a real note attached) now correctly shows "reviewed by 2an Ripper
+  ... - 'pre-forced-redeploy ssrf bypass test...'" on the dashboard,
+  where before this it showed nothing beyond the status badge.
