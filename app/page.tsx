@@ -38,7 +38,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#fdfaf3] text-zinc-900">
       <header className="mx-auto flex max-w-4xl items-center justify-between px-6 py-6">
         <span className="text-lg font-bold tracking-tight">curb</span>
-        <nav className="flex items-center gap-6 text-sm font-medium text-zinc-600">
+        <nav aria-label="primary" className="flex items-center gap-6 text-sm font-medium text-zinc-600">
           <Link href="/submit" className="hover:text-zinc-900">
             submit
           </Link>
@@ -100,7 +100,7 @@ export default function Home() {
                 <div key={s.n}>
                   <div className="flex items-center gap-3">
                     <StepIcon kind={s.icon} />
-                    <div className="text-sm font-bold text-zinc-400">{s.n}</div>
+                    <div className="text-sm font-bold text-zinc-500">{s.n}</div>
                   </div>
                   <h3 className="mt-3 text-lg font-semibold text-zinc-900">
                     {s.title}
@@ -166,7 +166,7 @@ export default function Home() {
               built by hack club. a work in progress, built in the open.
             </p>
           </div>
-          <nav className="flex items-center gap-5 text-xs font-medium text-zinc-600">
+          <nav aria-label="footer" className="flex items-center gap-5 text-xs font-medium text-zinc-600">
             <Link href="/submit" className="hover:text-zinc-900">
               submit
             </Link>
