@@ -4,6 +4,6 @@ export const alt = ogImageAlt;
 export const size = ogImageSize;
 export const contentType = ogImageContentType;
 
-export default function Image() {
+export default async function Image() {
   return renderOgImage();
 }

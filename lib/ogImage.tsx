@@ -5,7 +5,31 @@ export const ogImageContentType = "image/png";
 export const ogImageAlt =
   "curb — ship an accessibility fix, prove it with numbers. a hack club ysws.";
 
-export function renderOgImage() {
+// next/og (satori) doesn't understand next/font or tailwind - it needs raw
+// ttf/otf bytes handed to it directly. without this, the "sans-serif"
+// fallback resolves to whatever font happens to be installed wherever the
+// image is rendered, which produced visibly wrong inter-word spacing before
+// certain words (confirmed on both local dev and the deployed image).
+// fetched once per request from fontsource's cdn mirror of the same
+// vercel/geist-sans-font package next/font/google pulls from.
+const GEIST_700_URL =
+  "https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-700-normal.ttf";
+const GEIST_800_URL =
+  "https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@latest/latin-800-normal.ttf";
+
+async function loadGeistFonts() {
+  const [bold, extrabold] = await Promise.all([
+    fetch(GEIST_700_URL).then((r) => r.arrayBuffer()),
+    fetch(GEIST_800_URL).then((r) => r.arrayBuffer()),
+  ]);
+  return [
+    { name: "Geist Sans", data: bold, weight: 700 as const, style: "normal" as const },
+    { name: "Geist Sans", data: extrabold, weight: 800 as const, style: "normal" as const },
+  ];
+}
+
+export async function renderOgImage() {
+  const fonts = await loadGeistFonts();
   return new ImageResponse(
     (
       <div
@@ -18,7 +42,7 @@ export function renderOgImage() {
           padding: "80px",
           backgroundColor: "#fdfaf3",
           color: "#18181b",
-          fontFamily: "sans-serif",
+          fontFamily: "Geist Sans",
         }}
       >
         <div
@@ -53,6 +77,7 @@ export function renderOgImage() {
           style={{
             display: "flex",
             fontSize: 30,
+            fontWeight: 700,
             color: "#52525b",
             marginTop: 32,
           }}
@@ -61,6 +86,6 @@ export function renderOgImage() {
         </div>
       </div>
     ),
-    { ...ogImageSize },
+    { ...ogImageSize, fonts },
   );
 }
