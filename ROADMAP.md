@@ -408,3 +408,18 @@ the last several ticks is still working together, not just in isolation.
   the redirect check. verified live: `/review` now shows "needs review
   (1)" and "already reviewed (4)" as separate sections with the pending
   bot test row correctly sorted to the top.
+- extended duplicate detection to catch a case it was missing: the
+  original version (a few ticks ago) only grouped by
+  `userId+diffUrl`/`userId+beforeUrl+afterUrl`, so it caught the same
+  person resubmitting but completely missed a *different* user
+  submitting the same pr or urls - the more concerning case (claiming
+  credit for someone else's fix, or two people racing the same
+  open-source issue). added a second, userId-less grouping and a
+  distinct "possible credit dispute" banner for it, separate from the
+  existing same-user notice. tested the grouping logic standalone with 5
+  cases (same-user resubmit, cross-user from both sides, clean no-dupes)
+  before shipping - all passed. couldn't live-test the actual cross-user
+  banner though: every submission in the queue right now is the bot's
+  own test data, so there's no second real user to trigger it against.
+  confirmed live that the existing same-user case still renders
+  correctly and nothing broke.
