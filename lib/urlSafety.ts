@@ -24,8 +24,29 @@ function isPrivateIpv4(host: string): boolean {
   return PRIVATE_IPV4_RANGES.some(([lo, hi]) => n >= lo && n <= hi);
 }
 
+// an ipv4-mapped ipv6 address (rfc 4291 2.5.5.2) like "::ffff:169.254.169.254"
+// gets connected to over ipv4 by the os's dual-stack socket layer, so it has
+// to be checked against the same private-range table as a plain ipv4 host.
+// the WHATWG URL parser always normalizes these to the canonical
+// "::ffff:HHHH:HHHH" form (verified: ::ffff:169.254.169.254,
+// ::ffff:a9fe:a9fe, and 0:0:0:0:0:ffff:169.254.169.254 all normalize to the
+// same "::ffff:a9fe:a9fe"), so matching that exact prefix is sufficient.
+function mappedIpv4(host: string): string | null {
+  if (!host.startsWith("::ffff:")) return null;
+  const groups = host.slice("::ffff:".length).split(":");
+  if (groups.length !== 2 || !groups.every((g) => /^[0-9a-f]{1,4}$/.test(g))) {
+    return null;
+  }
+  const [g1, g2] = groups.map((g) => parseInt(g, 16));
+  return [(g1 >> 8) & 0xff, g1 & 0xff, (g2 >> 8) & 0xff, g2 & 0xff].join(".");
+}
+
 function isPrivateIpv6(host: string): boolean {
   const h = host.replace(/^\[|\]$/g, "").toLowerCase();
+
+  const mapped = mappedIpv4(h);
+  if (mapped && isPrivateIpv4(mapped)) return true;
+
   return (
     h === "::1" ||
     h === "::" ||
