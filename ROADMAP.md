@@ -1320,3 +1320,38 @@ sitting cleanly right of the paragraph, and a real 375px mobile check
 confirms it's correctly hidden there (`hidden sm:block`) with the
 paragraph taking the full width and no overflow. a full fresh
 screenshot of the whole page confirmed no other section was disturbed.
+
+## checked the actual live deployment for the first time this session
+
+every verification so far this session was against local dev - never
+once checked whether any of it was actually visible on the real
+`curb-theta.vercel.app` url. did that this tick and found two things,
+one false alarm and one real:
+
+false alarm: a screenshot of the live site's icons looked like they
+might be rendering as tiny multicolor unicode emoji instead of the
+custom svg line-art built up over many ticks - alarming if true, since
+it would mean a chunk of this session's work never actually shipped
+visually. chased it all the way down to the raw served html
+(`view-source:` + line-wrap, not just another screenshot) and found
+real `<svg><rect><circle><path>` markup matching the actual component
+code exactly, no emoji characters anywhere. small colorful svg shapes
+at 32-36px just visually read as emoji-like in a screenshot - a real
+lesson in not trusting a single visual impression (mine or a
+sub-agent's) over checking the actual served source when the stakes
+of being wrong are high.
+
+real finding, confirmed via `gh api repos/EDRipper/curb/commits/main/
+status`: vercel's build pipeline is rate-limited ("Deployment rate
+limited — retry in 24 hours", from this session's ~29 ticks each
+pushing 2+ commits). the last commit that actually deployed is
+`c56837a` (end of tick 27) - everything from tick 28 onward is pushed
+to github and will deploy automatically once the limit clears, but
+isn't live yet. not changing how this loop operates (git/push still
+matters regardless of vercel's build queue), just flagging it clearly
+rather than silently assuming every push is instantly live.
+
+also shipped a small real fix while investigating: the hours-claimed
+input had no unit suffix. added a visual "h" inside the field,
+verified with a real typed value that it doesn't collide with the
+native number-input spinner arrows.
