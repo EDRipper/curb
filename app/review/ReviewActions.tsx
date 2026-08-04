@@ -25,7 +25,7 @@ export default function ReviewActions({ submissionId }: { submissionId: string }
       <button
         formAction={reviewSubmission.bind(null, submissionId, "needs_changes")}
         disabled={pending}
-        className="rounded-md bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-md bg-amber-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {pending ? "working…" : "needs changes"}
       </button>
