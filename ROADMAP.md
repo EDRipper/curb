@@ -1019,3 +1019,32 @@ might be stale. confirmed against the one real audited submission in
 the temp db, checked from both the reviewer's `/review` view and the
 submitter's own `/dashboard` view: bars render at the correct
 proportional widths on both, no layout shift.
+
+## finished the hover-lift consistency pass, and a real lesson about verifying hover at all
+
+brought the last flat-hover buttons (dashboard's 3 action buttons,
+AuditButton, the submit form button) up to the same hover:-translate-y-0.5
++ shadow treatment as everything else.
+
+more important than the css change: actually tried to pixel-verify a
+hover state for the first time, instead of eyeballing a static crop
+like ticks 12 and 14 did. genuine puppeteer mouse.move to the button,
+confirmed `el.matches(':hover') === true`, then compared computed
+`backgroundColor`/`transform`/`boxShadow` and raw screenshot bytes
+before vs after - completely identical, every time, on every button
+tried. that's a real result, not a flaky one: this sandbox's headless
+chromium reports `(hover: none)` and `(pointer: none)` via
+`matchMedia`, and tailwind v4 correctly wraps every `hover:` utility
+in `@media (hover: hover)` (confirmed both the media gate and the
+compiled `hover:shadow-lg` rule exist in the actual served css). so
+none of this session's hover-lift work was ever a bug - it's just
+genuinely unobservable via screenshot in this specific sandbox,
+because there's no real pointer device for the browser to report.
+
+takeaway for every future tick: stop trying to pixel-diff hover
+states here, it will never show a difference regardless of whether
+the code is correct. what's actually checkable is (1) the class
+names are present in the rendered dom and (2) the corresponding rule
+compiles into the served css - both verified this tick - plus the
+non-hover static appearance, which should always still be screenshot-
+checked for regressions since that part IS observable.
