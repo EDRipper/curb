@@ -244,3 +244,16 @@ still `community_untrusted` (needs Nora to promote it) so users see an
   semantic, no layout change). re-ran the sweep against the live deploy
   after confirming it actually shipped: all three public pages come back
   completely clean now.
+- closed a real integrity gap, not an a11y one this time: nothing
+  stopped a reviewer from approving their own submission.
+  `reviewSubmission` checked `isReviewer` but never compared the
+  submission's `userId` against the reviewer's own id. curb hands out
+  real physical rewards gated on approval, so a reviewer account
+  self-approving their own work is a genuine fraud vector, the same
+  pattern human reviewers get watched for on beest. only 2 accounts have
+  `isReviewer` today so nothing's actually been exploited, but the
+  control needs to exist before more reviewers get added, not after.
+  server action now throws on self-review; the review page shows "this
+  is your own submission - another reviewer needs to review it" instead
+  of approve/reject buttons for that case. verified live: the bot's own
+  test rows in `/review` now show the notice with no action buttons.
