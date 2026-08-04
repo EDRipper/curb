@@ -151,7 +151,7 @@ export default function Home() {
         </section>
 
         <section className="border-t border-zinc-200 bg-white">
-          <div className="scroll-fade-up mx-auto flex max-w-4xl items-start gap-8 px-6 py-16">
+          <div className="scroll-fade-up mx-auto flex max-w-4xl flex-col items-start gap-4 px-6 py-16 sm:flex-row sm:gap-8">
             <div className="min-w-0">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
                 why this exists
@@ -167,7 +167,7 @@ export default function Home() {
             <svg
               viewBox="0 0 64 48"
               fill="none"
-              className="hidden h-20 w-24 shrink-0 text-zinc-100 sm:block"
+              className="order-first h-14 w-16 shrink-0 text-zinc-100 sm:order-none sm:h-20 sm:w-24"
               aria-hidden="true"
             >
               <path
