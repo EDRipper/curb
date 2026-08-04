@@ -29,6 +29,16 @@ body {
   color: #18181b;
 }
 
+/* branded focus ring: black-then-yellow double ring (the same
+   high-contrast pattern gov.uk uses), not the browser's default thin
+   auto outline. an accessibility product should have a focus state
+   that's actually easy to see, not a default nobody looked at. */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #18181b, 0 0 0 5px #ffcf3f;
+  border-radius: 2px;
+}
+
 .dot-grid-bg {
   background-image: radial-gradient(rgba(24, 24, 27, 0.06) 1px, transparent 1px);
   background-size: 22px 22px;
