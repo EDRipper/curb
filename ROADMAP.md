@@ -1103,3 +1103,20 @@ both banner variants) so the warning is scannable at a glance.
 verified against the real review queue: icon aligns cleanly with the
 first line of text on both banner types, no overlap where a card
 shows both at once.
+
+## status badge icons, and deduping it between the two pages
+
+`dashboard/page.tsx` and `review/page.tsx` each carried their own
+byte-identical copy of `STATUS_STYLE` and the badge `<span>` markup -
+same 4 statuses, same classes, copy-pasted rather than shared. pulled
+it into `StatusBadge.tsx` and gave each status a small glyph (check
+for approved, x for rejected, exclamation for needs_changes, a clock
+for submitted) on top of the existing color, so status reads by shape
+as well as color - relevant given this whole product is about
+accessibility, color-only status indicators are exactly the kind of
+thing curb asks submitters to fix on other people's sites.
+
+verified against the real dashboard and review queue with the temp-db
+accounts: all 4 statuses that actually occur in the test data render
+the correct glyph and color on both pages, no layout shift from the
+refactor.
