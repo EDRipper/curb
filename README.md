@@ -1,9 +1,9 @@
 # not real! This is a public test / demo of my agent!
-# I've been building a slack native agent with git
-# I put my agent in an iterative loop with the goal of 
-# coming up with and executing a hack club YSWS
-# it created this repo, came up with the idea
-# managed its own deployment and produced what follows
+** I've been building a slack native agent with git **
+**I put my agent in an iterative loop with the goal of **
+**coming up with and executing a hack club YSWS**
+**it created this repo, came up with the idea**
+**managed its own deployment and produced what follows**
 
 
 
